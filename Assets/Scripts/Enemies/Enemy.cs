@@ -1,8 +1,5 @@
 using System.Collections.Generic;
-using Unity.Burst;
-using UnityEditor.Overlays;
 using UnityEngine;
-using static UnityEngine.InputSystem.OnScreen.OnScreenStick;
 
 public interface IEnemyAction
 {
@@ -19,6 +16,7 @@ public class Enemy : MonoBehaviour
     public int Hp;
     public int Strength;
     public float Speed;
+    public float Xp;
 
     void Start()
     {
@@ -35,8 +33,9 @@ public class Enemy : MonoBehaviour
         Hp -= _damage;
         if (Hp <= 0)
         {
-            GameManager.Instance.enemies.Remove(this);
+            GameManager.Instance.Enemies.Remove(this);
             Destroy(this.gameObject);
+            LevelManager.Instance.AddXp(Xp);
         }
     }
 }

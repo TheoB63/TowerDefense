@@ -1,13 +1,13 @@
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class PlayerShoot : MonoBehaviour
 {
-    [SerializeField] GameObject projectilesPrefab;
-    [SerializeField] float attackSpeed;
+    [Header("Values")]
+    [SerializeField] GameObject m_projectilesPrefab;
+    [SerializeField] float m_attackSpeed;
 
-    float timerShoot;
+    //Timer
+    float m_timerShoot;
 
     void Start()
     {
@@ -15,33 +15,33 @@ public class PlayerShoot : MonoBehaviour
 
     void Update()
     {
-        timerShoot += Time.deltaTime;
+        m_timerShoot += Time.deltaTime;
 
-        if (timerShoot > (attackSpeed/60))
+        if (m_timerShoot > (m_attackSpeed / 60))
         {
             if (Shoot())
             {
-                timerShoot = 0;
+                m_timerShoot = 0;
             }
         }
     }
 
     bool Shoot()
     {
-        if (GameManager.Instance.enemies.Count > 0)
+        if (GameManager.Instance.Enemies.Count > 0)
         {
-            Enemy currentTarget = GameManager.Instance.enemies[0];
+            Enemy currentTarget = GameManager.Instance.Enemies[0];
             float dist = float.MaxValue;
-            foreach (Enemy enemy in GameManager.Instance.enemies)
+            foreach (Enemy enemy in GameManager.Instance.Enemies)
             {
                 float newDist = Vector2.Distance(transform.position, enemy.transform.position);
-                if(newDist < dist)
+                if (newDist < dist)
                 {
                     currentTarget = enemy;
                 }
             }
-            GameObject go = Instantiate(projectilesPrefab, transform.position, Quaternion.identity);
-            go.GetComponent<Projectiles>().target = currentTarget;
+            GameObject go = Instantiate(m_projectilesPrefab, transform.position, Quaternion.identity);
+            go.GetComponent<Projectiles>().Target = currentTarget;
 
             return true;
         }

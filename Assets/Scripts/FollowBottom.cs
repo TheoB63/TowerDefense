@@ -3,22 +3,20 @@ using UnityEngine;
 public class FollowBottom : MonoBehaviour
 {
     [Header("Values")]
-    public float offsetY = 0.1f;
+    [SerializeField] float m_offsetY;
 
-    //privates
-    Camera cam;
+    //Camera
+    Camera m_Camera;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        cam = Camera.main;
-        Vector3 bottom = cam.ViewportToWorldPoint(new Vector3(0.5f, 0f, cam.nearClipPlane));
-        transform.position = new Vector3(transform.position.x, bottom.y + offsetY, transform.position.z);
+        m_Camera = Camera.main;
+        Setup();
     }
 
-    // Update is called once per frame
-    void Update()
-    {        
-        
+    void Setup()
+    {
+        Vector3 bottom = m_Camera.ViewportToWorldPoint(new Vector3(0.5f, 0f, m_Camera.nearClipPlane));
+        transform.position = new Vector3(transform.position.x, bottom.y + m_offsetY, transform.position.z);
     }
 }

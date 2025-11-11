@@ -52,6 +52,7 @@ MonoBehaviour:
   Hp: 100
   Strength: 1
   Speed: 1
+  Xp: 1
 --- !u!114 &4510601497466342517
 MonoBehaviour:
   m_ObjectHideFlags: 0

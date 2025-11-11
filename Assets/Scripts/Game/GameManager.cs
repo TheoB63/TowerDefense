@@ -1,19 +1,23 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    //instance
     static public GameManager Instance;
 
+    //Need to rework later
+    #region Enemy     
     [Header("Enemies")]
-    public List<GameObject> enemiesType;
+    [SerializeField] List<GameObject> m_enemiesType;
+    List<Enemy> m_enemies = new List<Enemy>();
+    //spawn timer
+    [SerializeField] float m_maxTimerEnemies;
+    float m_timerEnemies;
+    #endregion
 
-    public List<Enemy> enemies;
-
-    //spawn test
-    float maxTimer = 1;
-    float timer;
+    [Header("Public Values(Get only)")]
+    public List<Enemy> Enemies { get => m_enemies; }
 
     private void Awake()
     {
@@ -30,23 +34,28 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     void Update()
     {
-        timer += Time.deltaTime;
+        SpawnEnemies();
+    }
 
-        if (timer > maxTimer)
+    void SpawnEnemies()
+    {
+        m_timerEnemies += Time.deltaTime;
+
+        if (m_timerEnemies > m_maxTimerEnemies)
         {
-            foreach (GameObject enemy in enemiesType)
+            foreach (GameObject enemy in m_enemiesType)
             {
                 float x = Random.Range(0, Screen.width);
                 Vector3 position = Camera.main.ScreenToWorldPoint(new Vector3(x, Screen.height, Camera.main.nearClipPlane));
                 GameObject go = Instantiate(enemy, position, Quaternion.identity);
-                enemies.Add(go.GetComponent<Enemy>());
-                timer -= maxTimer;
+                m_enemies.Add(go.GetComponent<Enemy>());
             }
+            m_timerEnemies -= m_maxTimerEnemies;
         }
     }
 }

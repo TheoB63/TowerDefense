@@ -2,9 +2,13 @@ using UnityEngine;
 
 public class Projectiles : MonoBehaviour
 {
-    [SerializeField] float speed;
-    [SerializeField] int damage;
-    public Enemy target;
+    [Header("Values")]
+    [SerializeField] float m_speed;
+    [SerializeField] int m_damage;
+    Enemy m_target;
+
+    [Header("public values")]
+    public Enemy Target { get => m_target; set => m_target = value; }
 
     void Start()
     {
@@ -13,10 +17,10 @@ public class Projectiles : MonoBehaviour
 
     void Update()
     {
-        if (target != null)
+        if (m_target != null)
         {
-            Vector2 targetPos = target.transform.position;
-            Vector2 newPos = Vector2.Lerp(transform.position, targetPos, speed * Time.deltaTime);
+            Vector2 targetPos = m_target.transform.position;
+            Vector2 newPos = Vector2.Lerp(transform.position, targetPos, m_speed * Time.deltaTime);
             transform.position = newPos;
         }
         else
@@ -29,7 +33,7 @@ public class Projectiles : MonoBehaviour
     {
         if (collision.GetComponent<Enemy>())
         {
-            collision.GetComponent<Enemy>().TakeDamage(damage);
+            collision.GetComponent<Enemy>().TakeDamage(m_damage);
             Destroy(this.gameObject);
         }
     }
