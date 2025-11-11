@@ -8,7 +8,7 @@ public class LevelManager : MonoBehaviour
 
     [Header("References")]
     [SerializeField] Player m_player;
-    [SerializeField] List<Tower> m_towers;
+    [SerializeField] List<TowerSlot> m_towers;
 
     //level
     int m_level = 0;
