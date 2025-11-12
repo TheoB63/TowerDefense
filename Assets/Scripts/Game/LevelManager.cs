@@ -9,6 +9,7 @@ public class LevelManager : MonoBehaviour
     [Header("References")]
     [SerializeField] Player m_player;
     [SerializeField] List<TowerSlot> m_towers;
+    [SerializeField] TowerManager m_towerManager;
 
     //level
     int m_level = 0;
@@ -61,6 +62,10 @@ public class LevelManager : MonoBehaviour
 
     void SetChoseUpgrade()
     {
+        List<UpgradeTower> options = m_towerManager.GetAvailableChoices();
 
+
+        Debug.Log("options :" + options.Count);
+        UI.Instance.ShowUpgradeChoices(options);
     }
 }
