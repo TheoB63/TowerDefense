@@ -33,7 +33,6 @@ public class UpgradeChoiceManager : MonoBehaviour
 
     public void OnLevelUp()
     {
-        Debug.Log("=== LEVEL UP ===");
         List<UpgradeBase> availableUpgrades = GetAvailableUpgrades();
 
         if (availableUpgrades.Count == 0)

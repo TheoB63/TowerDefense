@@ -3,24 +3,26 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour
 {
     [Header("Resources")]
-    public int currentLevel = 1;
+    public int currentLevel;
+    public float currentRange;
+    public int damage;
 
     [Header("Global Bonuses")]
-    public float globalDamageMultiplier = 1f;
-    public float globalRangeBonus = 0f;
-    public float globalAttackSpeedBonus = 0f;
+    public float globalDamageMultiplier = 1.1f;
+    public float globalRangeBonus = 0.5f;
+    public float globalAttackSpeedBonus = 1f;
 
     public void ApplyUpgrade(string upgradeName)
     {
         switch (upgradeName)
         {
             case "IncreaseDamage":
-                globalDamageMultiplier += 0.1f;
+                damage = (int)(damage * globalDamageMultiplier);
                 Debug.Log($"Dégâts globaux: x{globalDamageMultiplier}");
                 break;
 
             case "IncreaseRange":
-                globalRangeBonus += 0.5f;
+                currentRange += globalRangeBonus;
                 Debug.Log($"Portée globale: +{globalRangeBonus}");
                 break;
 

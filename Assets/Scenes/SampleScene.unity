@@ -602,9 +602,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1859508110}
   - {fileID: 1238187865}
   - {fileID: 2069975037}
-  - {fileID: 1859508110}
   m_Father: {fileID: 1916203406}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &493039239
@@ -978,7 +978,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 656025942}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -986,7 +986,7 @@ RectTransform:
   - {fileID: 2050646432}
   - {fileID: 159140377}
   - {fileID: 1931462046}
-  m_Father: {fileID: 1824371820}
+  m_Father: {fileID: 1235663094}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1118,7 +1118,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 702209684}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1126,7 +1126,7 @@ RectTransform:
   - {fileID: 1985860734}
   - {fileID: 1543606701}
   - {fileID: 1813016373}
-  m_Father: {fileID: 1824371820}
+  m_Father: {fileID: 1235663094}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1279,6 +1279,7 @@ MonoBehaviour:
   slotName: Left2
   emptyColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   occupiedColor: {r: 0, g: 1, b: 0, a: 1}
+  type: 0
 --- !u!212 &747664166
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1494,7 +1495,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2044919326}
-  - {fileID: 1824371820}
+  - {fileID: 1235663094}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1550,6 +1551,7 @@ MonoBehaviour:
   slotName: Left1
   emptyColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   occupiedColor: {r: 0, g: 1, b: 0, a: 1}
+  type: 0
 --- !u!212 &1000124968
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1886,6 +1888,84 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1180462420}
   m_CullTransparentMesh: 1
+--- !u!1 &1235663093
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1235663094}
+  - component: {fileID: 1235663096}
+  - component: {fileID: 1235663095}
+  m_Layer: 5
+  m_Name: UpgradePanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1235663094
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1235663093}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 656025943}
+  - {fileID: 1899465078}
+  - {fileID: 702209685}
+  m_Father: {fileID: 956318020}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1235663095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1235663093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1235663096
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1235663093}
+  m_CullTransparentMesh: 1
 --- !u!1 &1238187864
 GameObject:
   m_ObjectHideFlags: 0
@@ -2024,6 +2104,7 @@ MonoBehaviour:
   slotName: Right1
   emptyColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   occupiedColor: {r: 0, g: 1, b: 0, a: 1}
+  type: 0
 --- !u!212 &1269234199
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2360,84 +2441,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1813016372}
   m_CullTransparentMesh: 1
---- !u!1 &1824371819
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1824371820}
-  - component: {fileID: 1824371822}
-  - component: {fileID: 1824371821}
-  m_Layer: 5
-  m_Name: UpgradePanel
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1824371820
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1824371819}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 656025943}
-  - {fileID: 1899465078}
-  - {fileID: 702209685}
-  m_Father: {fileID: 956318020}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1824371821
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1824371819}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.392}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &1824371822
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1824371819}
-  m_CullTransparentMesh: 1
 --- !u!1 &1859508109
 GameObject:
   m_ObjectHideFlags: 0
@@ -2448,7 +2451,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1859508110}
   - component: {fileID: 1859508114}
-  - component: {fileID: 1859508113}
   - component: {fileID: 1859508112}
   - component: {fileID: 1859508111}
   - component: {fileID: 1859508115}
@@ -2467,8 +2469,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1859508109}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2502,18 +2504,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   m_speed: 5
---- !u!114 &1859508113
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1859508109}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa760ed3cc15ab240ae15a83599beb75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Player
 --- !u!61 &1859508114
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2573,6 +2563,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
   currentLevel: 1
+  currentRange: 6
+  damage: 10
   globalDamageMultiplier: 1.5
   globalRangeBonus: 0.5
   globalAttackSpeedBonus: 1
@@ -2603,7 +2595,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1899465077}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2611,7 +2603,7 @@ RectTransform:
   - {fileID: 241621076}
   - {fileID: 377493699}
   - {fileID: 1180462421}
-  m_Father: {fileID: 1824371820}
+  m_Father: {fileID: 1235663094}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2764,6 +2756,7 @@ MonoBehaviour:
   slotName: Right2
   emptyColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   occupiedColor: {r: 0, g: 1, b: 0, a: 1}
+  type: 0
 --- !u!212 &1900557768
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3273,14 +3266,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b93c4f0270bb96438e9435ae1412e5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  m_player: {fileID: 1859508113}
+  m_player: {fileID: 0}
   m_towers:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   m_xpNeeded: 1
-  m_xpNeededMultiplier: 1.5
+  m_xpNeededMultiplier: 1.2
 --- !u!4 &2042976163
 Transform:
   m_ObjectHideFlags: 0
@@ -3321,6 +3314,7 @@ MonoBehaviour:
   allPlayerUpgrades:
   - {fileID: 11400000, guid: 5de4ca9c42daafb42bee5d4ecbabf094, type: 2}
   - {fileID: 11400000, guid: 38a262011c490dd458d550f29bd6ee16, type: 2}
+  - {fileID: 11400000, guid: ec1d59a3eace73e449f0f63a118a5b4e, type: 2}
   numberOfChoices: 3
   playerStats: {fileID: 1859508115}
   towerSlots:
@@ -3328,7 +3322,7 @@ MonoBehaviour:
   - {fileID: 1269234198}
   - {fileID: 747664165}
   - {fileID: 1900557767}
-  upgradePanel: {fileID: 1824371819}
+  upgradePanel: {fileID: 1235663093}
   upgradeButtons:
   - {fileID: 656025947}
   - {fileID: 1899465079}

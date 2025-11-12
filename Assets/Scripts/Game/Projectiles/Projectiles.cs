@@ -9,6 +9,7 @@ public class Projectiles : MonoBehaviour
 
     [Header("public values")]
     public Enemy Target { get => m_target; set => m_target = value; }
+    public int Damage { get => m_damage; set => m_damage = value; }
 
     void Start()
     {

@@ -17,7 +17,7 @@ public class PlayerShoot : MonoBehaviour
     {
         m_timerShoot += Time.deltaTime;
 
-        if (m_timerShoot > (m_attackSpeed / 60))
+        if (m_timerShoot > (m_attackSpeed*GetComponent<PlayerStats>().globalAttackSpeedBonus / 60))
         {
             if (Shoot())
             {
@@ -38,12 +38,17 @@ public class PlayerShoot : MonoBehaviour
                 if (newDist < dist)
                 {
                     currentTarget = enemy;
+                    dist = newDist;
                 }
             }
-            GameObject go = Instantiate(m_projectilesPrefab, transform.position, Quaternion.identity);
-            go.GetComponent<Projectiles>().Target = currentTarget;
+            if (dist <= GetComponent<PlayerStats>().currentRange)
+            {
+                GameObject go = Instantiate(m_projectilesPrefab, transform.position, Quaternion.identity);
+                go.GetComponent<Projectiles>().Target = currentTarget;
+                go.GetComponent<Projectiles>().Damage = GetComponent<PlayerStats>().damage;
 
-            return true;
+                return true;
+            }
         }
         return false;
     }
