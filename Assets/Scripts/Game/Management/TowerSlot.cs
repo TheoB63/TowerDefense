@@ -12,6 +12,7 @@ public class TowerSlot : MonoBehaviour
 
     private GameObject currentTower;
     private SpriteRenderer slotRenderer;
+    public TowerType type;
 
     private void Awake()
     {
@@ -21,7 +22,7 @@ public class TowerSlot : MonoBehaviour
 
     public bool HasTower() => currentTower != null;
 
-    public void BuildTower(GameObject towerPrefab)
+    public void BuildTower(GameObject towerPrefab,TowerType _type)
     {
         if (currentTower != null)
         {
@@ -31,6 +32,7 @@ public class TowerSlot : MonoBehaviour
 
         currentTower = Instantiate(towerPrefab, transform.position, Quaternion.identity);
         currentTower.transform.SetParent(transform);
+        type = _type;
         UpdateVisual();
     }
 

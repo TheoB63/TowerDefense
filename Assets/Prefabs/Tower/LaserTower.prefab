@@ -214,6 +214,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b19b04c5c1729854c9b21928ad268505, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LaserTower
-  damage: 10
-  range: 5
+  baseDamage: 10
+  baseRange: 5
   tickRate: 0.1
+  laserLine: {fileID: 0}
+  damageLevel: 2
+  rangeLevel: 1
+  hasMultiTarget: 0

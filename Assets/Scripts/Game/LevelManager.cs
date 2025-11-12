@@ -55,12 +55,7 @@ public class LevelManager : MonoBehaviour
             m_level++;
             m_xp -= m_xpNeeded;
             m_xpNeeded *= m_xpNeededMultiplier;
-            SetChoseUpgrade();
+            GetComponent<UpgradeChoiceManager>().OnLevelUp();
         }
-    }
-
-    void SetChoseUpgrade()
-    {
-
     }
 }

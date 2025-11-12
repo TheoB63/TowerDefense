@@ -5,13 +5,13 @@ public class TowerSpecificUpgrade : UpgradeBase
 {
     public TowerType targetTowerType;
     public string upgradeMethodName; // Nom de la méthode à appeler
-    //public TowerSlot specificSlot;
+    public TowerSlot specificSlot;
 
     public override bool CanApply(TowerSlot slot, PlayerStats player)
     {
         if (player == null) return false;
         if (slot == null || !slot.HasTower()) return false;
-        //if (specificSlot != null && slot != specificSlot) return false;
+        TowerSlot targetSlot = specificSlot ?? slot;
 
         ITower tower = slot.GetTower();
         return tower.GetTowerType() == targetTowerType;

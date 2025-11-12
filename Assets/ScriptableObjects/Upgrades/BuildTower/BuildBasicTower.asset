@@ -15,5 +15,6 @@ MonoBehaviour:
   upgradeName: Basic Tower
   icon: {fileID: 0}
   description: Tire sur les enemis.
-  towerPrefab: {fileID: 3680209922806064918, guid: 70a04de30fb41b4499041c270047c365, type: 3}
+  towerPrefab: {fileID: 3680209922806064918, guid: 7835d6068ae6591469f876f67a71a115, type: 3}
   towerType: 1
+  specificSlot: {fileID: 0}

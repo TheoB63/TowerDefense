@@ -20,6 +20,8 @@ public class BasicTower : MonoBehaviour,ITower
     private float currentAttackSpeed;
     private Transform currentTarget;
 
+    float m_timerShoot;
+
     private void Start()
     {
         UpdateStats();
@@ -34,7 +36,37 @@ public class BasicTower : MonoBehaviour,ITower
 
     void Update()
     {
-        
+        m_timerShoot += Time.deltaTime;
+
+        if (m_timerShoot > (currentAttackSpeed / 60))
+        {
+            if (Shoot())
+            {
+                m_timerShoot = 0;
+            }
+        }
+    }
+
+    bool Shoot()
+    {
+        if (GameManager.Instance.Enemies.Count > 0)
+        {
+            Enemy currentTarget = GameManager.Instance.Enemies[0];
+            float dist = float.MaxValue;
+            foreach (Enemy enemy in GameManager.Instance.Enemies)
+            {
+                float newDist = Vector2.Distance(transform.position, enemy.transform.position);
+                if (newDist < dist)
+                {
+                    currentTarget = enemy;
+                }
+            }
+            GameObject go = Instantiate(projectilesPrefab, transform.position, Quaternion.identity);
+            go.GetComponent<Projectiles>().Target = currentTarget;
+
+            return true;
+        }
+        return false;
     }
 
     public TowerType GetTowerType() => TowerType.Projectile;

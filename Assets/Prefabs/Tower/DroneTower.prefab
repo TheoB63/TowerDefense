@@ -104,5 +104,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DroneSpawnerTower
   dronePrefab: {fileID: 272534513122864710, guid: 4d5d3a4785846254085551ee74ba2630, type: 3}
-  maxDrones: 3
-  spawnCooldown: 5
+  baseMaxDrones: 3
+  baseSpawnCooldown: 5
+  maxDronesLevel: 2
+  spawnSpeedLevel: 1
+  droneHealthLevel: 1
