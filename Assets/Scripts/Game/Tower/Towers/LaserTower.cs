@@ -33,28 +33,6 @@ public class LaserTower : MonoBehaviour, ITower
     [SerializeField] private float splitPointDistance = 2f; // Distance du point de split depuis la tour
     [SerializeField] private float organicVariation = 0.2f; // Variation aléatoire
 
-    [Header("Muzzle Effect Settings")]
-    [SerializeField] private float muzzleLifetime = 0.3f;
-    [SerializeField] private float muzzleSpeed = 1f;
-    [SerializeField] private float muzzleSize = 0.3f;
-    [SerializeField] private Color muzzleColor = new Color(0f, 1f, 1f, 0.8f);
-    [SerializeField] private float muzzleEmissionRate = 50f;
-    [SerializeField] private float muzzleRadius = 0.2f;
-
-    [Header("Impact Effect Settings")]
-    [SerializeField] private float impactLifetime = 0.2f;
-    [SerializeField] private float impactSpeed = 2f;
-    [SerializeField] private float impactSize = 0.2f;
-    [SerializeField] private Color impactColor = new Color(1f, 1f, 0f, 0.9f);
-    [SerializeField] private float impactEmissionRate = 100f;
-    [SerializeField] private float impactRadius = 0.15f;
-
-    [Header("Split Effect Settings")]
-    [SerializeField] private float splitEffectSize = 0.4f;
-    [SerializeField] private Color splitEffectColor = new Color(1f, 0f, 1f, 0.9f);
-
-    [Header("Effect Sorting")]
-    [SerializeField] private int effectSortingOrder = 6;
 
     //Privates Current values in run time
     int m_currentDamage;
@@ -71,9 +49,6 @@ public class LaserTower : MonoBehaviour, ITower
 
     // UN SEUL LineRenderer pour tout le réseau
     private LineRenderer laserNetwork;
-    private List<ParticleSystem> impactEffects = new List<ParticleSystem>();
-    private ParticleSystem muzzleEffect;
-    private ParticleSystem splitEffect;
 
     // Pour la variation organique
     private System.Random organicRandom;
@@ -94,18 +69,6 @@ public class LaserTower : MonoBehaviour, ITower
 
         // Créer LE LineRenderer unique
         CreateLaserNetwork();
-
-        // Créer l'effet à la base (muzzle)
-        CreateMuzzleEffect();
-
-        // Créer l'effet au point de split
-        CreateSplitEffect();
-
-        // Créer les effets d'impact pour chaque cible
-        for (int i = 0; i < m_currentNbTarget; i++)
-        {
-            CreateImpactEffect();
-        }
 
         timerReload = 0;
         timerDuration = m_currentDuration;
@@ -136,120 +99,11 @@ public class LaserTower : MonoBehaviour, ITower
         laserNetwork.numCapVertices = 5;
     }
 
-    private void CreateMuzzleEffect()
-    {
-        GameObject muzzleObj = new GameObject("MuzzleEffect");
-        muzzleObj.transform.SetParent(transform);
-        muzzleObj.transform.localPosition = Vector3.zero;
-
-        muzzleEffect = muzzleObj.AddComponent<ParticleSystem>();
-        var main = muzzleEffect.main;
-        main.startLifetime = muzzleLifetime;
-        main.startSpeed = muzzleSpeed;
-        main.startSize = muzzleSize;
-        main.startColor = muzzleColor;
-        main.maxParticles = 30;
-        main.loop = true;
-        main.playOnAwake = false;
-
-        var emission = muzzleEffect.emission;
-        emission.rateOverTime = muzzleEmissionRate;
-
-        var shape = muzzleEffect.shape;
-        shape.shapeType = ParticleSystemShapeType.Circle;
-        shape.radius = muzzleRadius;
-
-        var colorOverLifetime = muzzleEffect.colorOverLifetime;
-        colorOverLifetime.enabled = true;
-        Gradient grad = new Gradient();
-        grad.SetKeys(
-            new GradientColorKey[] { new GradientColorKey(Color.cyan, 0.0f), new GradientColorKey(Color.blue, 1.0f) },
-            new GradientAlphaKey[] { new GradientAlphaKey(1.0f, 0.0f), new GradientAlphaKey(0.0f, 1.0f) }
-        );
-        colorOverLifetime.color = grad;
-
-        var renderer = muzzleEffect.GetComponent<ParticleSystemRenderer>();
-        renderer.sortingOrder = effectSortingOrder;
-    }
-
-    private void CreateSplitEffect()
-    {
-        GameObject splitObj = new GameObject("SplitEffect");
-        splitObj.transform.SetParent(transform);
-
-        splitEffect = splitObj.AddComponent<ParticleSystem>();
-        var main = splitEffect.main;
-        main.startLifetime = 0.3f;
-        main.startSpeed = 3f;
-        main.startSize = splitEffectSize;
-        main.startColor = splitEffectColor;
-        main.maxParticles = 50;
-        main.loop = true;
-        main.playOnAwake = false;
-
-        var emission = splitEffect.emission;
-        emission.rateOverTime = 80;
-
-        var shape = splitEffect.shape;
-        shape.shapeType = ParticleSystemShapeType.Sphere;
-        shape.radius = 0.3f;
-
-        var colorOverLifetime = splitEffect.colorOverLifetime;
-        colorOverLifetime.enabled = true;
-        Gradient grad = new Gradient();
-        grad.SetKeys(
-            new GradientColorKey[] { new GradientColorKey(Color.magenta, 0.0f), new GradientColorKey(Color.white, 1.0f) },
-            new GradientAlphaKey[] { new GradientAlphaKey(1.0f, 0.0f), new GradientAlphaKey(0.0f, 1.0f) }
-        );
-        colorOverLifetime.color = grad;
-
-        var renderer = splitEffect.GetComponent<ParticleSystemRenderer>();
-        renderer.sortingOrder = effectSortingOrder;
-    }
-
-    private void CreateImpactEffect()
-    {
-        GameObject impactObj = new GameObject($"ImpactEffect_{impactEffects.Count}");
-        impactObj.transform.SetParent(transform);
-
-        ParticleSystem impact = impactObj.AddComponent<ParticleSystem>();
-        var main = impact.main;
-        main.startLifetime = impactLifetime;
-        main.startSpeed = impactSpeed;
-        main.startSize = impactSize;
-        main.startColor = impactColor;
-        main.maxParticles = 20;
-        main.loop = true;
-        main.playOnAwake = false;
-
-        var emission = impact.emission;
-        emission.rateOverTime = impactEmissionRate;
-
-        var shape = impact.shape;
-        shape.shapeType = ParticleSystemShapeType.Sphere;
-        shape.radius = impactRadius;
-
-        var colorOverLifetime = impact.colorOverLifetime;
-        colorOverLifetime.enabled = true;
-        Gradient grad = new Gradient();
-        grad.SetKeys(
-            new GradientColorKey[] { new GradientColorKey(Color.yellow, 0.0f), new GradientColorKey(Color.red, 1.0f) },
-            new GradientAlphaKey[] { new GradientAlphaKey(1.0f, 0.0f), new GradientAlphaKey(0.0f, 1.0f) }
-        );
-        colorOverLifetime.color = grad;
-
-        var renderer = impact.GetComponent<ParticleSystemRenderer>();
-        renderer.sortingOrder = effectSortingOrder;
-
-        impactEffects.Add(impact);
-    }
-
     void Update()
     {
         if (timerDuration <= 0) //reload
         {
             DisableAllLasers();
-            DisableAllEffects();
             timerReload -= Time.deltaTime;
             if (timerReload <= 0)
             {
@@ -261,12 +115,10 @@ public class LaserTower : MonoBehaviour, ITower
         {
             timerDuration -= Time.deltaTime;
             Attack();
-
             if (timerDuration <= 0)
             {
-                timerReload = m_currentReloadTime;
                 DisableAllLasers();
-                DisableAllEffects();
+                timerReload = m_currentReloadTime;                
             }
         }
     }
@@ -276,7 +128,6 @@ public class LaserTower : MonoBehaviour, ITower
         if (GameManager.Instance.Enemies.Count == 0)
         {
             DisableAllLasers();
-            DisableAllEffects();
             return;
         }
 
@@ -285,13 +136,8 @@ public class LaserTower : MonoBehaviour, ITower
         if (targets.Count == 0)
         {
             DisableAllLasers();
-            DisableAllEffects();
             return;
         }
-
-        // Activer les effets
-        if (!muzzleEffect.isPlaying)
-            muzzleEffect.Play();
 
         // Appliquer les dégâts selon le tick rate
         timerTick -= Time.deltaTime;
@@ -309,24 +155,6 @@ public class LaserTower : MonoBehaviour, ITower
 
         // Dessiner le réseau de lasers
         DrawLaserNetwork(targets);
-
-        // Positionner les effets d'impact
-        for (int i = 0; i < targets.Count && i < impactEffects.Count; i++)
-        {
-            if (targets[i] != null)
-            {
-                impactEffects[i].transform.position = targets[i].transform.position;
-                if (!impactEffects[i].isPlaying)
-                    impactEffects[i].Play();
-            }
-        }
-
-        // Arrêter les effets d'impact inutilisés
-        for (int i = targets.Count; i < impactEffects.Count; i++)
-        {
-            if (impactEffects[i].isPlaying)
-                impactEffects[i].Stop();
-        }
     }
 
     private void DrawLaserNetwork(List<Enemy> targets)
@@ -344,11 +172,6 @@ public class LaserTower : MonoBehaviour, ITower
         {
             laserNetwork.positionCount = curveResolutionPerSegment;
             DrawCurve(laserNetwork, 0, transform.position, targets[0].transform.position);
-
-            // Pas d'effet de split
-            if (splitEffect.isPlaying)
-                splitEffect.Stop();
-
             return;
         }
 
@@ -363,11 +186,6 @@ public class LaserTower : MonoBehaviour, ITower
 
         Vector3 directionToTargets = (targetsCenter - transform.position).normalized;
         Vector3 splitPoint = transform.position + directionToTargets * splitPointDistance;
-
-        // Activer et positionner l'effet de split
-        splitEffect.transform.position = splitPoint;
-        if (!splitEffect.isPlaying)
-            splitEffect.Play();
 
         // Calculer le nombre total de points nécessaires
         // 1 segment de la tour au split + N segments du split aux targets
@@ -452,21 +270,6 @@ public class LaserTower : MonoBehaviour, ITower
             laserNetwork.enabled = false;
     }
 
-    private void DisableAllEffects()
-    {
-        if (muzzleEffect != null && muzzleEffect.isPlaying)
-            muzzleEffect.Stop();
-
-        if (splitEffect != null && splitEffect.isPlaying)
-            splitEffect.Stop();
-
-        foreach (ParticleSystem ps in impactEffects)
-        {
-            if (ps != null && ps.isPlaying)
-                ps.Stop();
-        }
-    }
-
     public List<Enemy> GetNearestEnemies(Transform _transform, int count)
     {
         List<Enemy> nearestEnemies = new List<Enemy>();
@@ -548,11 +351,5 @@ public class LaserTower : MonoBehaviour, ITower
     private void IncreaseTargets()
     {
         m_currentNbTarget += m_nbTargetIncrease;
-
-        // Créer de nouveaux effets d'impact si nécessaire
-        while (impactEffects.Count < m_currentNbTarget)
-        {
-            CreateImpactEffect();
-        }
     }
 }
