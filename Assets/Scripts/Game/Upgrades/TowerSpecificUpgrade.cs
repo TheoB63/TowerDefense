@@ -7,29 +7,28 @@ public class TowerSpecificUpgrade : UpgradeBase
     public string upgradeMethodName; // Nom de la méthode à appeler
     public TowerSlot specificSlot;
 
-    public override bool CanApply(TowerSlot slot, PlayerStats player)
+    public override bool CanApply(TowerSlot _slot, PlayerStats _player)
     {
-        if (player == null) return false;
-        if (slot == null || !slot.HasTower()) return false;
-        TowerSlot targetSlot = specificSlot ?? slot;
+        if (_player == null) return false;
+        if (_slot == null || !_slot.HasTower()) return false;
+        TowerSlot targetSlot = specificSlot ?? _slot;
 
-        ITower tower = slot.GetTower();
+        ITower tower = _slot.GetTower();
         return tower.GetTowerType() == targetTowerType;
     }
 
-    public override void Apply(TowerSlot slot, PlayerStats player)
+    public override void Apply(TowerSlot _slot, PlayerStats _player)
     {
-        ITower tower = slot.GetTower();
+        ITower tower = _slot.GetTower();
 
         tower.ApplyUpgrade(upgradeMethodName);
-        Debug.Log($"Upgrade {upgradeName} appliqué à {tower.GetTowerName()}");
     }
 
-    public override string GetDisplayText(TowerSlot slot, PlayerStats player)
+    public override string GetDisplayText(TowerSlot _slot, PlayerStats _player)
     {
-        if (slot != null && slot.HasTower())
+        if (_slot != null && _slot.HasTower())
         {
-            return $"{upgradeName} ({slot.GetTower().GetTowerName()})";
+            return $"{upgradeName} ({_slot.GetTower().GetTowerName()})";
         }
         return upgradeName;
     }

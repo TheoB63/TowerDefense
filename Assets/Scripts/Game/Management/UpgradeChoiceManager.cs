@@ -183,8 +183,6 @@ public class UpgradeChoiceManager : MonoBehaviour
         //Setup Buttons
         for (int i = 0; i < m_upgradeButtons.Count; i++)
         {
-            Debug.Log("choices count : " + _choices.Count);
-
             if (i < _choices.Count)
             {
                 m_upgradeButtons[i].gameObject.SetActive(true);

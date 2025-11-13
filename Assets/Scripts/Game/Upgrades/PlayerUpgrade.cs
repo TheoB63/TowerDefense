@@ -5,18 +5,17 @@ public class PlayerUpgrade : UpgradeBase
 {
     public string upgradeMethodName;
 
-    public override bool CanApply(TowerSlot slot, PlayerStats player)
+    public override bool CanApply(TowerSlot _slot, PlayerStats _player)
     {
-        return player != null;
+        return _player != null;
     }
 
-    public override void Apply(TowerSlot slot, PlayerStats player)
+    public override void Apply(TowerSlot _slot, PlayerStats _player)
     {
-        player.ApplyUpgrade(upgradeMethodName);
-        Debug.Log($"Upgrade joueur {upgradeName} appliqué");
+        _player.ApplyUpgrade(upgradeMethodName);
     }
 
-    public override string GetDisplayText(TowerSlot slot, PlayerStats player)
+    public override string GetDisplayText(TowerSlot _slot, PlayerStats _player)
     {
         return $"{upgradeName} (Joueur)";
     }

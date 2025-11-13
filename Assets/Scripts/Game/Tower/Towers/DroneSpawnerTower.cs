@@ -37,17 +37,14 @@ public class DroneSpawnerTower : MonoBehaviour, ITower
         {
             case "IncreaseMaxDrones":
                 maxDronesLevel++;
-                Debug.Log($"Spawner: Max drones = {currentMaxDrones}");
                 break;
 
             case "ReduceSpawnTime":
                 spawnSpeedLevel++;
-                Debug.Log($"Spawner: Cooldown = {currentSpawnCooldown}s");
                 break;
 
             case "ImproveDroneHealth":
                 droneHealthLevel++;
-                Debug.Log($"Spawner: Drone health level {droneHealthLevel}");
                 break;
         }
         UpdateStats();

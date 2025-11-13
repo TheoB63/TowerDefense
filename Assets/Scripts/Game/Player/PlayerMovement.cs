@@ -42,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
 
             Vector2 newPos = Vector2.Lerp(transform.position, m_targetWorldPos, m_speed * Time.deltaTime);
 
-            transform.position = new Vector2(newPos.x, transform.position.y);          
+            transform.position = new Vector3(newPos.x, transform.position.y,transform.position.z);          
         }        
 
         ClampToScreen();

@@ -6,7 +6,7 @@ public abstract class UpgradeBase : ScriptableObject
     public Sprite icon;
     public string description;
 
-    public abstract bool CanApply(TowerSlot slot, PlayerStats player);
-    public abstract void Apply(TowerSlot slot, PlayerStats player);
-    public abstract string GetDisplayText(TowerSlot slot, PlayerStats player);
+    public abstract bool CanApply(TowerSlot _slot, PlayerStats _player);
+    public abstract void Apply(TowerSlot _slot, PlayerStats _player);
+    public abstract string GetDisplayText(TowerSlot _slot, PlayerStats _player);
 }

@@ -12,11 +12,6 @@ public class Projectiles : MonoBehaviour
     [Header("public values")]
     public Vector2 Direction { get => direction; set => direction = value; }
 
-    void Start()
-    {
-
-    }
-
     void Update()
     {
         if (direction != Vector2.zero)
@@ -36,11 +31,11 @@ public class Projectiles : MonoBehaviour
         m_penetration = _penetration;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D _collision)
     {
-        if (collision.GetComponent<Enemy>())
+        if (_collision.GetComponent<Enemy>())
         {
-            collision.GetComponent<Enemy>().TakeDamage(m_damageBase + m_damage);
+            _collision.GetComponent<Enemy>().TakeDamage(m_damageBase + m_damage);
 
             m_penetration--;
 

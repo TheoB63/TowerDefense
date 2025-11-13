@@ -58,4 +58,21 @@ public class GameManager : MonoBehaviour
             m_timerEnemies -= m_maxTimerEnemies;
         }
     }
+
+    public Enemy GetNearestEnemy(Transform _transform)
+    {
+        Enemy target = Enemies[0];
+
+        float dist = float.MaxValue;
+        foreach (Enemy enemy in Enemies)
+        {
+            float newDist = Vector2.Distance(_transform.position, enemy.transform.position);
+            if (newDist < dist)
+            {
+                target = enemy;
+                dist = newDist;
+            }
+        }
+        return target;
+    }
 }

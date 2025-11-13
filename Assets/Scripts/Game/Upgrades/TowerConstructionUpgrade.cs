@@ -7,20 +7,19 @@ public class TowerConstructionUpgrade : UpgradeBase
     public TowerType towerType;
     public TowerSlot specificSlot;
 
-    public override bool CanApply(TowerSlot slot, PlayerStats player)
+    public override bool CanApply(TowerSlot _slot, PlayerStats _player)
     {
-        if (player == null) return false;
-        TowerSlot targetSlot = specificSlot ?? slot;
-        return slot != null && !slot.HasTower();
+        if (_player == null) return false;
+        TowerSlot targetSlot = specificSlot ?? _slot;
+        return _slot != null && !_slot.HasTower();
     }
 
-    public override void Apply(TowerSlot slot, PlayerStats player)
+    public override void Apply(TowerSlot _slot, PlayerStats _player)
     {
-        slot.BuildTower(towerPrefab,towerType);
-        Debug.Log($"Tourelle {upgradeName} construite sur le slot {slot.name}");
+        _slot.BuildTower(towerPrefab,towerType);
     }
 
-    public override string GetDisplayText(TowerSlot slot, PlayerStats player)
+    public override string GetDisplayText(TowerSlot _slot, PlayerStats _player)
     {
         return $"Construire {upgradeName}";
     }

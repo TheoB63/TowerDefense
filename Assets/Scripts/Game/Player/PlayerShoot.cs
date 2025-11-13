@@ -5,12 +5,15 @@ public class PlayerShoot : MonoBehaviour
 {
     [Header("Values")]
     [SerializeField] GameObject m_projectilesPrefab;
-    [SerializeField] List<GameObject> m_arms;
+    [SerializeField] List<Transform> m_arms;
     [SerializeField] List<Transform> m_fireCanons;
+    [SerializeField] float m_armRotationSpeed;
+    
+    PlayerStats m_playerStats;
+    int m_currentFireCanon = 0;
 
     //Timer
     float m_timerShoot;
-    PlayerStats m_playerStats;
 
     void Start()
     {
@@ -19,6 +22,8 @@ public class PlayerShoot : MonoBehaviour
 
     void Update()
     {
+        MoveFireCanon();
+
         m_timerShoot += Time.deltaTime;
 
         if (m_timerShoot > (1 / m_playerStats.AttackSpeed))
@@ -34,7 +39,7 @@ public class PlayerShoot : MonoBehaviour
     {
         if (GameManager.Instance.Enemies.Count > 0)
         {
-            Enemy target = GetNearestEnemy();
+            Enemy target = GameManager.Instance.GetNearestEnemy(transform);
 
             float dist = Vector2.Distance(transform.position, target.transform.position);
 
@@ -60,7 +65,7 @@ public class PlayerShoot : MonoBehaviour
                         direction = posTarget - transform.position;
                         direction.Normalize();
 
-                        GameObject go = Instantiate(m_projectilesPrefab, transform.position, Quaternion.identity);
+                        GameObject go = Instantiate(m_projectilesPrefab, GetFireCanon().position, Quaternion.identity);
                         go.GetComponent<Projectiles>().Direction = direction;
                         go.GetComponent<Projectiles>().SetStats(m_playerStats.Damage, m_playerStats.Penetration);
                     }
@@ -83,7 +88,7 @@ public class PlayerShoot : MonoBehaviour
                         direction = posTarget - transform.position;
                         direction.Normalize();
 
-                        GameObject go = Instantiate(m_projectilesPrefab, transform.position, Quaternion.identity);
+                        GameObject go = Instantiate(m_projectilesPrefab, GetFireCanon().position, Quaternion.identity);
                         go.GetComponent<Projectiles>().Direction = direction;
                         go.GetComponent<Projectiles>().SetStats(m_playerStats.Damage, m_playerStats.Penetration);
                     }
@@ -94,21 +99,29 @@ public class PlayerShoot : MonoBehaviour
         return false;
     }
 
-    private Enemy GetNearestEnemy()
+    private Transform GetFireCanon()
     {
-        Enemy target = GameManager.Instance.Enemies[0];
-
-        float dist = float.MaxValue;
-        foreach (Enemy enemy in GameManager.Instance.Enemies)
+        m_currentFireCanon++;
+        if (m_currentFireCanon >= m_fireCanons.Count)
         {
-            float newDist = Vector2.Distance(transform.position, enemy.transform.position);
-            if (newDist < dist)
+            m_currentFireCanon = 0;
+        }
+        return m_fireCanons[m_currentFireCanon];
+    }
+
+    private void MoveFireCanon()
+    {
+        if (GameManager.Instance.Enemies.Count > 0)
+        {
+            Enemy target = GameManager.Instance.GetNearestEnemy(transform);
+
+            for (int i = 0; i < m_arms.Count; i++)
             {
-                target = enemy;
-                dist = newDist;
+                Vector2 dir = target.transform.position - m_arms[i].position;
+                float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+                Quaternion targetRot = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
+                m_arms[i].rotation = Quaternion.Lerp(m_arms[i].rotation, targetRot, m_armRotationSpeed * Time.deltaTime);
             }
         }
-
-        return target;
     }
 }
