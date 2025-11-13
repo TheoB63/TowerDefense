@@ -44,7 +44,7 @@ public class Projectiles : MonoBehaviour
 
             m_penetration--;
 
-            if (m_penetration <= 0)
+            if (m_penetration < 0)
             {
                 Destroy(this.gameObject);
             }

@@ -72,6 +72,10 @@ public class PlayerStats : MonoBehaviour
             case "IncreasePenetration":
                 IncreasePenetration();
                 break;
+
+            case "IncreaseNbProjectiles":
+                IncreaseNbProjectiles();
+                break;
         }
     }
 
@@ -84,6 +88,7 @@ public class PlayerStats : MonoBehaviour
         upgrades.Add("IncreaseRange");
         upgrades.Add("IncreaseAttackSpeed");        
         upgrades.Add("IncreasePenetration");        
+        upgrades.Add("IncreaseNbProjectiles");        
 
         return upgrades;
     }
@@ -105,5 +110,10 @@ public class PlayerStats : MonoBehaviour
     private void IncreasePenetration()
     {
         m_currentPenetration += m_penetrationIncrease;
+    }
+
+    private void IncreaseNbProjectiles()
+    {
+        m_currentNbProjectiles += m_nbProjectilesIncrease;
     }
 }

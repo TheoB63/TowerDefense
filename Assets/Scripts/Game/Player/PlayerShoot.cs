@@ -1,9 +1,12 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerShoot : MonoBehaviour
 {
     [Header("Values")]
     [SerializeField] GameObject m_projectilesPrefab;
+    [SerializeField] List<GameObject> m_arms;
+    [SerializeField] List<Transform> m_fireCanons;
 
     //Timer
     float m_timerShoot;
@@ -41,7 +44,7 @@ public class PlayerShoot : MonoBehaviour
                 Vector2 targetPos = target.transform.position;
                 if (m_playerStats.NbProjectiles % 2 == 0)
                 {
-                    for (int i = 0; i < m_playerStats.NbProjectiles + 1; i++)
+                    for (int i = 0; i < m_playerStats.NbProjectiles; i++)
                     {
                         float targetDist;
                         if (i < m_playerStats.NbProjectiles / 2)
@@ -64,7 +67,7 @@ public class PlayerShoot : MonoBehaviour
                 }
                 else
                 {
-                    for (int i = 0; i < m_playerStats.NbProjectiles + 1; i++)
+                    for (int i = 0; i < m_playerStats.NbProjectiles; i++)
                     {
                         float targetDist = 0;
                         if (i < m_playerStats.NbProjectiles / 2)
