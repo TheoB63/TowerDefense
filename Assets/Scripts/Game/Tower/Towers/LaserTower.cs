@@ -20,18 +20,18 @@ public class LaserTower : MonoBehaviour, ITower
     [SerializeField] int m_nbTargetIncrease;
 
     [Header("Laser Visual Settings")]
-    [SerializeField] private float laserWidth = 0.1f;
-    [SerializeField] private Color laserStartColor = Color.red;
-    [SerializeField] private Color laserEndColor = new Color(1f, 0.5f, 0f, 0.8f);
+    [SerializeField] private float laserWidth;
+    [SerializeField] private Color laserStartColor;
+    [SerializeField] private Color laserEndColor;
     [SerializeField] private Material laserMaterial;
     [SerializeField] private int laserSortingOrder = 5;
 
     [Header("Curve Settings")]
-    [SerializeField] private int curveResolutionPerSegment = 15; // Points par segment de courbe
-    [SerializeField] private float curvature = 0.5f;
-    [SerializeField] private float curveHeight = 1f;
-    [SerializeField] private float splitPointDistance = 2f; // Distance du point de split depuis la tour
-    [SerializeField] private float organicVariation = 0.2f; // Variation aléatoire
+    [SerializeField] private int curveResolutionPerSegment; // Points par segment de courbe
+    [SerializeField] private float curvature;
+    [SerializeField] private float curveHeight;
+    [SerializeField] private float splitPointDistance; // Distance du point de split depuis la tour
+    [SerializeField] private float organicVariation; // Variation aléatoire
 
 
     //Privates Current values in run time
@@ -47,10 +47,8 @@ public class LaserTower : MonoBehaviour, ITower
     float timerReload;
     float timerTick;
 
-    // UN SEUL LineRenderer pour tout le réseau
-    private LineRenderer laserNetwork;
-
-    // Pour la variation organique
+    //Only One LineRenderer for all
+    private LineRenderer laserNetwork;    
     private System.Random organicRandom;
 
     public TowerType GetTowerType() => TowerType.Laser;
@@ -67,7 +65,6 @@ public class LaserTower : MonoBehaviour, ITower
 
         organicRandom = new System.Random();
 
-        // Créer LE LineRenderer unique
         CreateLaserNetwork();
 
         timerReload = 0;
@@ -94,7 +91,6 @@ public class LaserTower : MonoBehaviour, ITower
         laserNetwork.endColor = laserEndColor;
         laserNetwork.sortingOrder = laserSortingOrder;
 
-        // Pas de coins durs, courbes lisses
         laserNetwork.numCornerVertices = 5;
         laserNetwork.numCapVertices = 5;
     }
@@ -139,7 +135,6 @@ public class LaserTower : MonoBehaviour, ITower
             return;
         }
 
-        // Appliquer les dégâts selon le tick rate
         timerTick -= Time.deltaTime;
         if (timerTick <= 0)
         {
@@ -153,7 +148,6 @@ public class LaserTower : MonoBehaviour, ITower
             }
         }
 
-        // Dessiner le réseau de lasers
         DrawLaserNetwork(targets);
     }
 
@@ -167,7 +161,6 @@ public class LaserTower : MonoBehaviour, ITower
 
         laserNetwork.enabled = true;
 
-        // Si un seul target, juste une courbe simple
         if (targets.Count == 1)
         {
             laserNetwork.positionCount = curveResolutionPerSegment;
@@ -208,7 +201,10 @@ public class LaserTower : MonoBehaviour, ITower
 
     private void DrawCurve(LineRenderer lr, int startIndex, Vector3 start, Vector3 end)
     {
-        Vector3 direction = end - start;
+        start.z = 0;
+        end.z = 0;
+
+        Vector2 direction = end - start;
         float distance = direction.magnitude;
 
         // Calculer la perpendiculaire avec variation organique
