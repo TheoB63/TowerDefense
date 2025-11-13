@@ -27,9 +27,11 @@ public class LaserTower : MonoBehaviour, ITower
     [SerializeField] private int laserSortingOrder = 5;
 
     [Header("Curve Settings")]
-    [SerializeField] private int curveResolution = 20;
+    [SerializeField] private int curveResolutionPerSegment = 15; // Points par segment de courbe
     [SerializeField] private float curvature = 0.5f;
     [SerializeField] private float curveHeight = 1f;
+    [SerializeField] private float splitPointDistance = 2f; // Distance du point de split depuis la tour
+    [SerializeField] private float organicVariation = 0.2f; // Variation aléatoire
 
     [Header("Muzzle Effect Settings")]
     [SerializeField] private float muzzleLifetime = 0.3f;
@@ -47,6 +49,10 @@ public class LaserTower : MonoBehaviour, ITower
     [SerializeField] private float impactEmissionRate = 100f;
     [SerializeField] private float impactRadius = 0.15f;
 
+    [Header("Split Effect Settings")]
+    [SerializeField] private float splitEffectSize = 0.4f;
+    [SerializeField] private Color splitEffectColor = new Color(1f, 0f, 1f, 0.9f);
+
     [Header("Effect Sorting")]
     [SerializeField] private int effectSortingOrder = 6;
 
@@ -63,9 +69,14 @@ public class LaserTower : MonoBehaviour, ITower
     float timerReload;
     float timerTick;
 
-    private List<LineRenderer> laserLines = new List<LineRenderer>();
+    // UN SEUL LineRenderer pour tout le réseau
+    private LineRenderer laserNetwork;
     private List<ParticleSystem> impactEffects = new List<ParticleSystem>();
     private ParticleSystem muzzleEffect;
+    private ParticleSystem splitEffect;
+
+    // Pour la variation organique
+    private System.Random organicRandom;
 
     public TowerType GetTowerType() => TowerType.Laser;
     public string GetTowerName() => "Laser Tower";
@@ -79,45 +90,50 @@ public class LaserTower : MonoBehaviour, ITower
         m_currentTickRate = m_baseTickRate;
         m_currentNbTarget = m_baseNbTarget;
 
+        organicRandom = new System.Random();
+
+        // Créer LE LineRenderer unique
+        CreateLaserNetwork();
+
         // Créer l'effet à la base (muzzle)
         CreateMuzzleEffect();
 
-        // Créer les LineRenderer ET les effets d'impact pour chaque cible
+        // Créer l'effet au point de split
+        CreateSplitEffect();
+
+        // Créer les effets d'impact pour chaque cible
         for (int i = 0; i < m_currentNbTarget; i++)
         {
-            CreateLaserLine();
             CreateImpactEffect();
         }
 
-        timerReload = 0; // Commence en mode attaque
+        timerReload = 0;
         timerDuration = m_currentDuration;
     }
 
-    private void CreateLaserLine()
+    private void CreateLaserNetwork()
     {
-        LineRenderer lr = gameObject.AddComponent<LineRenderer>();
+        laserNetwork = gameObject.AddComponent<LineRenderer>();
+        laserNetwork.enabled = false;
+        laserNetwork.startWidth = laserWidth;
+        laserNetwork.endWidth = laserWidth;
 
-        // Configuration du LineRenderer
-        lr.positionCount = curveResolution;
-        lr.enabled = false;
-        lr.startWidth = laserWidth;
-        lr.endWidth = laserWidth; // CORRECTION: Même largeur partout
-
-        // Utiliser le material assigné ou créer un par défaut
         if (laserMaterial != null)
         {
-            lr.material = laserMaterial;
+            laserNetwork.material = laserMaterial;
         }
         else
         {
-            lr.material = new Material(Shader.Find("Sprites/Default"));
+            laserNetwork.material = new Material(Shader.Find("Sprites/Default"));
         }
 
-        lr.startColor = laserStartColor;
-        lr.endColor = laserEndColor;
-        lr.sortingOrder = laserSortingOrder;
+        laserNetwork.startColor = laserStartColor;
+        laserNetwork.endColor = laserEndColor;
+        laserNetwork.sortingOrder = laserSortingOrder;
 
-        laserLines.Add(lr);
+        // Pas de coins durs, courbes lisses
+        laserNetwork.numCornerVertices = 5;
+        laserNetwork.numCapVertices = 5;
     }
 
     private void CreateMuzzleEffect()
@@ -153,6 +169,41 @@ public class LaserTower : MonoBehaviour, ITower
         colorOverLifetime.color = grad;
 
         var renderer = muzzleEffect.GetComponent<ParticleSystemRenderer>();
+        renderer.sortingOrder = effectSortingOrder;
+    }
+
+    private void CreateSplitEffect()
+    {
+        GameObject splitObj = new GameObject("SplitEffect");
+        splitObj.transform.SetParent(transform);
+
+        splitEffect = splitObj.AddComponent<ParticleSystem>();
+        var main = splitEffect.main;
+        main.startLifetime = 0.3f;
+        main.startSpeed = 3f;
+        main.startSize = splitEffectSize;
+        main.startColor = splitEffectColor;
+        main.maxParticles = 50;
+        main.loop = true;
+        main.playOnAwake = false;
+
+        var emission = splitEffect.emission;
+        emission.rateOverTime = 80;
+
+        var shape = splitEffect.shape;
+        shape.shapeType = ParticleSystemShapeType.Sphere;
+        shape.radius = 0.3f;
+
+        var colorOverLifetime = splitEffect.colorOverLifetime;
+        colorOverLifetime.enabled = true;
+        Gradient grad = new Gradient();
+        grad.SetKeys(
+            new GradientColorKey[] { new GradientColorKey(Color.magenta, 0.0f), new GradientColorKey(Color.white, 1.0f) },
+            new GradientAlphaKey[] { new GradientAlphaKey(1.0f, 0.0f), new GradientAlphaKey(0.0f, 1.0f) }
+        );
+        colorOverLifetime.color = grad;
+
+        var renderer = splitEffect.GetComponent<ParticleSystemRenderer>();
         renderer.sortingOrder = effectSortingOrder;
     }
 
@@ -198,12 +249,12 @@ public class LaserTower : MonoBehaviour, ITower
         if (timerDuration <= 0) //reload
         {
             DisableAllLasers();
-            DisableAllEffects(); // CORRECTION: Arrêter les effets pendant le reload
+            DisableAllEffects();
             timerReload -= Time.deltaTime;
             if (timerReload <= 0)
             {
                 timerDuration = m_currentDuration;
-                timerTick = 0; // Reset du tick
+                timerTick = 0;
             }
         }
         else //attack
@@ -215,7 +266,7 @@ public class LaserTower : MonoBehaviour, ITower
             {
                 timerReload = m_currentReloadTime;
                 DisableAllLasers();
-                DisableAllEffects(); // CORRECTION: Arrêter les effets à la fin de l'attaque
+                DisableAllEffects();
             }
         }
     }
@@ -231,15 +282,16 @@ public class LaserTower : MonoBehaviour, ITower
 
         List<Enemy> targets = GetNearestEnemies(transform, m_currentNbTarget);
 
-        // Activer/désactiver l'effet muzzle
-        if (targets.Count > 0 && !muzzleEffect.isPlaying)
+        if (targets.Count == 0)
         {
+            DisableAllLasers();
+            DisableAllEffects();
+            return;
+        }
+
+        // Activer les effets
+        if (!muzzleEffect.isPlaying)
             muzzleEffect.Play();
-        }
-        else if (targets.Count == 0 && muzzleEffect.isPlaying)
-        {
-            muzzleEffect.Stop();
-        }
 
         // Appliquer les dégâts selon le tick rate
         timerTick -= Time.deltaTime;
@@ -255,50 +307,130 @@ public class LaserTower : MonoBehaviour, ITower
             }
         }
 
-        // Dessiner les lasers et positionner les effets d'impact
-        // CORRECTION IMPORTANTE: Utiliser le minimum entre les deux listes pour éviter les erreurs
-        int maxIndex = Mathf.Min(laserLines.Count, impactEffects.Count);
+        // Dessiner le réseau de lasers
+        DrawLaserNetwork(targets);
 
-        for (int i = 0; i < maxIndex; i++)
+        // Positionner les effets d'impact
+        for (int i = 0; i < targets.Count && i < impactEffects.Count; i++)
         {
-            if (i < targets.Count && targets[i] != null)
+            if (targets[i] != null)
             {
-                laserLines[i].enabled = true;
-                DrawCurvedLaser(laserLines[i], transform.position, targets[i].transform.position);
-
                 impactEffects[i].transform.position = targets[i].transform.position;
                 if (!impactEffects[i].isPlaying)
-                {
                     impactEffects[i].Play();
-                }
             }
-            else
+        }
+
+        // Arrêter les effets d'impact inutilisés
+        for (int i = targets.Count; i < impactEffects.Count; i++)
+        {
+            if (impactEffects[i].isPlaying)
+                impactEffects[i].Stop();
+        }
+    }
+
+    private void DrawLaserNetwork(List<Enemy> targets)
+    {
+        if (targets.Count == 0)
+        {
+            laserNetwork.enabled = false;
+            return;
+        }
+
+        laserNetwork.enabled = true;
+
+        // Si un seul target, juste une courbe simple
+        if (targets.Count == 1)
+        {
+            laserNetwork.positionCount = curveResolutionPerSegment;
+            DrawCurve(laserNetwork, 0, transform.position, targets[0].transform.position);
+
+            // Pas d'effet de split
+            if (splitEffect.isPlaying)
+                splitEffect.Stop();
+
+            return;
+        }
+
+        // Calculer le point de split
+        Vector3 targetsCenter = Vector3.zero;
+        foreach (Enemy target in targets)
+        {
+            if (target != null)
+                targetsCenter += target.transform.position;
+        }
+        targetsCenter /= targets.Count;
+
+        Vector3 directionToTargets = (targetsCenter - transform.position).normalized;
+        Vector3 splitPoint = transform.position + directionToTargets * splitPointDistance;
+
+        // Activer et positionner l'effet de split
+        splitEffect.transform.position = splitPoint;
+        if (!splitEffect.isPlaying)
+            splitEffect.Play();
+
+        // Calculer le nombre total de points nécessaires
+        // 1 segment de la tour au split + N segments du split aux targets
+        int totalPoints = curveResolutionPerSegment + (targets.Count * curveResolutionPerSegment);
+        laserNetwork.positionCount = totalPoints;
+
+        // Dessiner la courbe principale (tour -> split)
+        DrawCurve(laserNetwork, 0, transform.position, splitPoint);
+
+        // Dessiner les courbes vers chaque target
+        for (int i = 0; i < targets.Count; i++)
+        {
+            if (targets[i] != null)
             {
-                laserLines[i].enabled = false;
-                if (impactEffects[i].isPlaying)
-                {
-                    impactEffects[i].Stop();
-                }
+                int startIndex = curveResolutionPerSegment + (i * curveResolutionPerSegment);
+                DrawCurve(laserNetwork, startIndex, splitPoint, targets[i].transform.position);
             }
         }
     }
 
-    private void DrawCurvedLaser(LineRenderer lr, Vector3 start, Vector3 end)
+    private void DrawCurve(LineRenderer lr, int startIndex, Vector3 start, Vector3 end)
     {
         Vector3 direction = end - start;
         float distance = direction.magnitude;
 
-        // Calculer le point de contrôle pour la courbe de Bézier
-        Vector3 perpendicular = new Vector3(-direction.y, direction.x, 0).normalized;
+        // Calculer la perpendiculaire avec variation organique
+        Vector3 perpendicular = GetOrganicPerpendicular(direction);
         Vector3 controlPoint = (start + end) / 2f + perpendicular * curveHeight * curvature * distance;
 
         // Générer les points de la courbe de Bézier quadratique
-        for (int i = 0; i < curveResolution; i++)
+        for (int i = 0; i < curveResolutionPerSegment; i++)
         {
-            float t = i / (float)(curveResolution - 1);
+            float t = i / (float)(curveResolutionPerSegment - 1);
             Vector3 point = CalculateQuadraticBezierPoint(t, start, controlPoint, end);
-            lr.SetPosition(i, point);
+            lr.SetPosition(startIndex + i, point);
         }
+    }
+
+    private Vector3 GetOrganicPerpendicular(Vector3 direction)
+    {
+        // Calculer la perpendiculaire de base
+        Vector3 basePerpendicular = new Vector3(-direction.y, direction.x, 0).normalized;
+
+        // Déterminer de quel côté courber pour prendre le chemin le plus court
+        float directionBias = 1f;
+
+        // Si la direction pointe vers la droite, courber à gauche
+        if (direction.x > 0)
+            directionBias = -1f;
+
+        // Si c'est plutôt vertical, utiliser y
+        if (Mathf.Abs(direction.y) > Mathf.Abs(direction.x))
+        {
+            if (direction.y > 0)
+                directionBias = 1f;
+            else
+                directionBias = -1f;
+        }
+
+        // Ajouter une légère variation aléatoire
+        float randomVariation = ((float)organicRandom.NextDouble() - 0.5f) * organicVariation;
+
+        return basePerpendicular * directionBias * (1f + randomVariation);
     }
 
     private Vector3 CalculateQuadraticBezierPoint(float t, Vector3 p0, Vector3 p1, Vector3 p2)
@@ -316,26 +448,22 @@ public class LaserTower : MonoBehaviour, ITower
 
     private void DisableAllLasers()
     {
-        foreach (LineRenderer lr in laserLines)
-        {
-            if (lr != null)
-                lr.enabled = false;
-        }
+        if (laserNetwork != null)
+            laserNetwork.enabled = false;
     }
 
     private void DisableAllEffects()
     {
         if (muzzleEffect != null && muzzleEffect.isPlaying)
-        {
             muzzleEffect.Stop();
-        }
+
+        if (splitEffect != null && splitEffect.isPlaying)
+            splitEffect.Stop();
 
         foreach (ParticleSystem ps in impactEffects)
         {
             if (ps != null && ps.isPlaying)
-            {
                 ps.Stop();
-            }
         }
     }
 
@@ -346,7 +474,6 @@ public class LaserTower : MonoBehaviour, ITower
         if (GameManager.Instance.Enemies.Count == 0)
             return nearestEnemies;
 
-        // Créer une liste de paires (Enemy, Distance)
         List<System.Tuple<Enemy, float>> enemyDistances = new List<System.Tuple<Enemy, float>>();
 
         foreach (Enemy enemy in GameManager.Instance.Enemies)
@@ -355,17 +482,14 @@ public class LaserTower : MonoBehaviour, ITower
 
             float dist = Vector2.Distance(_transform.position, enemy.transform.position);
 
-            // Ne considérer que les ennemis dans la portée
             if (dist <= m_currentRange)
             {
                 enemyDistances.Add(new System.Tuple<Enemy, float>(enemy, dist));
             }
         }
 
-        // Trier par distance (seulement ceux dans la portée)
         enemyDistances.Sort((a, b) => a.Item2.CompareTo(b.Item2));
 
-        // Prendre les N premiers
         int targetCount = Mathf.Min(count, enemyDistances.Count);
         for (int i = 0; i < targetCount; i++)
         {
@@ -425,11 +549,10 @@ public class LaserTower : MonoBehaviour, ITower
     {
         m_currentNbTarget += m_nbTargetIncrease;
 
-        // CORRECTION: Ajouter des LineRenderer ET des ParticleSystem d'impact
-        while (laserLines.Count < m_currentNbTarget)
+        // Créer de nouveaux effets d'impact si nécessaire
+        while (impactEffects.Count < m_currentNbTarget)
         {
-            CreateLaserLine();
-            CreateImpactEffect(); // IMPORTANT: Créer l'effet d'impact correspondant
+            CreateImpactEffect();
         }
     }
 }

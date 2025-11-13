@@ -108,7 +108,7 @@ MonoBehaviour:
   m_baseReloadTime: 1
   m_baseDuration: 2000
   m_baseTickRate: 0.1
-  m_baseNbTarget: 2
+  m_baseNbTarget: 3
   m_damageMultiplier: 1
   m_rangeIncrease: 1
   m_reloadTimeDecrease: 0
@@ -123,6 +123,9 @@ MonoBehaviour:
   curveResolution: 20
   curvature: 0.1
   curveHeight: 1
+  useSplitBeam: 1
+  splitPointRatio: 0.5
+  organicVariation: 0.3
   muzzleLifetime: 0.3
   muzzleSpeed: 1
   muzzleSize: 0.3
