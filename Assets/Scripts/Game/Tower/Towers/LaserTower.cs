@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
 
 public class LaserTower : MonoBehaviour, ITower
@@ -27,14 +27,13 @@ public class LaserTower : MonoBehaviour, ITower
     [SerializeField] private int laserSortingOrder = 5;
 
     [Header("Curve Settings")]
-    [SerializeField] private int curveResolutionPerSegment; // Points par segment de courbe
+    [SerializeField] private int curveResolutionPerSegment;
     [SerializeField] private float curvature;
     [SerializeField] private float curveHeight;
-    [SerializeField] private float splitPointDistance; // Distance du point de split depuis la tour
-    [SerializeField] private float organicVariation; // Variation aléatoire
+    [SerializeField] private float splitPointDistance;
+    [SerializeField] private float organicVariation;
 
-
-    //Privates Current values in run time
+    // Runtime values
     int m_currentDamage;
     float m_currentRange;
     float m_currentReloadTime;
@@ -42,14 +41,14 @@ public class LaserTower : MonoBehaviour, ITower
     float m_currentTickRate;
     int m_currentNbTarget;
 
-    //laser timers
     float timerDuration;
     float timerReload;
     float timerTick;
 
-    //Only One LineRenderer for all
-    private LineRenderer laserNetwork;    
     private System.Random organicRandom;
+
+    private LineRenderer mainBranch;
+    private List<LineRenderer> branches = new List<LineRenderer>();
 
     public TowerType GetTowerType() => TowerType.Laser;
     public string GetTowerName() => "Laser Tower";
@@ -65,56 +64,60 @@ public class LaserTower : MonoBehaviour, ITower
 
         organicRandom = new System.Random();
 
-        CreateLaserNetwork();
+        // Branchement principal
+        mainBranch = CreateLineRenderer("MainLaserBranch");
 
         timerReload = 0;
         timerDuration = m_currentDuration;
     }
 
-    private void CreateLaserNetwork()
+    private LineRenderer CreateLineRenderer(string name)
     {
-        laserNetwork = gameObject.AddComponent<LineRenderer>();
-        laserNetwork.enabled = false;
-        laserNetwork.startWidth = laserWidth;
-        laserNetwork.endWidth = laserWidth;
+        GameObject go = new GameObject(name);
+        go.transform.parent = this.transform;
+
+        LineRenderer lr = go.AddComponent<LineRenderer>();
+        lr.enabled = false;
+        lr.startWidth = laserWidth;
+        lr.endWidth = laserWidth;
 
         if (laserMaterial != null)
-        {
-            laserNetwork.material = laserMaterial;
-        }
+            lr.material = laserMaterial;
         else
-        {
-            laserNetwork.material = new Material(Shader.Find("Sprites/Default"));
-        }
+            lr.material = new Material(Shader.Find("Sprites/Default"));
 
-        laserNetwork.startColor = laserStartColor;
-        laserNetwork.endColor = laserEndColor;
-        laserNetwork.sortingOrder = laserSortingOrder;
+        lr.startColor = laserStartColor;
+        lr.endColor = laserEndColor;
+        lr.sortingOrder = laserSortingOrder;
 
-        laserNetwork.numCornerVertices = 5;
-        laserNetwork.numCapVertices = 5;
+        lr.numCornerVertices = 5;
+        lr.numCapVertices = 5;
+
+        return lr;
     }
 
     void Update()
     {
-        if (timerDuration <= 0) //reload
+        if (timerDuration <= 0)
         {
             DisableAllLasers();
             timerReload -= Time.deltaTime;
+
             if (timerReload <= 0)
             {
                 timerDuration = m_currentDuration;
                 timerTick = 0;
             }
         }
-        else //attack
+        else
         {
             timerDuration -= Time.deltaTime;
             Attack();
+
             if (timerDuration <= 0)
             {
                 DisableAllLasers();
-                timerReload = m_currentReloadTime;                
+                timerReload = m_currentReloadTime;
             }
         }
     }
@@ -135,135 +138,106 @@ public class LaserTower : MonoBehaviour, ITower
             return;
         }
 
+        // Damage tick
         timerTick -= Time.deltaTime;
         if (timerTick <= 0)
         {
             timerTick = m_currentTickRate;
             foreach (Enemy target in targets)
-            {
-                if (target != null)
-                {
-                    target.TakeDamage(m_currentDamage);
-                }
-            }
+                target?.TakeDamage(m_currentDamage);
         }
 
+        // Visual
         DrawLaserNetwork(targets);
     }
 
     private void DrawLaserNetwork(List<Enemy> targets)
     {
-        if (targets.Count == 0)
+        if (targets.Count == 0 || Time.deltaTime == 0) //if pause
         {
-            laserNetwork.enabled = false;
+            DisableAllLasers();
             return;
         }
-
-        laserNetwork.enabled = true;
 
         if (targets.Count == 1)
         {
-            laserNetwork.positionCount = curveResolutionPerSegment;
-            DrawCurve(laserNetwork, 0, transform.position, targets[0].transform.position);
-            return;
+            DrawCurve(mainBranch, transform.position, targets[0].transform.position);
+            mainBranch.enabled = true;
         }
-
-        // Calculer le point de split
-        Vector3 targetsCenter = Vector3.zero;
-        foreach (Enemy target in targets)
+        else
         {
-            if (target != null)
-                targetsCenter += target.transform.position;
-        }
-        targetsCenter /= targets.Count;
+            // --- Calcul du point de split ---
+            Vector3 center = Vector3.zero;
+            foreach (var t in targets)
+                center += t.transform.position;
 
-        Vector3 directionToTargets = (targetsCenter - transform.position).normalized;
-        Vector3 splitPoint = transform.position + directionToTargets * splitPointDistance;
+            center /= targets.Count;
 
-        // Calculer le nombre total de points nécessaires
-        // 1 segment de la tour au split + N segments du split aux targets
-        int totalPoints = curveResolutionPerSegment + (targets.Count * curveResolutionPerSegment);
-        laserNetwork.positionCount = totalPoints;
+            Vector3 dir = (center - transform.position).normalized;
+            Vector3 splitPoint = transform.position + dir * splitPointDistance;
 
-        // Dessiner la courbe principale (tour -> split)
-        DrawCurve(laserNetwork, 0, transform.position, splitPoint);
+            // --- Branche principale ---
+            DrawCurve(mainBranch, transform.position, splitPoint);
+            mainBranch.enabled = true;
 
-        // Dessiner les courbes vers chaque target
-        for (int i = 0; i < targets.Count; i++)
-        {
-            if (targets[i] != null)
-            {
-                int startIndex = curveResolutionPerSegment + (i * curveResolutionPerSegment);
-                DrawCurve(laserNetwork, startIndex, splitPoint, targets[i].transform.position);
-            }
+            // --- PrÃ©parer les branches secondaires ---
+            while (branches.Count < targets.Count)
+                branches.Add(CreateLineRenderer("LaserBranch"));
+
+            for (int i = 0; i < branches.Count; i++)
+                branches[i].enabled = i < targets.Count;
+
+            // --- Branches â†’ targets ---
+            for (int i = 0; i < targets.Count; i++)
+                DrawCurve(branches[i], splitPoint, targets[i].transform.position);
         }
     }
 
-    private void DrawCurve(LineRenderer lr, int startIndex, Vector3 start, Vector3 end)
+    private void DrawCurve(LineRenderer lr, Vector3 start, Vector3 end)
     {
         start.z = 0;
         end.z = 0;
 
-        Vector2 direction = end - start;
-        float distance = direction.magnitude;
+        int res = curveResolutionPerSegment;
+        lr.positionCount = res;
 
-        // Calculer la perpendiculaire avec variation organique
-        Vector3 perpendicular = GetOrganicPerpendicular(direction);
-        Vector3 controlPoint = (start + end) / 2f + perpendicular * curveHeight * curvature * distance;
+        Vector3 dir = end - start;
+        float dist = dir.magnitude;
 
-        // Générer les points de la courbe de Bézier quadratique
-        for (int i = 0; i < curveResolutionPerSegment; i++)
+        // Perpendiculaire organique
+        Vector3 perp = GetOrganicPerpendicular(dir);
+        Vector3 control = (start + end) * 0.5f + perp * curveHeight * (curvature * -dir.x) * dist;
+
+        for (int i = 0; i < res; i++)
         {
-            float t = i / (float)(curveResolutionPerSegment - 1);
-            Vector3 point = CalculateQuadraticBezierPoint(t, start, controlPoint, end);
-            lr.SetPosition(startIndex + i, point);
+            float t = i / (float)(res - 1);
+
+            Vector3 p =
+                (1 - t) * (1 - t) * start +
+                2 * (1 - t) * t * control +
+                t * t * end;
+
+            lr.SetPosition(i, p);
         }
     }
 
-    private Vector3 GetOrganicPerpendicular(Vector3 direction)
+    private Vector3 GetOrganicPerpendicular(Vector3 dir)
     {
-        // Calculer la perpendiculaire de base
-        Vector3 basePerpendicular = new Vector3(-direction.y, direction.x, 0).normalized;
+        Vector3 basePerp = new Vector3(-dir.y, dir.x, 0).normalized;
 
-        // Déterminer de quel côté courber pour prendre le chemin le plus court
-        float directionBias = 1f;
+        float random = ((float)organicRandom.NextDouble() - 0.5f) * organicVariation;
 
-        // Si la direction pointe vers la droite, courber à gauche
-        if (direction.x > 0)
-            directionBias = -1f;
-
-        // Si c'est plutôt vertical, utiliser y
-        if (Mathf.Abs(direction.y) > Mathf.Abs(direction.x))
-        {
-            if (direction.y > 0)
-                directionBias = 1f;
-            else
-                directionBias = -1f;
-        }
-
-        // Ajouter une légère variation aléatoire
-        float randomVariation = ((float)organicRandom.NextDouble() - 0.5f) * organicVariation;
-
-        return basePerpendicular * directionBias * (1f + randomVariation);
+        return basePerp * (1f + random);
     }
 
-    private Vector3 CalculateQuadraticBezierPoint(float t, Vector3 p0, Vector3 p1, Vector3 p2)
-    {
-        float u = 1 - t;
-        float tt = t * t;
-        float uu = u * u;
-
-        Vector3 point = uu * p0;
-        point += 2 * u * t * p1;
-        point += tt * p2;
-
-        return point;
-    }
-
+    // -------------------------------------------------------------
     private void DisableAllLasers()
     {
-        if (laserNetwork != null)
-            laserNetwork.enabled = false;
+        if (mainBranch != null)
+            mainBranch.enabled = false;
+
+        foreach (var b in branches)
+            if (b != null) b.enabled = false;
     }
 
     public List<Enemy> GetNearestEnemies(Transform _transform, int count)
@@ -282,18 +256,14 @@ public class LaserTower : MonoBehaviour, ITower
             float dist = Vector2.Distance(_transform.position, enemy.transform.position);
 
             if (dist <= m_currentRange)
-            {
                 enemyDistances.Add(new System.Tuple<Enemy, float>(enemy, dist));
-            }
         }
 
         enemyDistances.Sort((a, b) => a.Item2.CompareTo(b.Item2));
 
         int targetCount = Mathf.Min(count, enemyDistances.Count);
         for (int i = 0; i < targetCount; i++)
-        {
             nearestEnemies.Add(enemyDistances[i].Item1);
-        }
 
         return nearestEnemies;
     }
@@ -326,11 +296,9 @@ public class LaserTower : MonoBehaviour, ITower
     public List<string> GetAvailableUpgrades()
     {
         var upgrades = new List<string>();
-
         upgrades.Add("IncreaseDamage");
         upgrades.Add("IncreaseRange");
         upgrades.Add("IncreaseTargets");
-
         return upgrades;
     }
 

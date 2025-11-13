@@ -108,7 +108,7 @@ MonoBehaviour:
   m_baseReloadTime: 1
   m_baseDuration: 2000
   m_baseTickRate: 0.1
-  m_baseNbTarget: 2
+  m_baseNbTarget: 3
   m_damageMultiplier: 1
   m_rangeIncrease: 1
   m_reloadTimeDecrease: 0
@@ -116,8 +116,8 @@ MonoBehaviour:
   m_tickRateIncrease: 0
   m_nbTargetIncrease: 0
   laserWidth: 0.1
-  laserStartColor: {r: 0, g: 0.97092485, b: 1, a: 1}
-  laserEndColor: {r: 1, g: 0.9972118, b: 0, a: 0.8}
+  laserStartColor: {r: 0.011263967, g: 1, b: 0, a: 1}
+  laserEndColor: {r: 0.011764706, g: 1, b: 0, a: 0.8}
   laserMaterial: {fileID: 0}
   laserSortingOrder: 5
   curveResolutionPerSegment: 15
