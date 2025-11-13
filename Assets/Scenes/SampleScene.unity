@@ -2561,7 +2561,7 @@ MonoBehaviour:
   m_baseDamage: 20
   m_baseRange: 6
   m_baseAttackSpeed: 4
-  m_baseNbProjectiles: 5
+  m_baseNbProjectiles: 2
   m_basePenetration: 2
   m_baseCritRate: 0
   m_baseCritMultiplier: 1.5

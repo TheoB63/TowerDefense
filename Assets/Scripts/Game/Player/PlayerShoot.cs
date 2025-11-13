@@ -41,7 +41,7 @@ public class PlayerShoot : MonoBehaviour
                 Vector2 targetPos = target.transform.position;
                 if (m_playerStats.NbProjectiles % 2 == 0)
                 {
-                    for (int i = 0; i < m_playerStats.NbProjectiles; i++)
+                    for (int i = 0; i < m_playerStats.NbProjectiles + 1; i++)
                     {
                         float targetDist;
                         if (i < m_playerStats.NbProjectiles / 2)
@@ -64,7 +64,7 @@ public class PlayerShoot : MonoBehaviour
                 }
                 else
                 {
-                    for (int i = 0; i < m_playerStats.NbProjectiles; i++)
+                    for (int i = 0; i < m_playerStats.NbProjectiles + 1; i++)
                     {
                         float targetDist = 0;
                         if (i < m_playerStats.NbProjectiles / 2)
