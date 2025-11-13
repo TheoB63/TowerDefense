@@ -30,21 +30,41 @@ public class BasicShoot : MonoBehaviour
     {
         if (GameManager.Instance.Enemies.Count > 0)
         {
-            Enemy currentTarget = GameManager.Instance.Enemies[0];
-            float dist = float.MaxValue;
-            foreach (Enemy enemy in GameManager.Instance.Enemies)
-            {
-                float newDist = Vector2.Distance(transform.position, enemy.transform.position);
-                if (newDist < dist)
-                {
-                    currentTarget = enemy;
-                }
-            }
-            GameObject go = Instantiate(m_projectilesPrefab, transform.position, Quaternion.identity);
-            go.GetComponent<Projectiles>().Target = currentTarget;
+            Enemy target = GetNearestEnemy();
 
-            return true;
+            float dist = Vector2.Distance(transform.position, target.transform.position);
+
+            if (dist <= GetComponent<PlayerStats>().Range)
+            {
+                //need to add nbProjectiles
+
+                Vector2 direction = target.transform.position - transform.position;
+                direction.Normalize();
+
+                GameObject go = Instantiate(m_projectilesPrefab, transform.position, Quaternion.identity);
+                go.GetComponent<Projectiles>().Direction = direction;
+
+                return true;
+            }
         }
         return false;
+    }
+
+    private Enemy GetNearestEnemy()
+    {
+        Enemy target = GameManager.Instance.Enemies[0];
+
+        float dist = float.MaxValue;
+        foreach (Enemy enemy in GameManager.Instance.Enemies)
+        {
+            float newDist = Vector2.Distance(transform.position, enemy.transform.position);
+            if (newDist < dist)
+            {
+                target = enemy;
+                dist = newDist;
+            }
+        }
+
+        return target;
     }
 }

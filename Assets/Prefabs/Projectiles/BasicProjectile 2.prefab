@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectiles
   m_speed: 10
-  m_damage: 60
+  m_damageBase: 10
 --- !u!58 &7632005467277121188
 CircleCollider2D:
   m_ObjectHideFlags: 0

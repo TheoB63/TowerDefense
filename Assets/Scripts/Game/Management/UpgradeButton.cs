@@ -5,48 +5,47 @@ using UnityEngine.UI;
 public class UpgradeButton : MonoBehaviour
 {
     [Header("UI References")]
-    public Image iconImage;
-    public TextMeshProUGUI nameText;
-    public TextMeshProUGUI descriptionText;
-    public Button button;
+    [SerializeField] Image m_iconImage;
+    [SerializeField] TextMeshProUGUI m_nameText;
+    [SerializeField] TextMeshProUGUI m_descriptionText;
+    [SerializeField] Button m_button;
 
-    private UpgradeBase upgrade;
-    private TowerSlot targetSlot;
-    private UpgradeChoiceManager manager;
+    UpgradeBase m_upgrade;
+    TowerSlot m_targetSlot;
+    UpgradeChoiceManager m_manager;
 
-    private void Awake()
+    void Awake()
     {
-        // Récupérer le bouton automatiquement si non assigné
-        if (button == null)
-            button = GetComponent<Button>();
+        if (m_button == null)
+            m_button = GetComponent<Button>();
     }
 
-    public void Setup(UpgradeBase upgrade, TowerSlot slot, UpgradeChoiceManager manager)
+    public void Setup(UpgradeBase _upgrade, TowerSlot _slot, UpgradeChoiceManager _manager)
     {
-        this.upgrade = upgrade;
-        this.targetSlot = slot;
-        this.manager = manager;
+        m_upgrade = _upgrade;
+        m_targetSlot = _slot;
+        m_manager = _manager;
 
-        // Mettre à jour l'UI
-        if (iconImage != null && upgrade.icon != null)
-            iconImage.sprite = upgrade.icon;
+        //Update UI
+        if (m_iconImage != null && _upgrade.icon != null)
+            m_iconImage.sprite = _upgrade.icon;
 
-        if (nameText != null)
-            nameText.text = upgrade.upgradeName;
+        if (m_nameText != null)
+            m_nameText.text = _upgrade.upgradeName;
 
-        if (descriptionText != null)
-            descriptionText.text = upgrade.description;
+        if (m_descriptionText != null)
+            m_descriptionText.text = _upgrade.description;
 
-        // Ajouter le listener
-        if (button != null)
+        //Add listener
+        if (m_button != null)
         {
-            button.onClick.RemoveAllListeners();
-            button.onClick.AddListener(OnButtonClicked);
+            m_button.onClick.RemoveAllListeners();
+            m_button.onClick.AddListener(OnButtonClicked);
         }
     }
 
-    private void OnButtonClicked()
+    void OnButtonClicked()
     {
-        manager.ApplyUpgrade(upgrade, targetSlot);
+        m_manager.ApplyUpgrade(m_upgrade, m_targetSlot);
     }
 }

@@ -5,14 +5,14 @@ public class BasicTower : MonoBehaviour,ITower
 {
     [Header("Tower Settings")]
     public GameObject projectilesPrefab;
-    public float baseDamage = 10f;
-    public float baseRange = 5f; 
-    public float baseAttackSpeed = 1f;
+    int baseDamage = 10;
+    float baseRange = 20f; 
+    float baseAttackSpeed = 8f;
 
     [Header("Upgrade Levels")]
-    public int damageLevel = 2;
-    public int rangeLevel = 2;
-    public int attackSpeedLevel = 1;
+    int damageLevel = 2;
+    int rangeLevel = 2;
+    int attackSpeedLevel = 8;
     public bool hasMultiTarget = false;
 
     private float currentDamage;
@@ -38,7 +38,7 @@ public class BasicTower : MonoBehaviour,ITower
     {
         m_timerShoot += Time.deltaTime;
 
-        if (m_timerShoot > (currentAttackSpeed / 60))
+        if (m_timerShoot > (1/ baseAttackSpeed))
         {
             if (Shoot())
             {
@@ -51,22 +51,43 @@ public class BasicTower : MonoBehaviour,ITower
     {
         if (GameManager.Instance.Enemies.Count > 0)
         {
-            Enemy currentTarget = GameManager.Instance.Enemies[0];
-            float dist = float.MaxValue;
-            foreach (Enemy enemy in GameManager.Instance.Enemies)
-            {
-                float newDist = Vector2.Distance(transform.position, enemy.transform.position);
-                if (newDist < dist)
-                {
-                    currentTarget = enemy;
-                }
-            }
-            GameObject go = Instantiate(projectilesPrefab, transform.position, Quaternion.identity);
-            go.GetComponent<Projectiles>().Target = currentTarget;
+            Enemy target = GetNearestEnemy();
 
-            return true;
+            float dist = Vector2.Distance(transform.position, target.transform.position);
+
+            if (dist <= baseDamage)
+            {
+                //need to add nbProjectiles
+
+                Vector2 direction = target.transform.position - transform.position;
+                direction.Normalize();
+
+                GameObject go = Instantiate(projectilesPrefab, transform.position, Quaternion.identity);
+                go.GetComponent<Projectiles>().Direction = direction;
+                go.GetComponent<Projectiles>().SetStats(baseDamage, 0);
+
+                return true;
+            }
         }
         return false;
+    }
+
+    private Enemy GetNearestEnemy()
+    {
+        Enemy target = GameManager.Instance.Enemies[0];
+
+        float dist = float.MaxValue;
+        foreach (Enemy enemy in GameManager.Instance.Enemies)
+        {
+            float newDist = Vector2.Distance(transform.position, enemy.transform.position);
+            if (newDist < dist)
+            {
+                target = enemy;
+                dist = newDist;
+            }
+        }
+
+        return target;
     }
 
     public TowerType GetTowerType() => TowerType.Projectile;

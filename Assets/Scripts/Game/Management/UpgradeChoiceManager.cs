@@ -1,33 +1,27 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class UpgradeChoiceManager : MonoBehaviour
 {
-    [Header("Configuration")]
-    public List<TowerConstructionUpgrade> allConstructionUpgrades;
-    public List<TowerSpecificUpgrade> allTowerUpgrades;
-    public List<PlayerUpgrade> allPlayerUpgrades;
-    public int numberOfChoices = 3;
+    [Header("Upgrades")]
+    [SerializeField] List<TowerConstructionUpgrade> m_constructionUpgrades;
+    [SerializeField] List<TowerSpecificUpgrade> m_towerUpgrades;
+    [SerializeField] List<PlayerUpgrade> m_playerUpgrades;
 
     [Header("References")]
-    public PlayerStats playerStats;
-    public List<TowerSlot> towerSlots;
+    [SerializeField] PlayerStats m_playerStats;
+    [SerializeField] List<TowerSlot> m_towerSlots;
 
     [Header("UI")]
-    public GameObject upgradePanel;
-    public List<UpgradeButton> upgradeButtons;
-    public Button testLevelUpButton; // Pour tester
+    [SerializeField] GameObject m_upgradePanel;
+    [SerializeField] List<UpgradeButton> m_upgradeButtons;
 
-    private void Start()
+    void Start()
     {
-        if (upgradePanel != null) upgradePanel.SetActive(false);
-
-        // Setup test button
-        if (testLevelUpButton != null)
+        if (m_upgradePanel != null)
         {
-            testLevelUpButton.onClick.AddListener(OnLevelUp);
+            m_upgradePanel.SetActive(false);
         }
     }
 
@@ -35,102 +29,104 @@ public class UpgradeChoiceManager : MonoBehaviour
     {
         List<UpgradeBase> availableUpgrades = GetAvailableUpgrades();
 
-        if (availableUpgrades.Count == 0)
+        if (availableUpgrades.Count <= 0)
         {
-            Debug.LogWarning("Aucun upgrade disponible!");
+            //This warning is normally impossible to attempt
+            Debug.LogWarning("No upgrade Available !");
             return;
         }
 
-        List<UpgradeBase> randomChoices = SelectRandomUpgrades(availableUpgrades, numberOfChoices);
+        List<UpgradeBase> randomChoices = SelectRandomUpgrades(availableUpgrades, m_upgradeButtons.Count);
         ShowUpgradeUI(randomChoices);
     }
 
-    private List<UpgradeBase> GetAvailableUpgrades()
+    List<UpgradeBase> GetAvailableUpgrades()
     {
         List<UpgradeBase> available = new List<UpgradeBase>();
 
-        // 1. Obtenir les types de tourelles déjà présentes
-        HashSet<TowerType> existingTowerTypes = new HashSet<TowerType>();
-        foreach (var slot in towerSlots)
+        //Get all towers build 
+        List<TowerType> existingTowerTypes = new List<TowerType>();
+        foreach (TowerSlot slot in m_towerSlots)
         {
             if (slot.HasTower())
             {
-                existingTowerTypes.Add(slot.type);
+                existingTowerTypes.Add(slot.Type);
             }
         }
 
-        // 2. Constructions possibles (éviter les doublons de type)
-        foreach (var slot in towerSlots)
+        //Available build
+        foreach (TowerSlot slot in m_towerSlots)
         {
-            if (!slot.HasTower()) // Slot vide
+            if (!slot.HasTower())
             {
-                foreach (var construction in allConstructionUpgrades)
+                foreach (TowerConstructionUpgrade construction in m_constructionUpgrades)
                 {
-                    // Vérifier qu'on n'a pas déjà ce type de tourelle
                     if (!existingTowerTypes.Contains(construction.towerType) &&
-                        construction.CanApply(slot, playerStats))
+                        construction.CanApply(slot, m_playerStats))
                     {
-                        var copy = Instantiate(construction);
+                        TowerConstructionUpgrade copy = Instantiate(construction);
                         available.Add(copy);
-                        Debug.Log($"[Dispo] Construction: {construction.upgradeName} (type {construction.towerType})");
                     }
                 }
             }
         }
 
-        // 3. Upgrades de tourelles EXISTANTES uniquement
-        foreach (var slot in towerSlots)
+        //Upgrades Tower
+        foreach (var slot in m_towerSlots)
         {
             if (slot.HasTower())
             {
                 ITower tower = slot.GetTower();
-                if (tower == null) continue;
-
-                var availableTowerUpgrades = tower.GetAvailableUpgrades();
-
-                foreach (var upgrade in allTowerUpgrades)
+                if (tower != null)
                 {
-                    // Vérifier que c'est le bon type ET que l'upgrade est dispo
-                    if (upgrade.targetTowerType == slot.type &&
-                        availableTowerUpgrades.Contains(upgrade.upgradeMethodName) &&
-                        upgrade.CanApply(slot, playerStats))
+                    List<string> availableTowerUpgrades = tower.GetAvailableUpgrades();
+
+                    foreach (TowerSpecificUpgrade upgrade in m_towerUpgrades)
                     {
-                        var copy = Instantiate(upgrade);
-                        available.Add(copy);
-                        Debug.Log($"[Dispo] Upgrade tourelle: {upgrade.upgradeName} pour {tower.GetTowerName()}");
+                        //Verif type and canApply
+                        if (upgrade.targetTowerType == slot.Type &&
+                            availableTowerUpgrades.Contains(upgrade.upgradeMethodName) &&
+                            upgrade.CanApply(slot, m_playerStats))
+                        {
+                            TowerSpecificUpgrade copy = Instantiate(upgrade);
+                            available.Add(copy);
+                        }
                     }
                 }
             }
         }
 
-        // 4. Upgrades joueur (toujours disponibles si on a l'argent)
-        foreach (var upgrade in allPlayerUpgrades)
+        //Player Upgrades
+        foreach (PlayerUpgrade upgrade in m_playerUpgrades)
         {
-            if (upgrade.CanApply(null, playerStats))
+            List<string> availablePlayerUpgrades = m_playerStats.GetAvailableUpgrades();
+            if (availablePlayerUpgrades.Contains(upgrade.upgradeMethodName) &&
+                upgrade.CanApply(null, m_playerStats))
             {
                 available.Add(upgrade);
-                Debug.Log($"[Dispo] Upgrade joueur: {upgrade.upgradeName}");
             }
         }
 
-        // 5. SÉCURITÉ : Si vraiment aucun choix, forcer des upgrades joueur gratuits
         if (available.Count == 0)
         {
-            Debug.LogWarning("⚠️ Aucun upgrade disponible! Ajout d'un bonus gratuit...");
-            // Tu peux créer un upgrade spécial "Bonus Currency" sans coût
-            foreach (var upgrade in allPlayerUpgrades)
+            //This warning is normally impossible to attempt
+            Debug.LogWarning("No upgrade Available ! Add Player Upgrade to debug this !");
+            foreach (PlayerUpgrade upgrade in m_playerUpgrades)
             {
-                available.Add(upgrade); // Ajouter même si pas assez d'argent
+                available.Add(upgrade);
             }
         }
 
         return available;
     }
 
-    private List<UpgradeBase> SelectRandomUpgrades(List<UpgradeBase> available, int count)
+    List<UpgradeBase> SelectRandomUpgrades(List<UpgradeBase> _available, int _count)
     {
+        //Need to rework for add Values (% chance to find this upgrade)
+        //Code not clean need it
+
         List<UpgradeBase> selected = new List<UpgradeBase>();
-        List<UpgradeBase> pool = new List<UpgradeBase>(available);
+        List<UpgradeBase> pool = new List<UpgradeBase>(_available);
 
         // Prioriser la diversité des choix
         // Séparer par type pour éviter d'avoir 3 fois le même upgrade
@@ -152,7 +148,7 @@ public class UpgradeChoiceManager : MonoBehaviour
         // Prendre un de chaque catégorie d'abord
         foreach (var category in categories)
         {
-            if (selected.Count >= count) break;
+            if (selected.Count >= _count) break;
             if (category.Count > 0)
             {
                 int randomIndex = Random.Range(0, category.Count);
@@ -167,7 +163,7 @@ public class UpgradeChoiceManager : MonoBehaviour
             .Concat(playerUpgrades.Cast<UpgradeBase>())
             .ToList();
 
-        while (selected.Count < count && remaining.Count > 0)
+        while (selected.Count < _count && remaining.Count > 0)
         {
             int randomIndex = Random.Range(0, remaining.Count);
             selected.Add(remaining[randomIndex]);
@@ -177,25 +173,27 @@ public class UpgradeChoiceManager : MonoBehaviour
         return selected;
     }
 
-    private void ShowUpgradeUI(List<UpgradeBase> choices)
+    void ShowUpgradeUI(List<UpgradeBase> _choices)
     {
-        if (upgradePanel != null) upgradePanel.SetActive(true);
+        if (m_upgradePanel != null) m_upgradePanel.SetActive(true);
 
-        // Arrêter le temps
+        //Stop Time but isn't a good way, need to see other method
         Time.timeScale = 0f;
 
-        // Setup des boutons
-        for (int i = 0; i < upgradeButtons.Count; i++)
+        //Setup Buttons
+        for (int i = 0; i < m_upgradeButtons.Count; i++)
         {
-            if (i < choices.Count)
-            {
-                upgradeButtons[i].gameObject.SetActive(true);
+            Debug.Log("choices count : " + _choices.Count);
 
-                // Trouver le bon slot pour cet upgrade
+            if (i < _choices.Count)
+            {
+                m_upgradeButtons[i].gameObject.SetActive(true);
+
+                //Find slot for this upgrade
                 TowerSlot targetSlot = null;
-                if (choices[i] is TowerConstructionUpgrade constructionUpgrade)
+                if (_choices[i] is TowerConstructionUpgrade constructionUpgrade)
                 {
-                    foreach (TowerSlot slot in towerSlots)
+                    foreach (TowerSlot slot in m_towerSlots)
                     {
                         if (!slot.HasTower())
                         {
@@ -204,11 +202,11 @@ public class UpgradeChoiceManager : MonoBehaviour
                         }
                     }
                 }
-                else if (choices[i] is TowerSpecificUpgrade towerUpgrade)
+                else if (_choices[i] is TowerSpecificUpgrade towerUpgrade)
                 {
-                    foreach (TowerSlot slot in towerSlots)
+                    foreach (TowerSlot slot in m_towerSlots)
                     {
-                        if (slot.type == towerUpgrade.targetTowerType)
+                        if (slot.Type == towerUpgrade.targetTowerType)
                         {
                             targetSlot = slot;
                             break;
@@ -216,32 +214,33 @@ public class UpgradeChoiceManager : MonoBehaviour
                     }
                 }
 
-                upgradeButtons[i].Setup(choices[i], targetSlot, this);
+                m_upgradeButtons[i].Setup(_choices[i], targetSlot, this);
             }
             else
             {
-                upgradeButtons[i].gameObject.SetActive(false);
+                m_upgradeButtons[i].gameObject.SetActive(false);
             }
         }
     }
 
-    public void ApplyUpgrade(UpgradeBase upgrade, TowerSlot targetSlot)
+    public void ApplyUpgrade(UpgradeBase _upgrade, TowerSlot _targetSlot)
     {
-        if (upgrade.CanApply(targetSlot, playerStats))
+        if (_upgrade.CanApply(_targetSlot, m_playerStats))
         {
-            upgrade.Apply(targetSlot, playerStats);
+            _upgrade.Apply(_targetSlot, m_playerStats);
             CloseUpgradeUI();
         }
         else
         {
-
-            Debug.LogWarning("Impossible d'appliquer cet upgrade!");
+            //This warning is normally impossible to attempt
+            Debug.LogWarning("Impossible to apply upgrade!");
         }
     }
 
-    private void CloseUpgradeUI()
+    void CloseUpgradeUI()
     {
-        if (upgradePanel != null) upgradePanel.SetActive(false);
+        if (m_upgradePanel != null) m_upgradePanel.SetActive(false);
+        //Same as stop time, need to find other solution
         Time.timeScale = 1f;
     }
 }

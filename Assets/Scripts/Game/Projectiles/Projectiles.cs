@@ -4,12 +4,13 @@ public class Projectiles : MonoBehaviour
 {
     [Header("Values")]
     [SerializeField] float m_speed;
-    [SerializeField] int m_damage;
-    Enemy m_target;
+    [SerializeField] int m_damageBase;
+    int m_damage;
+    int m_penetration;
+    Vector2 direction;
 
     [Header("public values")]
-    public Enemy Target { get => m_target; set => m_target = value; }
-    public int Damage { get => m_damage; set => m_damage = value; }
+    public Vector2 Direction { get => direction; set => direction = value; }
 
     void Start()
     {
@@ -18,11 +19,10 @@ public class Projectiles : MonoBehaviour
 
     void Update()
     {
-        if (m_target != null)
+        if (direction != Vector2.zero)
         {
-            Vector2 targetPos = m_target.transform.position;
-            Vector2 newPos = Vector2.Lerp(transform.position, targetPos, m_speed * Time.deltaTime);
-            transform.position = newPos;
+            Vector2 movement = direction * m_speed * Time.deltaTime;
+            transform.position += new Vector3(movement.x, movement.y, 0f);
         }
         else
         {
@@ -30,12 +30,24 @@ public class Projectiles : MonoBehaviour
         }
     }
 
+    public void SetStats(int _damage, int _penetration)
+    {
+        m_damage = _damage;
+        m_penetration = _penetration;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.GetComponent<Enemy>())
         {
-            collision.GetComponent<Enemy>().TakeDamage(m_damage);
-            Destroy(this.gameObject);
+            collision.GetComponent<Enemy>().TakeDamage(m_damageBase + m_damage);
+
+            m_penetration--;
+
+            if (m_penetration <= 0)
+            {
+                Destroy(this.gameObject);
+            }
         }
     }
 }

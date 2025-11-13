@@ -3,14 +3,10 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    //instance
+    //Instance
     static public LevelManager Instance;
 
-    [Header("References")]
-    [SerializeField] Player m_player;
-    [SerializeField] List<TowerSlot> m_towers;
-
-    //level
+    [Header("Level Values")]
     int m_level = 0;
     float m_xp = 0;
     [SerializeField] float m_xpNeeded;
@@ -21,7 +17,6 @@ public class LevelManager : MonoBehaviour
     public int Level { get => m_level; }
     public float Xp { get => m_xp; }
     public float XpNeeded { get => m_xpNeeded; }
-
 
     void Start()
     {

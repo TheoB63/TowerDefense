@@ -2,55 +2,56 @@ using UnityEngine;
 
 public class TowerSlot : MonoBehaviour
 {
-    //[Header("Values")]
-    //GameObject m_tower;
-
-    [Header("Public Values")]
-    public string slotName = "Slot";
+    //Need to delete color later
     public Color emptyColor = Color.gray;
     public Color occupiedColor = Color.green;
 
-    private GameObject currentTower;
-    private SpriteRenderer slotRenderer;
-    public TowerType type;
+    [Header("Values")]
+    [SerializeField] string m_slotName = "Slot";
+    GameObject m_currentTower;
+    SpriteRenderer m_slotRenderer;
+    TowerType m_type;
 
-    private void Awake()
+    [Header("Public Values(Get only)")]
+    public TowerType Type { get => m_type; }
+    public bool HasTower() => m_currentTower != null;
+
+    void Awake()
     {
-        slotRenderer = GetComponent<SpriteRenderer>();
+        m_slotRenderer = GetComponent<SpriteRenderer>();
         UpdateVisual();
     }
 
-    public bool HasTower() => currentTower != null;
-
-    public void BuildTower(GameObject towerPrefab,TowerType _type)
+    public void BuildTower(GameObject _towerPrefab, TowerType _type)
     {
-        if (currentTower != null)
+        if (m_currentTower != null)
         {
-            Debug.LogWarning($"Le slot {slotName} a déjà une tourelle!");
+            //This warning is normally impossible to attempt
+            Debug.LogWarning($"The Slot {m_slotName} has a tower !");
             return;
         }
 
-        currentTower = Instantiate(towerPrefab, transform.position, Quaternion.identity);
-        currentTower.transform.SetParent(transform);
-        type = _type;
+        m_currentTower = Instantiate(_towerPrefab, transform.position, Quaternion.identity);
+        m_currentTower.transform.SetParent(transform);
+        m_type = _type;
         UpdateVisual();
     }
 
     public ITower GetTower()
     {
-        if (currentTower == null) return null;
-        return currentTower.GetComponent<ITower>();
+        if (m_currentTower == null) return null;
+        return m_currentTower.GetComponent<ITower>();
     }
 
-    private void UpdateVisual()
+    void UpdateVisual()
     {
-        if (slotRenderer != null)
+        if (m_slotRenderer != null)
         {
-            slotRenderer.color = HasTower() ? occupiedColor : emptyColor;
+            m_slotRenderer.color = HasTower() ? occupiedColor : emptyColor;
         }
     }
 
-    private void OnDrawGizmos()
+    void OnDrawGizmos()
     {
         Gizmos.color = HasTower() ? Color.green : Color.yellow;
         Gizmos.DrawWireCube(transform.position, Vector3.one * 0.5f);
