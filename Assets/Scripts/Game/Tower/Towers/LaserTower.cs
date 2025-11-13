@@ -19,6 +19,37 @@ public class LaserTower : MonoBehaviour, ITower
     [SerializeField] float m_tickRateIncrease;
     [SerializeField] int m_nbTargetIncrease;
 
+    [Header("Laser Visual Settings")]
+    [SerializeField] private float laserWidth = 0.1f;
+    [SerializeField] private Color laserStartColor = Color.red;
+    [SerializeField] private Color laserEndColor = new Color(1f, 0.5f, 0f, 0.8f);
+    [SerializeField] private Material laserMaterial;
+    [SerializeField] private int laserSortingOrder = 5;
+
+    [Header("Curve Settings")]
+    [SerializeField] private int curveResolution = 20;
+    [SerializeField] private float curvature = 0.5f;
+    [SerializeField] private float curveHeight = 1f;
+
+    [Header("Muzzle Effect Settings")]
+    [SerializeField] private float muzzleLifetime = 0.3f;
+    [SerializeField] private float muzzleSpeed = 1f;
+    [SerializeField] private float muzzleSize = 0.3f;
+    [SerializeField] private Color muzzleColor = new Color(0f, 1f, 1f, 0.8f);
+    [SerializeField] private float muzzleEmissionRate = 50f;
+    [SerializeField] private float muzzleRadius = 0.2f;
+
+    [Header("Impact Effect Settings")]
+    [SerializeField] private float impactLifetime = 0.2f;
+    [SerializeField] private float impactSpeed = 2f;
+    [SerializeField] private float impactSize = 0.2f;
+    [SerializeField] private Color impactColor = new Color(1f, 1f, 0f, 0.9f);
+    [SerializeField] private float impactEmissionRate = 100f;
+    [SerializeField] private float impactRadius = 0.15f;
+
+    [Header("Effect Sorting")]
+    [SerializeField] private int effectSortingOrder = 6;
+
     //Privates Current values in run time
     int m_currentDamage;
     float m_currentRange;
@@ -32,22 +63,12 @@ public class LaserTower : MonoBehaviour, ITower
     float timerReload;
     float timerTick;
 
-    [Header("Curve Settings")]
-    [SerializeField] private int curveResolution = 20;
-    [SerializeField] private float curvature = 0.5f;
-    [SerializeField] private float curveHeight = 1f;
-
-    [Header("Visual Effects")]
-    [SerializeField] private GameObject impactEffectPrefab;
-    [SerializeField] private GameObject muzzleEffectPrefab;
-
     private List<LineRenderer> laserLines = new List<LineRenderer>();
     private List<ParticleSystem> impactEffects = new List<ParticleSystem>();
     private ParticleSystem muzzleEffect;
 
     public TowerType GetTowerType() => TowerType.Laser;
     public string GetTowerName() => "Laser Tower";
-
 
     void Start()
     {
@@ -58,35 +79,45 @@ public class LaserTower : MonoBehaviour, ITower
         m_currentTickRate = m_baseTickRate;
         m_currentNbTarget = m_baseNbTarget;
 
-        // Créer les LineRenderer pour chaque cible
+        // Créer l'effet à la base (muzzle)
+        CreateMuzzleEffect();
+
+        // Créer les LineRenderer ET les effets d'impact pour chaque cible
         for (int i = 0; i < m_currentNbTarget; i++)
         {
-            LineRenderer lr = gameObject.AddComponent<LineRenderer>();
-
-            // Configuration du LineRenderer
-            lr.positionCount = curveResolution;
-            lr.enabled = false;
-            lr.startWidth = 0.1f;
-            lr.endWidth = 0.05f;
-            lr.material = new Material(Shader.Find("Sprites/Default"));
-            lr.startColor = Color.red;
-            lr.endColor = new Color(1f, 0.5f, 0f, 0.8f);
-            lr.sortingOrder = 5;
-
-            laserLines.Add(lr);
+            CreateLaserLine();
+            CreateImpactEffect();
         }
 
         timerReload = 0; // Commence en mode attaque
         timerDuration = m_currentDuration;
+    }
 
-        // Créer l'effet à la base (muzzle)
-        CreateMuzzleEffect();
+    private void CreateLaserLine()
+    {
+        LineRenderer lr = gameObject.AddComponent<LineRenderer>();
 
-        // Créer les effets d'impact pour chaque cible
-        for (int i = 0; i < m_currentNbTarget; i++)
+        // Configuration du LineRenderer
+        lr.positionCount = curveResolution;
+        lr.enabled = false;
+        lr.startWidth = laserWidth;
+        lr.endWidth = laserWidth; // CORRECTION: Même largeur partout
+
+        // Utiliser le material assigné ou créer un par défaut
+        if (laserMaterial != null)
         {
-            CreateImpactEffect();
+            lr.material = laserMaterial;
         }
+        else
+        {
+            lr.material = new Material(Shader.Find("Sprites/Default"));
+        }
+
+        lr.startColor = laserStartColor;
+        lr.endColor = laserEndColor;
+        lr.sortingOrder = laserSortingOrder;
+
+        laserLines.Add(lr);
     }
 
     private void CreateMuzzleEffect()
@@ -97,20 +128,20 @@ public class LaserTower : MonoBehaviour, ITower
 
         muzzleEffect = muzzleObj.AddComponent<ParticleSystem>();
         var main = muzzleEffect.main;
-        main.startLifetime = 0.3f;
-        main.startSpeed = 1f;
-        main.startSize = 0.3f;
-        main.startColor = new Color(0f, 1f, 1f, 0.8f); // Cyan
+        main.startLifetime = muzzleLifetime;
+        main.startSpeed = muzzleSpeed;
+        main.startSize = muzzleSize;
+        main.startColor = muzzleColor;
         main.maxParticles = 30;
         main.loop = true;
         main.playOnAwake = false;
 
         var emission = muzzleEffect.emission;
-        emission.rateOverTime = 50;
+        emission.rateOverTime = muzzleEmissionRate;
 
         var shape = muzzleEffect.shape;
         shape.shapeType = ParticleSystemShapeType.Circle;
-        shape.radius = 0.2f;
+        shape.radius = muzzleRadius;
 
         var colorOverLifetime = muzzleEffect.colorOverLifetime;
         colorOverLifetime.enabled = true;
@@ -122,7 +153,7 @@ public class LaserTower : MonoBehaviour, ITower
         colorOverLifetime.color = grad;
 
         var renderer = muzzleEffect.GetComponent<ParticleSystemRenderer>();
-        renderer.sortingOrder = 6;
+        renderer.sortingOrder = effectSortingOrder;
     }
 
     private void CreateImpactEffect()
@@ -132,20 +163,20 @@ public class LaserTower : MonoBehaviour, ITower
 
         ParticleSystem impact = impactObj.AddComponent<ParticleSystem>();
         var main = impact.main;
-        main.startLifetime = 0.2f;
-        main.startSpeed = 2f;
-        main.startSize = 0.2f;
-        main.startColor = new Color(1f, 1f, 0f, 0.9f); // Jaune
+        main.startLifetime = impactLifetime;
+        main.startSpeed = impactSpeed;
+        main.startSize = impactSize;
+        main.startColor = impactColor;
         main.maxParticles = 20;
         main.loop = true;
         main.playOnAwake = false;
 
         var emission = impact.emission;
-        emission.rateOverTime = 100;
+        emission.rateOverTime = impactEmissionRate;
 
         var shape = impact.shape;
         shape.shapeType = ParticleSystemShapeType.Sphere;
-        shape.radius = 0.15f;
+        shape.radius = impactRadius;
 
         var colorOverLifetime = impact.colorOverLifetime;
         colorOverLifetime.enabled = true;
@@ -157,7 +188,7 @@ public class LaserTower : MonoBehaviour, ITower
         colorOverLifetime.color = grad;
 
         var renderer = impact.GetComponent<ParticleSystemRenderer>();
-        renderer.sortingOrder = 6;
+        renderer.sortingOrder = effectSortingOrder;
 
         impactEffects.Add(impact);
     }
@@ -167,6 +198,7 @@ public class LaserTower : MonoBehaviour, ITower
         if (timerDuration <= 0) //reload
         {
             DisableAllLasers();
+            DisableAllEffects(); // CORRECTION: Arrêter les effets pendant le reload
             timerReload -= Time.deltaTime;
             if (timerReload <= 0)
             {
@@ -183,6 +215,7 @@ public class LaserTower : MonoBehaviour, ITower
             {
                 timerReload = m_currentReloadTime;
                 DisableAllLasers();
+                DisableAllEffects(); // CORRECTION: Arrêter les effets à la fin de l'attaque
             }
         }
     }
@@ -223,27 +256,26 @@ public class LaserTower : MonoBehaviour, ITower
         }
 
         // Dessiner les lasers et positionner les effets d'impact
-        for (int i = 0; i < laserLines.Count; i++)
+        // CORRECTION IMPORTANTE: Utiliser le minimum entre les deux listes pour éviter les erreurs
+        int maxIndex = Mathf.Min(laserLines.Count, impactEffects.Count);
+
+        for (int i = 0; i < maxIndex; i++)
         {
             if (i < targets.Count && targets[i] != null)
             {
                 laserLines[i].enabled = true;
                 DrawCurvedLaser(laserLines[i], transform.position, targets[i].transform.position);
 
-                // Positionner et activer l'effet d'impact
-                if (i < impactEffects.Count)
+                impactEffects[i].transform.position = targets[i].transform.position;
+                if (!impactEffects[i].isPlaying)
                 {
-                    impactEffects[i].transform.position = targets[i].transform.position;
-                    if (!impactEffects[i].isPlaying)
-                    {
-                        impactEffects[i].Play();
-                    }
+                    impactEffects[i].Play();
                 }
             }
             else
             {
                 laserLines[i].enabled = false;
-                if (i < impactEffects.Count && impactEffects[i].isPlaying)
+                if (impactEffects[i].isPlaying)
                 {
                     impactEffects[i].Stop();
                 }
@@ -307,7 +339,6 @@ public class LaserTower : MonoBehaviour, ITower
         }
     }
 
-    // VERSION OPTIMISÉE - Complexité O(n * k) au lieu de O(n²)
     public List<Enemy> GetNearestEnemies(Transform _transform, int count)
     {
         List<Enemy> nearestEnemies = new List<Enemy>();
@@ -344,7 +375,6 @@ public class LaserTower : MonoBehaviour, ITower
         return nearestEnemies;
     }
 
-    // Visualisation de la portée dans l'éditeur
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
@@ -381,7 +411,6 @@ public class LaserTower : MonoBehaviour, ITower
         return upgrades;
     }
 
-    //Upgrades Methods
     private void IncreaseDamage()
     {
         m_currentDamage = (int)(m_currentDamage * m_damageMultiplier);
@@ -396,19 +425,11 @@ public class LaserTower : MonoBehaviour, ITower
     {
         m_currentNbTarget += m_nbTargetIncrease;
 
-        // Ajouter de nouveaux LineRenderer si nécessaire
+        // CORRECTION: Ajouter des LineRenderer ET des ParticleSystem d'impact
         while (laserLines.Count < m_currentNbTarget)
         {
-            LineRenderer lr = gameObject.AddComponent<LineRenderer>();
-            lr.positionCount = curveResolution;
-            lr.enabled = false;
-            lr.startWidth = 0.1f;
-            lr.endWidth = 0.05f;
-            lr.material = new Material(Shader.Find("Sprites/Default"));
-            lr.startColor = Color.red;
-            lr.endColor = new Color(1f, 0.5f, 0f, 0.8f);
-            lr.sortingOrder = 5;
-            laserLines.Add(lr);
+            CreateLaserLine();
+            CreateImpactEffect(); // IMPORTANT: Créer l'effet d'impact correspondant
         }
     }
 }

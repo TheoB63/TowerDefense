@@ -104,19 +104,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LaserTower
   m_baseDamage: 10
-  m_baseRange: 10
+  m_baseRange: 15
   m_baseReloadTime: 1
-  m_baseDuration: 2
+  m_baseDuration: 2000
   m_baseTickRate: 0.1
-  m_baseNbTarget: 1
+  m_baseNbTarget: 2
   m_damageMultiplier: 1
   m_rangeIncrease: 1
   m_reloadTimeDecrease: 0
   m_durationIncrease: 0
   m_tickRateIncrease: 0
   m_nbTargetIncrease: 0
+  laserWidth: 0.1
+  laserStartColor: {r: 0, g: 0.97092485, b: 1, a: 1}
+  laserEndColor: {r: 1, g: 0.9972118, b: 0, a: 0.8}
+  laserMaterial: {fileID: 0}
+  laserSortingOrder: 5
   curveResolution: 20
-  curvature: 0.5
+  curvature: 0.1
   curveHeight: 1
-  impactEffectPrefab: {fileID: 0}
-  muzzleEffectPrefab: {fileID: 0}
+  muzzleLifetime: 0.3
+  muzzleSpeed: 1
+  muzzleSize: 0.3
+  muzzleColor: {r: 0, g: 1, b: 1, a: 0.8}
+  muzzleEmissionRate: 50
+  muzzleRadius: 0.2
+  impactLifetime: 0.2
+  impactSpeed: 2
+  impactSize: 0.2
+  impactColor: {r: 1, g: 1, b: 0, a: 0.9}
+  impactEmissionRate: 100
+  impactRadius: 0.15
+  effectSortingOrder: 6
