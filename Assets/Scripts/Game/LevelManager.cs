@@ -18,7 +18,7 @@ public class LevelManager : MonoBehaviour
     public float Xp { get => m_xp; }
     public float XpNeeded { get => m_xpNeeded; }
 
-    void Start()
+    private void Awake()
     {
         if (Instance == null)
         {

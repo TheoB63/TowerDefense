@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 public interface IEnemyAction
 {
@@ -12,10 +13,11 @@ public interface IEnemyAction
 public class Enemy : MonoBehaviour
 {
     [SerializeField] GameObject damageTextPrefab;
+    [SerializeField] GameObject deathEffectsPrefab;
 
     public string EnemyName;
     public int Hp;
-    public int Strength;
+    public int Damage;
     public float Speed;
     public float Xp;
 
@@ -37,10 +39,23 @@ public class Enemy : MonoBehaviour
 
         if (Hp <= 0)
         {
-            LevelManager.Instance.AddXp(Xp);
-
-            GameManager.Instance.Enemies.Remove(this);
-            Destroy(this.gameObject);
+            Kill();
         }
+    }
+
+    public void Kill()
+    {
+        LevelManager.Instance.AddXp(Xp);
+
+        GameObject particle = Instantiate(deathEffectsPrefab);
+        particle.transform.position = transform.position;
+
+        ParticleSystem.Burst newBurst = new ParticleSystem.Burst();
+        newBurst.count = 50;
+        particle.GetComponent<ParticleSystem>().emission.SetBurst(0, newBurst);
+
+
+        GameManager.Instance.Enemies.Remove(this);
+        Destroy(this.gameObject);
     }
 }

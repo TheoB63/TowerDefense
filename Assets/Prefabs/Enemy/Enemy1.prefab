@@ -30,8 +30,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8042668149536525586}
   m_Father: {fileID: 0}
@@ -49,9 +49,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   damageTextPrefab: {fileID: 1620623676367991725, guid: 2329281d656483740b1ff72765bc582b, type: 3}
+  deathEffectsPrefab: {fileID: 7181993071959690920, guid: 3e691a10e359d3947b832161dd17f446, type: 3}
   EnemyName: Enemy1
   Hp: 100
-  Strength: 1
+  Damage: 10
   Speed: 1
   Xp: 1
 --- !u!114 &4510601497466342517
