@@ -63,8 +63,8 @@ public class BasicTower : MonoBehaviour,ITower
                 direction.Normalize();
 
                 GameObject go = Instantiate(projectilesPrefab, transform.position, Quaternion.identity);
-                go.GetComponent<Projectiles>().Direction = direction;
-                go.GetComponent<Projectiles>().SetStats(baseDamage, 0);
+                go.GetComponent<PlayerProjectiles>().Direction = direction;
+                go.GetComponent<PlayerProjectiles>().SetStats(baseDamage, 0);
 
                 return true;
             }

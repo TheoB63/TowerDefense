@@ -1,22 +1,24 @@
 using UnityEngine;
 
-public class Projectiles : MonoBehaviour
+public class PlayerProjectiles : MonoBehaviour
 {
     [Header("Values")]
     [SerializeField] float m_speed;
     [SerializeField] int m_damageBase;
+
+    //runtime values
     int m_damage;
     int m_penetration;
-    Vector2 direction;
+    Vector2 m_direction;
 
     [Header("public values")]
-    public Vector2 Direction { get => direction; set => direction = value; }
+    public Vector2 Direction { get => m_direction; set => m_direction = value; }
 
     void Update()
     {
-        if (direction != Vector2.zero)
+        if (m_direction != Vector2.zero)
         {
-            Vector2 movement = direction * m_speed * Time.deltaTime;
+            Vector2 movement = m_direction * m_speed * Time.deltaTime;
             transform.position += new Vector3(movement.x, movement.y, 0f);
         }
         else

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfb6802b01f7c1142a6eaa86c1ef8715, type: 3}
+  m_Name: BuildRailgunTower
+  m_EditorClassIdentifier: Assembly-CSharp::TowerConstructionUpgrade
+  upgradeName: Railgun Tower
+  icon: {fileID: 0}
+  description: Very fast and explosive projectile
+  towerPrefab: {fileID: 3680209922806064918, guid: 8f202ce18a06b5c439a0bcdab597f255, type: 3}
+  towerType: 4
+  specificSlot: {fileID: 0}

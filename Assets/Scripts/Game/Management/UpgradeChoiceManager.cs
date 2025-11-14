@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Mono.Cecil.Cil;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -64,8 +65,19 @@ public class UpgradeChoiceManager : MonoBehaviour
                     if (!existingTowerTypes.Contains(construction.towerType) &&
                         construction.CanApply(slot, m_playerStats))
                     {
-                        TowerConstructionUpgrade copy = Instantiate(construction);
-                        available.Add(copy);
+                        bool isInList = false;
+                        foreach (UpgradeBase up in available)
+                        {
+                            if (construction.upgradeName == up.upgradeName)
+                            {
+                                isInList = true;
+                            }
+                        }
+                        if (!isInList)
+                        {
+                            TowerConstructionUpgrade copy = Instantiate(construction);
+                            available.Add(copy);
+                        }
                     }
                 }
             }
@@ -88,8 +100,21 @@ public class UpgradeChoiceManager : MonoBehaviour
                             availableTowerUpgrades.Contains(upgrade.upgradeMethodName) &&
                             upgrade.CanApply(slot, m_playerStats))
                         {
-                            TowerSpecificUpgrade copy = Instantiate(upgrade);
-                            available.Add(copy);
+                            bool isInList = false;
+                            foreach (UpgradeBase up in available)
+                            {
+                                if (upgrade.upgradeName == up.upgradeName)
+                                {
+                                    isInList = true;
+                                }
+                            }
+                            if (!isInList)
+                            {
+                                TowerSpecificUpgrade copy = Instantiate(upgrade);
+                                available.Add(copy);
+                            }
+
+
                         }
                     }
                 }
@@ -103,7 +128,18 @@ public class UpgradeChoiceManager : MonoBehaviour
             if (availablePlayerUpgrades.Contains(upgrade.upgradeMethodName) &&
                 upgrade.CanApply(null, m_playerStats))
             {
-                available.Add(upgrade);
+                bool isInList = false;
+                foreach (UpgradeBase up in available)
+                {
+                    if (upgrade.upgradeName == up.upgradeName)
+                    {
+                        isInList = true;
+                    }
+                }
+                if (!isInList)
+                {
+                    available.Add(upgrade);
+                }
             }
         }
 
@@ -128,46 +164,50 @@ public class UpgradeChoiceManager : MonoBehaviour
         List<UpgradeBase> selected = new List<UpgradeBase>();
         List<UpgradeBase> pool = new List<UpgradeBase>(_available);
 
+        //-------
+
         // Prioriser la diversité des choix
         // Séparer par type pour éviter d'avoir 3 fois le même upgrade
-        var constructions = pool.OfType<TowerConstructionUpgrade>().ToList();
-        var towerUpgrades = pool.OfType<TowerSpecificUpgrade>().ToList();
-        var playerUpgrades = pool.OfType<PlayerUpgrade>().ToList();
+        //var constructions = pool.OfType<TowerConstructionUpgrade>().ToList();
+        //var towerUpgrades = pool.OfType<TowerSpecificUpgrade>().ToList();
+        //var playerUpgrades = pool.OfType<PlayerUpgrade>().ToList();
 
         // Essayer d'avoir au moins 1 de chaque type si possible
-        List<List<UpgradeBase>> categories = new List<List<UpgradeBase>>
-        {
-            constructions.Cast<UpgradeBase>().ToList(),
-            towerUpgrades.Cast<UpgradeBase>().ToList(),
-            playerUpgrades.Cast<UpgradeBase>().ToList()
-        };
+        //List<List<UpgradeBase>> categories = new List<List<UpgradeBase>>
+        //{
+        //    constructions.Cast<UpgradeBase>().ToList(),
+        //    towerUpgrades.Cast<UpgradeBase>().ToList(),
+        //    playerUpgrades.Cast<UpgradeBase>().ToList()
+        //};
 
-        // Mélanger les catégories
-        categories = categories.OrderBy(x => Random.value).ToList();
+        //// Mélanger les catégories
+        //categories = categories.OrderBy(x => Random.value).ToList();
 
-        // Prendre un de chaque catégorie d'abord
-        foreach (var category in categories)
-        {
-            if (selected.Count >= _count) break;
-            if (category.Count > 0)
-            {
-                int randomIndex = Random.Range(0, category.Count);
-                selected.Add(category[randomIndex]);
-                category.RemoveAt(randomIndex);
-            }
-        }
+        //// Prendre un de chaque catégorie d'abord
+        //foreach (var category in categories)
+        //{
+        //    if (selected.Count >= _count) break;
+        //    if (category.Count > 0)
+        //    {
+        //        int randomIndex = Random.Range(0, category.Count);
+        //        selected.Add(category[randomIndex]);
+        //        category.Remove(category[randomIndex]);
+        //    }
+        //}
+
+        //----
 
         // Compléter avec le reste aléatoirement
-        var remaining = constructions.Cast<UpgradeBase>()
-            .Concat(towerUpgrades.Cast<UpgradeBase>())
-            .Concat(playerUpgrades.Cast<UpgradeBase>())
-            .ToList();
+        //var remaining = constructions.Cast<UpgradeBase>()
+        //    .Concat(towerUpgrades.Cast<UpgradeBase>())
+        //    .Concat(playerUpgrades.Cast<UpgradeBase>())
+        //    .ToList();
 
-        while (selected.Count < _count && remaining.Count > 0)
+        while (selected.Count < _count && pool.Count > 0)
         {
-            int randomIndex = Random.Range(0, remaining.Count);
-            selected.Add(remaining[randomIndex]);
-            remaining.RemoveAt(randomIndex);
+            int randomIndex = Random.Range(0, pool.Count);
+            selected.Add(pool[randomIndex]);
+            pool.Remove(pool[randomIndex]);
         }
 
         return selected;

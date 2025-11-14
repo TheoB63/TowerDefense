@@ -215,11 +215,12 @@ public class LaserTower : MonoBehaviour, ITower
 
     private void DrawCurve(LineRenderer lr, Vector3 start, Vector3 end)
     {
+        //reset z
         start.z = 0;
         end.z = 0;
 
-        int res = m_curveResolutionPerSegment;
-        lr.positionCount = res;
+        int resolution = m_curveResolutionPerSegment;
+        lr.positionCount = resolution;
 
         Vector3 dir = end - start;
         float dist = dir.magnitude;
@@ -228,9 +229,9 @@ public class LaserTower : MonoBehaviour, ITower
         Vector3 perp = GetOrganicPerpendicular(dir);
         Vector3 control = (start + end) * 0.5f + perp * m_curveHeight * (m_curvature * -dir.x) * dist;
 
-        for (int i = 0; i < res; i++)
+        for (int i = 0; i < resolution; i++)
         {
-            float t = i / (float)(res - 1);
+            float t = i / (float)(resolution - 1);
 
             Vector3 p =
                 (1 - t) * (1 - t) * start +
@@ -250,14 +251,18 @@ public class LaserTower : MonoBehaviour, ITower
         return basePerp * (1f + random);
     }
 
-    // -------------------------------------------------------------
     private void DisableAllLasers()
     {
         if (m_mainBranch != null)
+        {
             m_mainBranch.enabled = false;
+        }
 
-        foreach (var b in m_branches)
-            if (b != null) b.enabled = false;
+        foreach (LineRenderer branch in m_branches)
+        {
+            if (branch != null) branch.enabled = false;
+
+        }
     }
 
     public List<Enemy> GetNearestEnemies(Transform _transform, int count)
@@ -265,7 +270,9 @@ public class LaserTower : MonoBehaviour, ITower
         List<Enemy> nearestEnemies = new List<Enemy>();
 
         if (GameManager.Instance.Enemies.Count == 0)
+        {
             return nearestEnemies;
+        }
 
         List<System.Tuple<Enemy, float>> enemyDistances = new List<System.Tuple<Enemy, float>>();
 

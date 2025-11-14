@@ -66,8 +66,8 @@ public class PlayerShoot : MonoBehaviour
                         direction.Normalize();
 
                         GameObject go = Instantiate(m_projectilesPrefab, GetFireCanon().position, Quaternion.identity);
-                        go.GetComponent<Projectiles>().Direction = direction;
-                        go.GetComponent<Projectiles>().SetStats(m_playerStats.Damage, m_playerStats.Penetration);
+                        go.GetComponent<PlayerProjectiles>().Direction = direction;
+                        go.GetComponent<PlayerProjectiles>().SetStats(m_playerStats.Damage, m_playerStats.Penetration);
                     }
                 }
                 else
@@ -89,8 +89,8 @@ public class PlayerShoot : MonoBehaviour
                         direction.Normalize();
 
                         GameObject go = Instantiate(m_projectilesPrefab, GetFireCanon().position, Quaternion.identity);
-                        go.GetComponent<Projectiles>().Direction = direction;
-                        go.GetComponent<Projectiles>().SetStats(m_playerStats.Damage, m_playerStats.Penetration);
+                        go.GetComponent<PlayerProjectiles>().Direction = direction;
+                        go.GetComponent<PlayerProjectiles>().SetStats(m_playerStats.Damage, m_playerStats.Penetration);
                     }
                 }
                 return true;

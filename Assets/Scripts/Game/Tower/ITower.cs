@@ -14,5 +14,6 @@ public enum TowerType
     Projectile,
     Drone,
     SlowArea,
+    Railgun,
     // etc.
 }
