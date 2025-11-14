@@ -13,6 +13,6 @@ public class MoveStraight : MonoBehaviour
 
     void Update()
     {
-        rb.linearVelocity = new Vector3(0f, -enemy.Speed);
+        rb.linearVelocity = new Vector3(0f, -enemy.Speed, 0f);
     }
 }

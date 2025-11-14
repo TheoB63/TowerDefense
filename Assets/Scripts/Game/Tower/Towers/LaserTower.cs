@@ -3,6 +3,11 @@ using UnityEngine;
 
 public class LaserTower : MonoBehaviour, ITower
 {
+    [Header("References")]
+    [SerializeField] Transform m_barrel;
+    [SerializeField] Transform m_canon;
+    [SerializeField] float m_armRotationSpeed;
+
     [Header("Laser Base Stats")]
     [SerializeField] int m_baseDamage;
     [SerializeField] float m_baseRange;
@@ -110,6 +115,8 @@ public class LaserTower : MonoBehaviour, ITower
 
     void Update()
     {
+        MoveCanon();
+
         if (Time.timeScale != 0) // != pause need to rework later with level up menu
         {
             if (m_timerDuration <= 0)
@@ -168,11 +175,24 @@ public class LaserTower : MonoBehaviour, ITower
         SetupLaserNetwork(targets);
     }
 
+    private void MoveCanon()
+    {
+        if (GameManager.Instance.Enemies.Count > 0)
+        {
+            Enemy target = GameManager.Instance.GetNearestEnemy(transform);
+
+            Vector2 dir = target.transform.position - m_canon.position;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            Quaternion targetRot = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
+            m_canon.rotation = Quaternion.Lerp(m_canon.rotation, targetRot, m_armRotationSpeed * Time.deltaTime);
+        }
+    }
+
     private void SetupLaserNetwork(List<Enemy> targets)
     {
         if (targets.Count == 1)
         {
-            DrawCurve(m_mainBranch, transform.position, targets[0].transform.position);
+            DrawCurve(m_mainBranch, m_barrel.position, targets[0].transform.position);
             m_mainBranch.enabled = true;
         }
         else
@@ -186,12 +206,12 @@ public class LaserTower : MonoBehaviour, ITower
 
             center /= targets.Count;
 
-            float centerDist = (center - transform.position).magnitude;
-            Vector3 dir = (center - transform.position).normalized;
-            Vector3 splitPoint = transform.position + (dir * Mathf.Abs(centerDist) * m_splitPointDistance);
+            float centerDist = (center - m_barrel.position).magnitude;
+            Vector3 dir = (center - m_barrel.position).normalized;
+            Vector3 splitPoint = m_barrel.position + (dir * Mathf.Abs(centerDist) * m_splitPointDistance);
 
             //Main Branch
-            DrawCurve(m_mainBranch, transform.position, splitPoint);
+            DrawCurve(m_mainBranch, m_barrel.position, splitPoint);
             m_mainBranch.enabled = true;
 
             //Other Branch

@@ -1,10 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BasicTower : MonoBehaviour,ITower
+public class BasicTower : MonoBehaviour, ITower
 {
-    [Header("Prefab")]
-    public GameObject m_projectilesPrefab;
+    [Header("References")]
+    [SerializeField] GameObject m_projectilesPrefab;
+    [SerializeField] Transform m_barrel;
+    [SerializeField] Transform m_canon;
+    [SerializeField] float m_armRotationSpeed;
 
     [Header("Base Stats")]
     [SerializeField] int m_baseDamage;
@@ -60,6 +63,8 @@ public class BasicTower : MonoBehaviour,ITower
 
     void Update()
     {
+        MoveCanon();
+
         m_timerShoot += Time.deltaTime;
 
         if (m_timerShoot > (1 / m_currentAttackSpeed))
@@ -77,7 +82,7 @@ public class BasicTower : MonoBehaviour,ITower
         {
             Enemy target = GameManager.Instance.GetNearestEnemy(transform);
 
-            float dist = Vector2.Distance(transform.position, target.transform.position);
+            float dist = Vector2.Distance(m_barrel.position, target.transform.position);
 
             if (dist <= m_currentRange)
             {
@@ -98,10 +103,10 @@ public class BasicTower : MonoBehaviour,ITower
                         }
 
                         Vector3 posTarget = new Vector3(targetPos.x + targetDist, targetPos.y);
-                        direction = posTarget - transform.position;
+                        direction = posTarget - m_barrel.position;
                         direction.Normalize();
 
-                        GameObject go = Instantiate(m_projectilesPrefab, transform.position, Quaternion.identity);
+                        GameObject go = Instantiate(m_projectilesPrefab, m_barrel.position, Quaternion.identity);
                         go.GetComponent<PlayerProjectiles>().Direction = direction;
                         go.GetComponent<PlayerProjectiles>().SetStats(m_currentDamage, m_currentPenetration);
                     }
@@ -121,10 +126,10 @@ public class BasicTower : MonoBehaviour,ITower
                         }
 
                         Vector3 posTarget = new Vector3(targetPos.x + targetDist, targetPos.y);
-                        direction = posTarget - transform.position;
+                        direction = posTarget - m_barrel.position;
                         direction.Normalize();
 
-                        GameObject go = Instantiate(m_projectilesPrefab, transform.position, Quaternion.identity);
+                        GameObject go = Instantiate(m_projectilesPrefab, m_barrel.position, Quaternion.identity);
                         go.GetComponent<PlayerProjectiles>().Direction = direction;
                         go.GetComponent<PlayerProjectiles>().SetStats(m_currentDamage, m_currentPenetration);
                     }
@@ -133,6 +138,19 @@ public class BasicTower : MonoBehaviour,ITower
             }
         }
         return false;
+    }
+
+    private void MoveCanon()
+    {
+        if (GameManager.Instance.Enemies.Count > 0)
+        {
+            Enemy target = GameManager.Instance.GetNearestEnemy(transform);
+
+            Vector2 dir = target.transform.position - m_canon.position;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            Quaternion targetRot = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
+            m_canon.rotation = Quaternion.Lerp(m_canon.rotation, targetRot, m_armRotationSpeed * Time.deltaTime);
+        }
     }
 
     public TowerType GetTowerType() => TowerType.Railgun;

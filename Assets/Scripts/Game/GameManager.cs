@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
             {
                 float x = Random.Range(0, Screen.width);
                 Vector3 position = Camera.main.ScreenToWorldPoint(new Vector3(x, Screen.height, Camera.main.nearClipPlane));
+                position.z = 0;
                 GameObject go = Instantiate(enemy, position, Quaternion.identity);
                 m_enemies.Add(go.GetComponent<Enemy>());
             }

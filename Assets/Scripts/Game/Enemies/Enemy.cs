@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public interface IEnemyAction
@@ -12,6 +11,8 @@ public interface IEnemyAction
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] GameObject damageTextPrefab;
+
     public string EnemyName;
     public int Hp;
     public int Strength;
@@ -31,11 +32,15 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(int _damage)
     {
         Hp -= _damage;
+        GameObject go = Instantiate(damageTextPrefab, transform.position, Quaternion.identity);
+        go.GetComponent<DamageText>().Setup(_damage);
+
         if (Hp <= 0)
         {
+            LevelManager.Instance.AddXp(Xp);
+
             GameManager.Instance.Enemies.Remove(this);
             Destroy(this.gameObject);
-            LevelManager.Instance.AddXp(Xp);
         }
     }
 }

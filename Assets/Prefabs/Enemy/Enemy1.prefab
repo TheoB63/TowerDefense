@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f5febf06e735ce42b303868a9e4d69c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  damageTextPrefab: {fileID: 1620623676367991725, guid: 2329281d656483740b1ff72765bc582b, type: 3}
   EnemyName: Enemy1
   Hp: 100
   Strength: 1

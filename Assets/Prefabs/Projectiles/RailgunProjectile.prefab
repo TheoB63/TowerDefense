@@ -143,4 +143,4 @@ MonoBehaviour:
   m_speed: 12
   m_damageBase: 1
   m_explosionRadius: 2
-  m_explosionForce: 100
+  m_explosionForce: 1000

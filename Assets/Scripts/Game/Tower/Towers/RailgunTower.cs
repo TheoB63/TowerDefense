@@ -3,8 +3,11 @@ using UnityEngine;
 
 public class RailgunTower : MonoBehaviour, ITower
 {
-    [Header("Prefab")]
-    public GameObject m_projectilesPrefab;
+    [Header("References")]
+    [SerializeField] GameObject m_projectilesPrefab;
+    [SerializeField] Transform m_barrel;
+    [SerializeField] Transform m_canon;
+    [SerializeField] float m_armRotationSpeed;
 
     [Header("Base Stats")]
     [SerializeField] int m_baseDamage;
@@ -60,6 +63,8 @@ public class RailgunTower : MonoBehaviour, ITower
 
     void Update()
     {
+        MoveCanon();
+
         m_timerShoot += Time.deltaTime;
 
         if (m_timerShoot > (1 / m_currentAttackSpeed))
@@ -101,7 +106,7 @@ public class RailgunTower : MonoBehaviour, ITower
                         direction = posTarget - transform.position;
                         direction.Normalize();
 
-                        GameObject go = Instantiate(m_projectilesPrefab, transform.position, Quaternion.identity);
+                        GameObject go = Instantiate(m_projectilesPrefab, m_barrel.position, Quaternion.identity);
                         go.GetComponent<RailgunProjectile>().Direction = direction;
                         go.GetComponent<RailgunProjectile>().SetStats(m_currentDamage, m_currentPenetration);
                     }
@@ -124,7 +129,7 @@ public class RailgunTower : MonoBehaviour, ITower
                         direction = posTarget - transform.position;
                         direction.Normalize();
 
-                        GameObject go = Instantiate(m_projectilesPrefab, transform.position, Quaternion.identity);
+                        GameObject go = Instantiate(m_projectilesPrefab, m_barrel.position, Quaternion.identity);
                         go.GetComponent<RailgunProjectile>().Direction = direction;
                         go.GetComponent<RailgunProjectile>().SetStats(m_currentDamage, m_currentPenetration);
                     }
@@ -133,6 +138,19 @@ public class RailgunTower : MonoBehaviour, ITower
             }
         }
         return false;
+    }
+
+    private void MoveCanon()
+    {
+        if (GameManager.Instance.Enemies.Count > 0)
+        {
+            Enemy target = GameManager.Instance.GetNearestEnemy(transform);
+
+            Vector2 dir = target.transform.position - m_canon.position;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            Quaternion targetRot = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
+            m_canon.rotation = Quaternion.Lerp(m_canon.rotation, targetRot, m_armRotationSpeed * Time.deltaTime);
+        }
     }
 
     public TowerType GetTowerType() => TowerType.Railgun;
