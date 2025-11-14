@@ -3,42 +3,66 @@ using UnityEngine;
 
 public class BasicTower : MonoBehaviour,ITower
 {
-    [Header("Tower Settings")]
-    public GameObject projectilesPrefab;
-    int baseDamage = 10;
-    float baseRange = 20f; 
-    float baseAttackSpeed = 8f;
+    [Header("Prefab")]
+    public GameObject m_projectilesPrefab;
 
-    [Header("Upgrade Levels")]
-    int damageLevel = 2;
-    int rangeLevel = 2;
-    int attackSpeedLevel = 8;
-    public bool hasMultiTarget = false;
+    [Header("Base Stats")]
+    [SerializeField] int m_baseDamage;
+    [SerializeField] float m_baseRange;
+    [SerializeField] float m_baseAttackSpeed;
+    [SerializeField] int m_baseNbProjectiles;
 
-    private float currentDamage;
-    private float currentRange;
-    private float currentAttackSpeed;
-    private Transform currentTarget;
+    [SerializeField] int m_basePenetration;
+    [SerializeField] float m_baseCritRate;
+    [SerializeField] float m_baseCritMultiplier;
+
+    [Header("Upgrades")]
+    [SerializeField] float m_damageMultiplier;
+    [SerializeField] int m_rangeIncrease;
+    [SerializeField] float m_attackSpeedMultiplier;
+    [SerializeField] int m_nbProjectilesIncrease;
+
+    [SerializeField] int m_penetrationIncrease;
+    [SerializeField] float m_critRateIncrease;
+    [SerializeField] float m_CritMultiplierIncrease;
+
+    //Privates Current values in run time
+    int m_currentDamage;
+    float m_currentRange;
+    float m_currentAttackSpeed;
+    int m_currentNbProjectiles;
+    int m_currentPenetration;
+    float m_currentCritRate;
+    float m_currentCritMultiplier;
+
+    [Header("Public Values (Get Only)")]
+    public int Damage { get => m_currentDamage; set => m_currentDamage = value; }
+    public float Range { get => m_currentRange; set => m_currentRange = value; }
+    public float AttackSpeed { get => m_currentAttackSpeed; set => m_currentAttackSpeed = value; }
+    public int NbProjectiles { get => m_currentNbProjectiles; set => m_currentNbProjectiles = value; }
+    public int Penetration { get => m_currentPenetration; set => m_currentPenetration = value; }
+    public float CritRate { get => m_currentCritRate; set => m_currentCritRate = value; }
+    public float CritMultiplier { get => m_currentCritMultiplier; set => m_currentCritMultiplier = value; }
 
     float m_timerShoot;
 
     private void Start()
     {
-        UpdateStats();
-    }
+        m_currentDamage = m_baseDamage;
+        m_currentRange = m_baseRange;
+        m_currentAttackSpeed = m_baseAttackSpeed;
+        m_currentNbProjectiles = m_baseNbProjectiles;
 
-    private void UpdateStats()
-    {
-        currentDamage = baseDamage * Mathf.Pow(1.5f, damageLevel);
-        currentRange = baseRange + (rangeLevel * 1f);
-        currentAttackSpeed = baseAttackSpeed + (attackSpeedLevel * 1f);
+        m_currentPenetration = m_basePenetration;
+        m_currentCritRate = m_baseCritRate;
+        m_currentCritMultiplier = m_baseCritMultiplier;
     }
 
     void Update()
     {
         m_timerShoot += Time.deltaTime;
 
-        if (m_timerShoot > (1/ baseAttackSpeed))
+        if (m_timerShoot > (1 / m_currentAttackSpeed))
         {
             if (Shoot())
             {
@@ -51,72 +75,129 @@ public class BasicTower : MonoBehaviour,ITower
     {
         if (GameManager.Instance.Enemies.Count > 0)
         {
-            Enemy target = GetNearestEnemy();
+            Enemy target = GameManager.Instance.GetNearestEnemy(transform);
 
             float dist = Vector2.Distance(transform.position, target.transform.position);
 
-            if (dist <= baseDamage)
+            if (dist <= m_currentRange)
             {
-                //need to add nbProjectiles
+                Vector2 direction;
+                Vector2 targetPos = target.transform.position;
+                if (m_currentNbProjectiles % 2 == 0)
+                {
+                    for (int i = 0; i < m_currentNbProjectiles; i++)
+                    {
+                        float targetDist;
+                        if (i < m_currentNbProjectiles / 2)
+                        {
+                            targetDist = (-1f) * 0.5f * i;
+                        }
+                        else
+                        {
+                            targetDist = 0.5f * (i - m_currentNbProjectiles / 2);
+                        }
 
-                Vector2 direction = target.transform.position - transform.position;
-                direction.Normalize();
+                        Vector3 posTarget = new Vector3(targetPos.x + targetDist, targetPos.y);
+                        direction = posTarget - transform.position;
+                        direction.Normalize();
 
-                GameObject go = Instantiate(projectilesPrefab, transform.position, Quaternion.identity);
-                go.GetComponent<PlayerProjectiles>().Direction = direction;
-                go.GetComponent<PlayerProjectiles>().SetStats(baseDamage, 0);
+                        GameObject go = Instantiate(m_projectilesPrefab, transform.position, Quaternion.identity);
+                        go.GetComponent<PlayerProjectiles>().Direction = direction;
+                        go.GetComponent<PlayerProjectiles>().SetStats(m_currentDamage, m_currentPenetration);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < m_currentNbProjectiles; i++)
+                    {
+                        float targetDist = 0;
+                        if (i < m_currentNbProjectiles / 2)
+                        {
+                            targetDist = (-1f) * 0.5f * i;
+                        }
+                        else if (i > m_currentNbProjectiles / 2)
+                        {
+                            targetDist = 0.5f * (i - m_currentNbProjectiles / 2);
+                        }
 
+                        Vector3 posTarget = new Vector3(targetPos.x + targetDist, targetPos.y);
+                        direction = posTarget - transform.position;
+                        direction.Normalize();
+
+                        GameObject go = Instantiate(m_projectilesPrefab, transform.position, Quaternion.identity);
+                        go.GetComponent<PlayerProjectiles>().Direction = direction;
+                        go.GetComponent<PlayerProjectiles>().SetStats(m_currentDamage, m_currentPenetration);
+                    }
+                }
                 return true;
             }
         }
         return false;
     }
 
-    private Enemy GetNearestEnemy()
+    public TowerType GetTowerType() => TowerType.Railgun;
+    public string GetTowerName() => "Railgun Tower";
+
+    public void ApplyUpgrade(string _upgradeName)
     {
-        Enemy target = GameManager.Instance.Enemies[0];
-
-        float dist = float.MaxValue;
-        foreach (Enemy enemy in GameManager.Instance.Enemies)
-        {
-            float newDist = Vector2.Distance(transform.position, enemy.transform.position);
-            if (newDist < dist)
-            {
-                target = enemy;
-                dist = newDist;
-            }
-        }
-
-        return target;
-    }
-
-    public TowerType GetTowerType() => TowerType.Projectile;
-    public string GetTowerName() => "Basic Tower";
-
-    public void ApplyUpgrade(string upgradeName)
-    {
-        switch (upgradeName)
+        switch (_upgradeName)
         {
             case "IncreaseDamage":
-                damageLevel++;
+                IncreaseDamage();
                 break;
+
             case "IncreaseRange":
-                rangeLevel++;
+                IncreaseRange();
                 break;
-            case "AddMultiTarget":
-                // Logique pour cibler plusieurs ennemis
+
+            case "IncreaseAttackSpeed":
+                IncreaseAttackSpeed();
+                break;
+
+            case "IncreasePenetration":
+                IncreasePenetration();
+                break;
+
+            case "IncreaseNbProjectiles":
+                IncreaseNbProjectiles();
                 break;
         }
-        UpdateStats();
     }
 
     public List<string> GetAvailableUpgrades()
     {
         var upgrades = new List<string>();
-        /*if (damageLevel < 5) */
+
+        //add all for test but need to see later how to get nb upgrade use (max upgrade and rarity of the upgrade)
         upgrades.Add("IncreaseDamage");
-        /*if (rangeLevel < 3)*/ 
         upgrades.Add("IncreaseRange");
+        upgrades.Add("IncreaseAttackSpeed");
+        upgrades.Add("IncreasePenetration");
+        upgrades.Add("IncreaseNbProjectiles");
+
         return upgrades;
+    }
+
+    private void IncreaseDamage()
+    {
+        m_currentDamage = (int)(m_currentDamage * m_damageMultiplier);
+    }
+    private void IncreaseRange()
+    {
+        m_currentRange += m_rangeIncrease;
+    }
+    private void IncreaseAttackSpeed()
+    {
+        m_currentAttackSpeed *= m_attackSpeedMultiplier;
+    }
+
+    private void IncreasePenetration()
+    {
+        m_currentPenetration += m_penetrationIncrease;
+    }
+
+    private void IncreaseNbProjectiles()
+    {
+        m_currentNbProjectiles += m_nbProjectilesIncrease;
     }
 }

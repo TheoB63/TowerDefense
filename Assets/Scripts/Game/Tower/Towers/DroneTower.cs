@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DroneSpawnerTower : MonoBehaviour, ITower
+public class DroneTower : MonoBehaviour, ITower
 {
     [Header("Spawner Settings")]
     public GameObject dronePrefab;
