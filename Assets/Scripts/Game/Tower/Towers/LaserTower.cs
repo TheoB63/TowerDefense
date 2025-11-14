@@ -41,12 +41,15 @@ public class LaserTower : MonoBehaviour, ITower
     float m_currentTickRate;
     int m_currentNbTarget;
 
+    //timers
     float m_timerDuration;
     float m_timerReload;
     float m_timerTick;
 
-    private System.Random organicRandom;
+    //Random system
+    private System.Random m_organicRandom;
 
+    //Lines renderer
     private LineRenderer m_mainBranch;
     private List<LineRenderer> m_branches = new List<LineRenderer>();
 
@@ -62,10 +65,10 @@ public class LaserTower : MonoBehaviour, ITower
         m_currentTickRate = m_baseTickRate;
         m_currentNbTarget = m_baseNbTarget;
 
-        organicRandom = new System.Random();
+        m_organicRandom = new System.Random();
 
-        // Branchement principal
-        m_mainBranch = CreateLineRenderer("MainLaserBranch");
+        //Create Main branch
+        m_mainBranch = CreateLineRenderer("MainLaser");
 
         m_timerReload = 0;
         m_timerDuration = m_currentDuration;
@@ -74,7 +77,7 @@ public class LaserTower : MonoBehaviour, ITower
     private LineRenderer CreateLineRenderer(string name)
     {
         GameObject go = new GameObject(name);
-        go.transform.parent = this.transform;
+        go.transform.parent = transform;
 
         LineRenderer lr = go.AddComponent<LineRenderer>();
         lr.enabled = false;
@@ -82,11 +85,20 @@ public class LaserTower : MonoBehaviour, ITower
         lr.endWidth = m_laserWidth;
 
         if (m_laserMaterial != null)
+        {
             lr.material = m_laserMaterial;
+        }
         else
+        {
             lr.material = new Material(Shader.Find("Sprites/Default"));
+        }
 
         lr.startColor = m_laserStartColor;
+        if (name != "MainLaser")
+        {
+            lr.startColor = m_mainBranch.endColor;
+        }
+
         lr.endColor = m_laserEndColor;
         lr.sortingOrder = m_laserSortingOrder;
 
@@ -98,26 +110,29 @@ public class LaserTower : MonoBehaviour, ITower
 
     void Update()
     {
-        if (m_timerDuration <= 0)
+        if (Time.timeScale != 0) // != pause need to rework later with level up menu
         {
-            DisableAllLasers();
-            m_timerReload -= Time.deltaTime;
-
-            if (m_timerReload <= 0)
-            {
-                m_timerDuration = m_currentDuration;
-                m_timerTick = 0;
-            }
-        }
-        else
-        {
-            m_timerDuration -= Time.deltaTime;
-            Attack();
-
             if (m_timerDuration <= 0)
             {
                 DisableAllLasers();
-                m_timerReload = m_currentReloadTime;
+                m_timerReload -= Time.deltaTime;
+
+                if (m_timerReload <= 0)
+                {
+                    m_timerDuration = m_currentDuration;
+                    m_timerTick = 0;
+                }
+            }
+            else
+            {
+                m_timerDuration -= Time.deltaTime;
+                Attack();
+
+                if (m_timerDuration <= 0)
+                {
+                    DisableAllLasers();
+                    m_timerReload = m_currentReloadTime;
+                }
             }
         }
     }
@@ -138,27 +153,23 @@ public class LaserTower : MonoBehaviour, ITower
             return;
         }
 
-        // Damage tick
+        //TickDamage
         m_timerTick -= Time.deltaTime;
         if (m_timerTick <= 0)
         {
             m_timerTick = m_currentTickRate;
             foreach (Enemy target in targets)
+            {
                 target?.TakeDamage(m_currentDamage);
+            }
         }
 
-        // Visual
-        DrawLaserNetwork(targets);
+        //Visual
+        SetupLaserNetwork(targets);
     }
 
-    private void DrawLaserNetwork(List<Enemy> targets)
+    private void SetupLaserNetwork(List<Enemy> targets)
     {
-        if (targets.Count == 0 || Time.deltaTime == 0) //if pause
-        {
-            DisableAllLasers();
-            return;
-        }
-
         if (targets.Count == 1)
         {
             DrawCurve(m_mainBranch, transform.position, targets[0].transform.position);
@@ -166,30 +177,39 @@ public class LaserTower : MonoBehaviour, ITower
         }
         else
         {
-            // --- Calcul du point de split ---
+            //Split Point
             Vector3 center = Vector3.zero;
-            foreach (var t in targets)
-                center += t.transform.position;
+            foreach (Enemy target in targets)
+            {
+                center += target.transform.position;
+            }
 
             center /= targets.Count;
 
+            float centerDist = (center - transform.position).magnitude;
             Vector3 dir = (center - transform.position).normalized;
-            Vector3 splitPoint = transform.position + dir * m_splitPointDistance;
+            Vector3 splitPoint = transform.position + (dir * Mathf.Abs(centerDist) * m_splitPointDistance);
 
-            // --- Branche principale ---
+            //Main Branch
             DrawCurve(m_mainBranch, transform.position, splitPoint);
             m_mainBranch.enabled = true;
 
-            // --- Préparer les branches secondaires ---
-            while (m_branches.Count < targets.Count)
+            //Other Branch
+            for (int i = 0; i < targets.Count; i++)
+            {
                 m_branches.Add(CreateLineRenderer("LaserBranch"));
+            }
 
             for (int i = 0; i < m_branches.Count; i++)
+            {
                 m_branches[i].enabled = i < targets.Count;
+            }
 
-            // --- Branches → targets ---
+            //Link other branch to targets
             for (int i = 0; i < targets.Count; i++)
+            {
                 DrawCurve(m_branches[i], splitPoint, targets[i].transform.position);
+            }
         }
     }
 
@@ -225,7 +245,7 @@ public class LaserTower : MonoBehaviour, ITower
     {
         Vector3 basePerp = new Vector3(-dir.y, dir.x, 0).normalized;
 
-        float random = ((float)organicRandom.NextDouble() - 0.5f) * m_organicVariation;
+        float random = ((float)m_organicRandom.NextDouble() - 0.5f) * m_organicVariation;
 
         return basePerp * (1f + random);
     }

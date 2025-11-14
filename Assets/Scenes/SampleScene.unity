@@ -3450,7 +3450,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   m_xpNeeded: 1
-  m_xpNeededMultiplier: 1.001
+  m_xpNeededMultiplier: 1.5
 --- !u!4 &2042976163
 Transform:
   m_ObjectHideFlags: 0

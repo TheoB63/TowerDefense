@@ -117,11 +117,11 @@ MonoBehaviour:
   m_nbTargetIncrease: 1
   m_laserWidth: 0.1
   m_laserStartColor: {r: 0, g: 1, b: 0.4980392, a: 1}
-  m_laserEndColor: {r: 0, g: 1, b: 0.4980392, a: 1}
-  m_laserMaterial: {fileID: 0}
+  m_laserEndColor: {r: 0, g: 1, b: 1, a: 1}
+  m_laserMaterial: {fileID: 2100000, guid: dcbd166d3ed86aa418a8e0ddcf6ce9bd, type: 2}
   m_laserSortingOrder: 5
   m_curveResolutionPerSegment: 15
   m_curvature: 0.1
   m_curveHeight: 1
-  m_splitPointDistance: 6
+  m_splitPointDistance: 0.8
   m_organicVariation: 0.5
