@@ -20,20 +20,20 @@ public class LaserTower : MonoBehaviour, ITower
     [SerializeField] int m_nbTargetIncrease;
 
     [Header("Laser Visual Settings")]
-    [SerializeField] private float laserWidth;
-    [SerializeField] private Color laserStartColor;
-    [SerializeField] private Color laserEndColor;
-    [SerializeField] private Material laserMaterial;
-    [SerializeField] private int laserSortingOrder = 5;
+    [SerializeField] float m_laserWidth;
+    [SerializeField] Color m_laserStartColor;
+    [SerializeField] Color m_laserEndColor;
+    [SerializeField] Material m_laserMaterial;
+    [SerializeField] int m_laserSortingOrder;
 
     [Header("Curve Settings")]
-    [SerializeField] private int curveResolutionPerSegment;
-    [SerializeField] private float curvature;
-    [SerializeField] private float curveHeight;
-    [SerializeField] private float splitPointDistance;
-    [SerializeField] private float organicVariation;
+    [SerializeField] int m_curveResolutionPerSegment;
+    [SerializeField] float m_curvature;
+    [SerializeField] float m_curveHeight;
+    [SerializeField] float m_splitPointDistance;
+    [SerializeField] float m_organicVariation;
 
-    // Runtime values
+    //Runtime values
     int m_currentDamage;
     float m_currentRange;
     float m_currentReloadTime;
@@ -41,14 +41,14 @@ public class LaserTower : MonoBehaviour, ITower
     float m_currentTickRate;
     int m_currentNbTarget;
 
-    float timerDuration;
-    float timerReload;
-    float timerTick;
+    float m_timerDuration;
+    float m_timerReload;
+    float m_timerTick;
 
     private System.Random organicRandom;
 
-    private LineRenderer mainBranch;
-    private List<LineRenderer> branches = new List<LineRenderer>();
+    private LineRenderer m_mainBranch;
+    private List<LineRenderer> m_branches = new List<LineRenderer>();
 
     public TowerType GetTowerType() => TowerType.Laser;
     public string GetTowerName() => "Laser Tower";
@@ -65,10 +65,10 @@ public class LaserTower : MonoBehaviour, ITower
         organicRandom = new System.Random();
 
         // Branchement principal
-        mainBranch = CreateLineRenderer("MainLaserBranch");
+        m_mainBranch = CreateLineRenderer("MainLaserBranch");
 
-        timerReload = 0;
-        timerDuration = m_currentDuration;
+        m_timerReload = 0;
+        m_timerDuration = m_currentDuration;
     }
 
     private LineRenderer CreateLineRenderer(string name)
@@ -78,17 +78,17 @@ public class LaserTower : MonoBehaviour, ITower
 
         LineRenderer lr = go.AddComponent<LineRenderer>();
         lr.enabled = false;
-        lr.startWidth = laserWidth;
-        lr.endWidth = laserWidth;
+        lr.startWidth = m_laserWidth;
+        lr.endWidth = m_laserWidth;
 
-        if (laserMaterial != null)
-            lr.material = laserMaterial;
+        if (m_laserMaterial != null)
+            lr.material = m_laserMaterial;
         else
             lr.material = new Material(Shader.Find("Sprites/Default"));
 
-        lr.startColor = laserStartColor;
-        lr.endColor = laserEndColor;
-        lr.sortingOrder = laserSortingOrder;
+        lr.startColor = m_laserStartColor;
+        lr.endColor = m_laserEndColor;
+        lr.sortingOrder = m_laserSortingOrder;
 
         lr.numCornerVertices = 5;
         lr.numCapVertices = 5;
@@ -98,26 +98,26 @@ public class LaserTower : MonoBehaviour, ITower
 
     void Update()
     {
-        if (timerDuration <= 0)
+        if (m_timerDuration <= 0)
         {
             DisableAllLasers();
-            timerReload -= Time.deltaTime;
+            m_timerReload -= Time.deltaTime;
 
-            if (timerReload <= 0)
+            if (m_timerReload <= 0)
             {
-                timerDuration = m_currentDuration;
-                timerTick = 0;
+                m_timerDuration = m_currentDuration;
+                m_timerTick = 0;
             }
         }
         else
         {
-            timerDuration -= Time.deltaTime;
+            m_timerDuration -= Time.deltaTime;
             Attack();
 
-            if (timerDuration <= 0)
+            if (m_timerDuration <= 0)
             {
                 DisableAllLasers();
-                timerReload = m_currentReloadTime;
+                m_timerReload = m_currentReloadTime;
             }
         }
     }
@@ -139,10 +139,10 @@ public class LaserTower : MonoBehaviour, ITower
         }
 
         // Damage tick
-        timerTick -= Time.deltaTime;
-        if (timerTick <= 0)
+        m_timerTick -= Time.deltaTime;
+        if (m_timerTick <= 0)
         {
-            timerTick = m_currentTickRate;
+            m_timerTick = m_currentTickRate;
             foreach (Enemy target in targets)
                 target?.TakeDamage(m_currentDamage);
         }
@@ -161,8 +161,8 @@ public class LaserTower : MonoBehaviour, ITower
 
         if (targets.Count == 1)
         {
-            DrawCurve(mainBranch, transform.position, targets[0].transform.position);
-            mainBranch.enabled = true;
+            DrawCurve(m_mainBranch, transform.position, targets[0].transform.position);
+            m_mainBranch.enabled = true;
         }
         else
         {
@@ -174,22 +174,22 @@ public class LaserTower : MonoBehaviour, ITower
             center /= targets.Count;
 
             Vector3 dir = (center - transform.position).normalized;
-            Vector3 splitPoint = transform.position + dir * splitPointDistance;
+            Vector3 splitPoint = transform.position + dir * m_splitPointDistance;
 
             // --- Branche principale ---
-            DrawCurve(mainBranch, transform.position, splitPoint);
-            mainBranch.enabled = true;
+            DrawCurve(m_mainBranch, transform.position, splitPoint);
+            m_mainBranch.enabled = true;
 
             // --- Préparer les branches secondaires ---
-            while (branches.Count < targets.Count)
-                branches.Add(CreateLineRenderer("LaserBranch"));
+            while (m_branches.Count < targets.Count)
+                m_branches.Add(CreateLineRenderer("LaserBranch"));
 
-            for (int i = 0; i < branches.Count; i++)
-                branches[i].enabled = i < targets.Count;
+            for (int i = 0; i < m_branches.Count; i++)
+                m_branches[i].enabled = i < targets.Count;
 
             // --- Branches → targets ---
             for (int i = 0; i < targets.Count; i++)
-                DrawCurve(branches[i], splitPoint, targets[i].transform.position);
+                DrawCurve(m_branches[i], splitPoint, targets[i].transform.position);
         }
     }
 
@@ -198,7 +198,7 @@ public class LaserTower : MonoBehaviour, ITower
         start.z = 0;
         end.z = 0;
 
-        int res = curveResolutionPerSegment;
+        int res = m_curveResolutionPerSegment;
         lr.positionCount = res;
 
         Vector3 dir = end - start;
@@ -206,7 +206,7 @@ public class LaserTower : MonoBehaviour, ITower
 
         // Perpendiculaire organique
         Vector3 perp = GetOrganicPerpendicular(dir);
-        Vector3 control = (start + end) * 0.5f + perp * curveHeight * (curvature * -dir.x) * dist;
+        Vector3 control = (start + end) * 0.5f + perp * m_curveHeight * (m_curvature * -dir.x) * dist;
 
         for (int i = 0; i < res; i++)
         {
@@ -225,7 +225,7 @@ public class LaserTower : MonoBehaviour, ITower
     {
         Vector3 basePerp = new Vector3(-dir.y, dir.x, 0).normalized;
 
-        float random = ((float)organicRandom.NextDouble() - 0.5f) * organicVariation;
+        float random = ((float)organicRandom.NextDouble() - 0.5f) * m_organicVariation;
 
         return basePerp * (1f + random);
     }
@@ -233,10 +233,10 @@ public class LaserTower : MonoBehaviour, ITower
     // -------------------------------------------------------------
     private void DisableAllLasers()
     {
-        if (mainBranch != null)
-            mainBranch.enabled = false;
+        if (m_mainBranch != null)
+            m_mainBranch.enabled = false;
 
-        foreach (var b in branches)
+        foreach (var b in m_branches)
             if (b != null) b.enabled = false;
     }
 

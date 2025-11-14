@@ -103,25 +103,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b19b04c5c1729854c9b21928ad268505, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LaserTower
-  m_baseDamage: 10
+  m_baseDamage: 25
   m_baseRange: 15
-  m_baseReloadTime: 1
-  m_baseDuration: 2000
+  m_baseReloadTime: 2
+  m_baseDuration: 8
   m_baseTickRate: 0.1
-  m_baseNbTarget: 3
+  m_baseNbTarget: 1
   m_damageMultiplier: 1
   m_rangeIncrease: 1
   m_reloadTimeDecrease: 0
   m_durationIncrease: 0
   m_tickRateIncrease: 0
-  m_nbTargetIncrease: 0
-  laserWidth: 0.1
-  laserStartColor: {r: 0.011263967, g: 1, b: 0, a: 1}
-  laserEndColor: {r: 0.011764706, g: 1, b: 0, a: 0.8}
-  laserMaterial: {fileID: 0}
-  laserSortingOrder: 5
-  curveResolutionPerSegment: 15
-  curvature: 0.1
-  curveHeight: 1
-  splitPointDistance: 2
-  organicVariation: 0.3
+  m_nbTargetIncrease: 1
+  m_laserWidth: 0.1
+  m_laserStartColor: {r: 0, g: 1, b: 0.4980392, a: 1}
+  m_laserEndColor: {r: 0, g: 1, b: 0.4980392, a: 1}
+  m_laserMaterial: {fileID: 0}
+  m_laserSortingOrder: 5
+  m_curveResolutionPerSegment: 15
+  m_curvature: 0.1
+  m_curveHeight: 1
+  m_splitPointDistance: 6
+  m_organicVariation: 0.5
