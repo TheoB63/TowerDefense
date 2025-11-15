@@ -51,7 +51,7 @@ public class Tower : MonoBehaviour, ITower
         m_currentCritMultiplier = m_baseCritMultiplier;
     }
 
-    protected void MoveLauncher()
+    protected virtual void MoveLauncher()
     {
         if (GameManager.Instance.Enemies.Count > 0)
         {

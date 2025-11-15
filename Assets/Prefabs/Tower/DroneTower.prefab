@@ -167,13 +167,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0efff9aede9a43429d5eee3ee33e535, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DroneSpawnerTower
-  m_projectilesPrefab: {fileID: 156813481361084957}
+  m_projectilesPrefab: {fileID: 272534513122864710, guid: 4d5d3a4785846254085551ee74ba2630, type: 3}
   m_barrel: {fileID: 1243431577200317223}
   m_launcher: {fileID: 1243431577200317223}
-  m_armRotationSpeed: 0
+  m_armRotationSpeed: 10
   m_type: 3
   m_towerName: Drone Tower
-  m_baseDamage: 10
+  m_baseDamage: 20
   m_baseRange: 0
   m_baseCritRate: 0
   m_baseCritMultiplier: 0
@@ -183,6 +183,14 @@ MonoBehaviour:
   m_rangeIncrease: 1
   m_critRateIncrease: 0
   m_CritMultiplierIncrease: 0
+  m_baseMaxDrone: 3
+  m_baseSpawnCooldown: 0.2
+  m_baseReloadCooldown: 3
+  m_baseNbAttack: 3
+  m_maxDroneIncrease: 2
+  m_spawnCooldownDecrease: 0
+  m_reloadCooldownDecrease: 0
+  m_nbAttackIncrease: 2
 --- !u!1 &8699490300244343990
 GameObject:
   m_ObjectHideFlags: 0
