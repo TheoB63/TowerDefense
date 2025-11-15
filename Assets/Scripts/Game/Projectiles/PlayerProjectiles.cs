@@ -1,9 +1,8 @@
 using UnityEngine;
 
-public class PlayerProjectiles : MonoBehaviour
+public class PlayerProjectiles : Projectiles
 {
     [Header("Values")]
-    [SerializeField] float m_speed;
     [SerializeField] int m_damageBase;
 
     //runtime values
@@ -16,6 +15,8 @@ public class PlayerProjectiles : MonoBehaviour
 
     void Update()
     {
+        OutScreenDelete();
+
         if (m_direction != Vector2.zero)
         {
             Vector2 movement = m_direction * m_speed * Time.deltaTime;

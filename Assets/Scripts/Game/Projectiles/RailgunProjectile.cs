@@ -1,9 +1,8 @@
 using UnityEngine;
 
-public class RailgunProjectile : MonoBehaviour
+public class RailgunProjectile : Projectiles
 {
     [Header("Values")]
-    [SerializeField] float m_speed;
     [SerializeField] int m_damageBase;
     [SerializeField] float m_explosionRadius;
     [SerializeField] float m_explosionForce;
@@ -16,6 +15,8 @@ public class RailgunProjectile : MonoBehaviour
 
     void Update()
     {
+        OutScreenDelete();
+
         if (direction != Vector2.zero)
         {
             Vector2 movement = direction * m_speed * Time.deltaTime;

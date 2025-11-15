@@ -150,7 +150,16 @@ public class LaserTower : Tower
             return;
         }
 
-        //TickDamage
+        while (targets.Count < m_currentNbTarget)
+        {
+            List<Enemy> addTargets = GetNearestEnemies(transform, m_currentNbTarget - targets.Count);
+            foreach (Enemy enemy in addTargets)
+            {
+                targets.Add(enemy);
+            }
+        }
+
+        //TickDamage to all targets (xAttack if same enemy)
         m_timerTick -= Time.deltaTime;
         if (m_timerTick <= 0)
         {
@@ -158,6 +167,19 @@ public class LaserTower : Tower
             foreach (Enemy target in targets)
             {
                 target?.TakeDamage(m_currentDamage);
+            }
+        }
+
+        //remove if same target
+        for (int i = 0; i < targets.Count; i++)
+        {
+            for (int j = i + 1; j < targets.Count; j++)
+            {
+                if (targets[i] == targets[j])
+                {
+                    targets.RemoveAt(j);
+                    j--;
+                }
             }
         }
 
@@ -258,7 +280,6 @@ public class LaserTower : Tower
         foreach (LineRenderer branch in m_branches)
         {
             if (branch != null) branch.enabled = false;
-
         }
     }
 

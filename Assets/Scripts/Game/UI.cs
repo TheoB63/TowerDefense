@@ -36,7 +36,10 @@ public class UI : MonoBehaviour
         m_xpBar.fillAmount = amountLvl;
 
         //shield hp
-        m_shieldHpText.text = shield.Hp.ToString() + "/" + shield.BaseHp.ToString();
+        if (shield != null)
+        {
+            m_shieldHpText.text = shield.Hp.ToString() + "/" + shield.BaseHp.ToString();
+        }
         float amountHp = shield.Hp / shield.BaseHp;
         m_shieldHpBar.fillAmount = amountHp;
     }

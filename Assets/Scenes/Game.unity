@@ -1182,6 +1182,11 @@ MonoBehaviour:
   m_nameText: {fileID: 159140378}
   m_descriptionText: {fileID: 1931462047}
   m_button: {fileID: 656025944}
+--- !u!4 &694692774 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5549805235416116858, guid: 70a04de30fb41b4499041c270047c365, type: 3}
+  m_PrefabInstance: {fileID: 1164486304}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &702209684
 GameObject:
   m_ObjectHideFlags: 0
@@ -2001,7 +2006,8 @@ Transform:
   m_LocalPosition: {x: -2, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 694692774}
   m_Father: {fileID: 2069975037}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1000124967
@@ -2213,6 +2219,67 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1112557265}
   m_CullTransparentMesh: 1
+--- !u!1001 &1164486304
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1000124966}
+    m_Modifications:
+    - target: {fileID: 3680209922806064918, guid: 70a04de30fb41b4499041c270047c365, type: 3}
+      propertyPath: m_Name
+      value: LaserTower
+      objectReference: {fileID: 0}
+    - target: {fileID: 5549805235416116858, guid: 70a04de30fb41b4499041c270047c365, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5549805235416116858, guid: 70a04de30fb41b4499041c270047c365, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5549805235416116858, guid: 70a04de30fb41b4499041c270047c365, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5549805235416116858, guid: 70a04de30fb41b4499041c270047c365, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5549805235416116858, guid: 70a04de30fb41b4499041c270047c365, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5549805235416116858, guid: 70a04de30fb41b4499041c270047c365, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5549805235416116858, guid: 70a04de30fb41b4499041c270047c365, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5549805235416116858, guid: 70a04de30fb41b4499041c270047c365, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5549805235416116858, guid: 70a04de30fb41b4499041c270047c365, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5549805235416116858, guid: 70a04de30fb41b4499041c270047c365, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6687128292073214631, guid: 70a04de30fb41b4499041c270047c365, type: 3}
+      propertyPath: m_baseNbTarget
+      value: 10
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 70a04de30fb41b4499041c270047c365, type: 3}
 --- !u!1 &1180462420
 GameObject:
   m_ObjectHideFlags: 0
@@ -8735,8 +8802,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b93c4f0270bb96438e9435ae1412e5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  m_xpNeeded: 1
-  m_xpNeededMultiplier: 1.5
+  m_xpNeeded: 100
+  m_xpNeededMultiplier: 100
 --- !u!4 &2042976163
 Transform:
   m_ObjectHideFlags: 0
@@ -8769,18 +8836,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1a0eb61a6ceddf648aa82bba9a0f2626, type: 2}
   - {fileID: 11400000, guid: 73b265fce6113e0429326cf8f00eeb3c, type: 2}
   - {fileID: 11400000, guid: d60a4b385e6a2214ea743550cb7b6d76, type: 2}
-  m_towerUpgrades:
-  - {fileID: 11400000, guid: 367eb1ef7a640d446a319843908e665c, type: 2}
-  - {fileID: 11400000, guid: ddc02dc8ace8a474a88c5b7244a52141, type: 2}
-  - {fileID: 11400000, guid: c4f1ef235192e7742bd0f899f29cc4b4, type: 2}
-  - {fileID: 11400000, guid: 5ffc5a2c51542b94ea5c6e1b74ab8b52, type: 2}
-  - {fileID: 11400000, guid: 7e44c5bf1cbe1f14c9aa2a62c7cd9009, type: 2}
-  - {fileID: 11400000, guid: 863e724c30c327f4e9f021f095dbb920, type: 2}
-  - {fileID: 11400000, guid: 4565c27cbe907874e88b1920a3441b86, type: 2}
-  - {fileID: 11400000, guid: 8bc7f8de44e11a3418d04aef1661b02e, type: 2}
-  - {fileID: 11400000, guid: 38771781394c6b545ab7e41bf2ac71bc, type: 2}
-  - {fileID: 11400000, guid: f9d3dd8bc725dc040aa4a6c798c215c0, type: 2}
-  - {fileID: 11400000, guid: 47a8a496c42f7bd4fa3980f687388398, type: 2}
   m_playerUpgrades:
   - {fileID: 11400000, guid: ec1d59a3eace73e449f0f63a118a5b4e, type: 2}
   - {fileID: 11400000, guid: 5de4ca9c42daafb42bee5d4ecbabf094, type: 2}

@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1626403562815581251}
   - component: {fileID: 6153233408990537912}
-  - component: {fileID: 3300172947776839489}
   - component: {fileID: 7632005467277121188}
+  - component: {fileID: 3300172947776839489}
   m_Layer: 0
   m_Name: BasicProjectile 1
   m_TagString: Untagged
@@ -82,7 +82,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0, g: 0.94729495, b: 1, a: 1}
+  m_Color: {r: 0, g: 1, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -92,20 +92,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3300172947776839489
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6785386579278548509}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07947e633ad77b9469886e19e9115540, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Projectiles
-  m_speed: 10
-  m_damageBase: 10
 --- !u!58 &7632005467277121188
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -142,3 +128,17 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
+--- !u!114 &3300172947776839489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6785386579278548509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07947e633ad77b9469886e19e9115540, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Projectiles
+  m_speed: 10
+  m_damageBase: 10
