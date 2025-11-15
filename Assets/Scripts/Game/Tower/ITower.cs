@@ -5,15 +5,15 @@ public interface ITower
     TowerType GetTowerType();
     string GetTowerName();
     void ApplyUpgrade(string _upgradeName);
-    List<string> GetAvailableUpgrades();
+    List<UpgradeBase> GetAvailableUpgrades();
 }
 
 public enum TowerType
 {
-    Laser,
     Projectile,
+    Railgun,
+    Laser,
     Drone,
     SlowArea,
-    Railgun,
     // etc.
 }

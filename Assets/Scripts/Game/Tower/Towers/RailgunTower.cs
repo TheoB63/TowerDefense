@@ -1,56 +1,43 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RailgunTower : MonoBehaviour, ITower
+public class RailgunTower : Tower
 {
-    [Header("References")]
-    [SerializeField] GameObject m_projectilesPrefab;
-    [SerializeField] Transform m_barrel;
-    [SerializeField] Transform m_canon;
-    [SerializeField] float m_armRotationSpeed;
-
     [Header("Base Stats")]
-    [SerializeField] int m_baseDamage;
-    [SerializeField] float m_baseRange;
     [SerializeField] float m_baseAttackSpeed;
     [SerializeField] int m_baseNbProjectiles;
 
     [SerializeField] int m_basePenetration;
-    [SerializeField] float m_baseCritRate;
-    [SerializeField] float m_baseCritMultiplier;
 
     [Header("Upgrades")]
-    [SerializeField] float m_damageMultiplier;
-    [SerializeField] int m_rangeIncrease;
     [SerializeField] float m_attackSpeedMultiplier;
     [SerializeField] int m_nbProjectilesIncrease;
 
     [SerializeField] int m_penetrationIncrease;
-    [SerializeField] float m_critRateIncrease;
-    [SerializeField] float m_CritMultiplierIncrease;
 
     //Privates Current values in run time
-    int m_currentDamage;
-    float m_currentRange;
     float m_currentAttackSpeed;
     int m_currentNbProjectiles;
     int m_currentPenetration;
-    float m_currentCritRate;
-    float m_currentCritMultiplier;
 
     [Header("Public Values (Get Only)")]
-    public int Damage { get => m_currentDamage; set => m_currentDamage = value; }
-    public float Range { get => m_currentRange; set => m_currentRange = value; }
     public float AttackSpeed { get => m_currentAttackSpeed; set => m_currentAttackSpeed = value; }
     public int NbProjectiles { get => m_currentNbProjectiles; set => m_currentNbProjectiles = value; }
     public int Penetration { get => m_currentPenetration; set => m_currentPenetration = value; }
-    public float CritRate { get => m_currentCritRate; set => m_currentCritRate = value; }
-    public float CritMultiplier { get => m_currentCritMultiplier; set => m_currentCritMultiplier = value; }
 
     float m_timerShoot;
 
     private void Start()
     {
+        InitializeTower();
+        m_currentAttackSpeed = m_baseAttackSpeed;
+        m_currentNbProjectiles = m_baseNbProjectiles;
+        m_currentPenetration = m_basePenetration;
+    }
+
+    protected override void InitializeTower()
+    {
+        base.InitializeTower();
         m_currentDamage = m_baseDamage;
         m_currentRange = m_baseRange;
         m_currentAttackSpeed = m_baseAttackSpeed;
@@ -63,7 +50,7 @@ public class RailgunTower : MonoBehaviour, ITower
 
     void Update()
     {
-        MoveCanon();
+        MoveLauncher();
 
         m_timerShoot += Time.deltaTime;
 
@@ -140,23 +127,7 @@ public class RailgunTower : MonoBehaviour, ITower
         return false;
     }
 
-    private void MoveCanon()
-    {
-        if (GameManager.Instance.Enemies.Count > 0)
-        {
-            Enemy target = GameManager.Instance.GetNearestEnemy(transform);
-
-            Vector2 dir = target.transform.position - m_canon.position;
-            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-            Quaternion targetRot = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
-            m_canon.rotation = Quaternion.Lerp(m_canon.rotation, targetRot, m_armRotationSpeed * Time.deltaTime);
-        }
-    }
-
-    public TowerType GetTowerType() => TowerType.Railgun;
-    public string GetTowerName() => "Railgun Tower";
-
-    public void ApplyUpgrade(string _upgradeName)
+    public override void ApplyUpgrade(string _upgradeName)
     {
         switch (_upgradeName)
         {
@@ -182,18 +153,16 @@ public class RailgunTower : MonoBehaviour, ITower
         }
     }
 
-    public List<string> GetAvailableUpgrades()
+    public override List<UpgradeBase> GetAvailableUpgrades()
     {
-        var upgrades = new List<string>();
+        List<UpgradeBase> available = new List<UpgradeBase>();
 
-        //add all for test but need to see later how to get nb upgrade use (max upgrade and rarity of the upgrade)
-        upgrades.Add("IncreaseDamage");
-        upgrades.Add("IncreaseRange");
-        upgrades.Add("IncreaseAttackSpeed");
-        upgrades.Add("IncreasePenetration");
-        upgrades.Add("IncreaseNbProjectiles");
-
-        return upgrades;
+        foreach (TowerUpgrade upgrade in m_towerUpgrades)
+        {
+            TowerUpgrade copy = Instantiate(upgrade);
+            available.Add(copy);
+        }
+        return available;
     }
 
     private void IncreaseDamage()

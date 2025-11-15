@@ -1,24 +1,15 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class LaserTower : MonoBehaviour, ITower
+public class LaserTower : Tower
 {
-    [Header("References")]
-    [SerializeField] Transform m_barrel;
-    [SerializeField] Transform m_canon;
-    [SerializeField] float m_armRotationSpeed;
-
     [Header("Laser Base Stats")]
-    [SerializeField] int m_baseDamage;
-    [SerializeField] float m_baseRange;
     [SerializeField] float m_baseReloadTime;
     [SerializeField] float m_baseDuration;
     [SerializeField] float m_baseTickRate;
     [SerializeField] int m_baseNbTarget;
 
     [Header("Upgrades")]
-    [SerializeField] int m_damageMultiplier;
-    [SerializeField] float m_rangeIncrease;
     [SerializeField] float m_reloadTimeDecrease;
     [SerializeField] float m_durationIncrease;
     [SerializeField] float m_tickRateIncrease;
@@ -39,8 +30,6 @@ public class LaserTower : MonoBehaviour, ITower
     [SerializeField] float m_organicVariation;
 
     //Runtime values
-    int m_currentDamage;
-    float m_currentRange;
     float m_currentReloadTime;
     float m_currentDuration;
     float m_currentTickRate;
@@ -58,13 +47,14 @@ public class LaserTower : MonoBehaviour, ITower
     private LineRenderer m_mainBranch;
     private List<LineRenderer> m_branches = new List<LineRenderer>();
 
-    public TowerType GetTowerType() => TowerType.Laser;
-    public string GetTowerName() => "Laser Tower";
-
     void Start()
     {
-        m_currentDamage = m_baseDamage;
-        m_currentRange = m_baseRange;
+        InitializeTower();
+    }
+
+    protected override void InitializeTower()
+    {
+        base.InitializeTower();
         m_currentReloadTime = m_baseReloadTime;
         m_currentDuration = m_baseDuration;
         m_currentTickRate = m_baseTickRate;
@@ -115,7 +105,7 @@ public class LaserTower : MonoBehaviour, ITower
 
     void Update()
     {
-        MoveCanon();
+        MoveLauncher();
 
         if (Time.timeScale != 0) // != pause need to rework later with level up menu
         {
@@ -173,19 +163,6 @@ public class LaserTower : MonoBehaviour, ITower
 
         //Visual
         SetupLaserNetwork(targets);
-    }
-
-    private void MoveCanon()
-    {
-        if (GameManager.Instance.Enemies.Count > 0)
-        {
-            Enemy target = GameManager.Instance.GetNearestEnemy(transform);
-
-            Vector2 dir = target.transform.position - m_canon.position;
-            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-            Quaternion targetRot = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
-            m_canon.rotation = Quaternion.Lerp(m_canon.rotation, targetRot, m_armRotationSpeed * Time.deltaTime);
-        }
     }
 
     private void SetupLaserNetwork(List<Enemy> targets)
@@ -322,7 +299,7 @@ public class LaserTower : MonoBehaviour, ITower
         Gizmos.DrawWireSphere(transform.position, range);
     }
 
-    public void ApplyUpgrade(string _upgradeName)
+    public override void ApplyUpgrade(string _upgradeName)
     {
         switch (_upgradeName)
         {
@@ -340,13 +317,16 @@ public class LaserTower : MonoBehaviour, ITower
         }
     }
 
-    public List<string> GetAvailableUpgrades()
+    public override List<UpgradeBase> GetAvailableUpgrades()
     {
-        var upgrades = new List<string>();
-        upgrades.Add("IncreaseDamage");
-        upgrades.Add("IncreaseRange");
-        upgrades.Add("IncreaseTargets");
-        return upgrades;
+        List<UpgradeBase> available = new List<UpgradeBase>();
+
+        foreach (TowerUpgrade upgrade in m_towerUpgrades)
+        {
+            TowerUpgrade copy = Instantiate(upgrade);
+            available.Add(copy);
+        }
+        return available;
     }
 
     private void IncreaseDamage()

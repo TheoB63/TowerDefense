@@ -46,17 +46,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b19b04c5c1729854c9b21928ad268505, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LaserTower
+  m_projectilesPrefab: {fileID: 0}
   m_barrel: {fileID: 2770426657332253988}
-  m_canon: {fileID: 4807092253613395151}
+  m_launcher: {fileID: 4807092253613395151}
   m_armRotationSpeed: 10
-  m_baseDamage: 25
+  m_type: 2
+  m_towerName: Laser Tower
+  m_baseDamage: 50
   m_baseRange: 15
-  m_baseReloadTime: 2
-  m_baseDuration: 8
-  m_baseTickRate: 0.1
-  m_baseNbTarget: 1
-  m_damageMultiplier: 1
+  m_baseCritRate: 0
+  m_baseCritMultiplier: 0
+  m_towerUpgrades:
+  - {fileID: 11400000, guid: 5ffc5a2c51542b94ea5c6e1b74ab8b52, type: 2}
+  - {fileID: 11400000, guid: 7e44c5bf1cbe1f14c9aa2a62c7cd9009, type: 2}
+  - {fileID: 11400000, guid: 863e724c30c327f4e9f021f095dbb920, type: 2}
+  m_damageMultiplier: 1.1
   m_rangeIncrease: 1
+  m_critRateIncrease: 0
+  m_CritMultiplierIncrease: 0
+  m_baseReloadTime: 2
+  m_baseDuration: 4
+  m_baseTickRate: 0.5
+  m_baseNbTarget: 1
   m_reloadTimeDecrease: 0
   m_durationIncrease: 0
   m_tickRateIncrease: 0

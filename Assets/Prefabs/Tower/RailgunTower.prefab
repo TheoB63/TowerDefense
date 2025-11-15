@@ -228,22 +228,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RailgunTower
   m_projectilesPrefab: {fileID: 6785386579278548509, guid: 247be02942fd6ed49a98bf8aba399f68, type: 3}
   m_barrel: {fileID: 1932824664457526225}
-  m_canon: {fileID: 3420532588329514111}
+  m_launcher: {fileID: 3420532588329514111}
   m_armRotationSpeed: 10
+  m_type: 1
+  m_towerName: Railgun Tower
   m_baseDamage: 10
   m_baseRange: 10
+  m_baseCritRate: 0
+  m_baseCritMultiplier: 0
+  m_towerUpgrades:
+  - {fileID: 11400000, guid: 4565c27cbe907874e88b1920a3441b86, type: 2}
+  - {fileID: 11400000, guid: 8bc7f8de44e11a3418d04aef1661b02e, type: 2}
+  - {fileID: 11400000, guid: 38771781394c6b545ab7e41bf2ac71bc, type: 2}
+  - {fileID: 11400000, guid: f9d3dd8bc725dc040aa4a6c798c215c0, type: 2}
+  - {fileID: 11400000, guid: 47a8a496c42f7bd4fa3980f687388398, type: 2}
+  m_damageMultiplier: 1.1
+  m_rangeIncrease: 1
+  m_critRateIncrease: 0
+  m_CritMultiplierIncrease: 0
   m_baseAttackSpeed: 1
   m_baseNbProjectiles: 2
   m_basePenetration: 3
-  m_baseCritRate: 0
-  m_baseCritMultiplier: 0
-  m_damageMultiplier: 1.1
-  m_rangeIncrease: 1
   m_attackSpeedMultiplier: 1.1
   m_nbProjectilesIncrease: 2
   m_penetrationIncrease: 2
-  m_critRateIncrease: 0
-  m_CritMultiplierIncrease: 0
 --- !u!1 &4959586694682172749
 GameObject:
   m_ObjectHideFlags: 0

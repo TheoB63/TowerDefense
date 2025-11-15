@@ -53,9 +53,7 @@ public class TabMenu : MonoBehaviour
     {
         EnsureIndexIsInRange(m_startPage);
         m_pageIndex = m_startPage;
-
         m_tabs[m_pageIndex].SetIsOnWithoutNotify(true);
-
         OpenPage(m_pageIndex);
     }
 

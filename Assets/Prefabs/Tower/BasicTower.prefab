@@ -228,22 +228,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BasicTower
   m_projectilesPrefab: {fileID: 6785386579278548509, guid: 107b40ca18da18f4bb66cb95e1aac752, type: 3}
   m_barrel: {fileID: 3889457360061722355}
-  m_canon: {fileID: 8333828416325663763}
+  m_launcher: {fileID: 8333828416325663763}
   m_armRotationSpeed: 10
+  m_type: 0
+  m_towerName: Basic Tower
   m_baseDamage: 5
   m_baseRange: 5
+  m_baseCritRate: 0
+  m_baseCritMultiplier: 0
+  m_towerUpgrades:
+  - {fileID: 11400000, guid: 367eb1ef7a640d446a319843908e665c, type: 2}
+  - {fileID: 11400000, guid: ddc02dc8ace8a474a88c5b7244a52141, type: 2}
+  m_damageMultiplier: 1.1
+  m_rangeIncrease: 1
+  m_critRateIncrease: 0
+  m_CritMultiplierIncrease: 0
   m_baseAttackSpeed: 10
   m_baseNbProjectiles: 1
   m_basePenetration: 0
-  m_baseCritRate: 0
-  m_baseCritMultiplier: 0
-  m_damageMultiplier: 1.1
-  m_rangeIncrease: 1
   m_attackSpeedMultiplier: 1.1
-  m_nbProjectilesIncrease: 0
-  m_penetrationIncrease: 0
-  m_critRateIncrease: 0
-  m_CritMultiplierIncrease: 0
+  m_nbProjectilesIncrease: 1
+  m_penetrationIncrease: 1
 --- !u!1 &3784087951606035478
 GameObject:
   m_ObjectHideFlags: 0
