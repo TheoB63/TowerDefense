@@ -15,6 +15,6 @@ MonoBehaviour:
   upgradeName: Railgun Range +
   icon: {fileID: 0}
   description: "Augmente la port\xE9e"
-  targetTowerType: 4
+  targetTowerType: 1
   upgradeMethodName: IncreaseRange
   specificSlot: {fileID: 0}

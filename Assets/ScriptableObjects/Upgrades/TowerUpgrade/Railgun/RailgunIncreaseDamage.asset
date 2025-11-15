@@ -15,6 +15,6 @@ MonoBehaviour:
   upgradeName: Railgun Damage +
   icon: {fileID: 0}
   description: "Augmente les d\xE9g\xE2ts des projectiles"
-  targetTowerType: 4
+  targetTowerType: 1
   upgradeMethodName: IncreaseDamage
   specificSlot: {fileID: 0}

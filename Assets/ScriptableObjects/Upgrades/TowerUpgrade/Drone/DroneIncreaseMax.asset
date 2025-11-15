@@ -15,5 +15,6 @@ MonoBehaviour:
   upgradeName: More Drones
   icon: {fileID: 0}
   description: Augmente le nombre max de drones
-  targetTowerType: 2
+  targetTowerType: 3
   upgradeMethodName: IncreaseMaxDrones
+  specificSlot: {fileID: 0}

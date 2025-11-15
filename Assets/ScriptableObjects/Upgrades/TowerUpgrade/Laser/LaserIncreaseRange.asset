@@ -15,5 +15,6 @@ MonoBehaviour:
   upgradeName: Laser Range +
   icon: {fileID: 0}
   description: "Augmente la port\xE9e du laser"
-  targetTowerType: 0
+  targetTowerType: 2
   upgradeMethodName: IncreaseRange
+  specificSlot: {fileID: 0}

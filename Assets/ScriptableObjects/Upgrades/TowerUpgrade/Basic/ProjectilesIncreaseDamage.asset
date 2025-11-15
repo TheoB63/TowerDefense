@@ -15,5 +15,6 @@ MonoBehaviour:
   upgradeName: Projectiles Damage +
   icon: {fileID: 0}
   description: "Augmente les d\xE9g\xE2ts des projectiles de 50%"
-  targetTowerType: 1
+  targetTowerType: 0
   upgradeMethodName: IncreaseDamage
+  specificSlot: {fileID: 0}

@@ -15,5 +15,6 @@ MonoBehaviour:
   upgradeName: Projectiles Range +
   icon: {fileID: 0}
   description: "Augmente la port\xE9e de tir"
-  targetTowerType: 1
+  targetTowerType: 0
   upgradeMethodName: IncreaseRange
+  specificSlot: {fileID: 0}

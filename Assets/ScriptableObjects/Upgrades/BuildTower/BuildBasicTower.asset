@@ -16,5 +16,5 @@ MonoBehaviour:
   icon: {fileID: 0}
   description: Tire sur les enemis.
   towerPrefab: {fileID: 3680209922806064918, guid: 7835d6068ae6591469f876f67a71a115, type: 3}
-  towerType: 1
+  towerType: 0
   specificSlot: {fileID: 0}

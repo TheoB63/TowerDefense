@@ -16,4 +16,5 @@ MonoBehaviour:
   icon: {fileID: 0}
   description: "G\xE9n\xE8re des drones qui attaquent"
   towerPrefab: {fileID: 5565473218187319975, guid: b0bc9021113669a49bb9a8d70da05307, type: 3}
-  towerType: 2
+  towerType: 3
+  specificSlot: {fileID: 0}

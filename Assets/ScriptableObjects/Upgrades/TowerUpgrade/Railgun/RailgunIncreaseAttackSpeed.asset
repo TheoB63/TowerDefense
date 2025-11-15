@@ -15,6 +15,6 @@ MonoBehaviour:
   upgradeName: Railgun AttackSpeed +
   icon: {fileID: 0}
   description: AttackSpeed +10%
-  targetTowerType: 4
+  targetTowerType: 1
   upgradeMethodName: IncreaseAttackSpeed
   specificSlot: {fileID: 0}
