@@ -14,7 +14,6 @@ public class TowerUpgrade : UpgradeBase
         TowerSlot targetSlot = specificSlot ?? _slot;
 
         ITower tower = _slot.GetTower();
-        Debug.Log("iTower : " + tower.GetTowerType() + " targettype : " + targetTowerType);
         return tower.GetTowerType() == targetTowerType;
     }
 
