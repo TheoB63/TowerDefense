@@ -15,6 +15,6 @@ MonoBehaviour:
   upgradeName: Railgun Penetration+
   icon: {fileID: 0}
   description: Increase Penetration
-  targetTowerType: 4
+  targetTowerType: 1
   upgradeMethodName: IncreasePenetration
   specificSlot: {fileID: 0}

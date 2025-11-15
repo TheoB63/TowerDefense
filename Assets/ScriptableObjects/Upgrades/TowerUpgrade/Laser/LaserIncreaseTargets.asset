@@ -15,6 +15,6 @@ MonoBehaviour:
   upgradeName: More Laser
   icon: {fileID: 0}
   description: Split the laser
-  targetTowerType: 0
+  targetTowerType: 2
   upgradeMethodName: IncreaseTargets
   specificSlot: {fileID: 0}

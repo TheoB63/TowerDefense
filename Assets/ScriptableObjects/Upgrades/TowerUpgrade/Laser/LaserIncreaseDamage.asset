@@ -15,5 +15,6 @@ MonoBehaviour:
   upgradeName: Laser Damage +
   icon: {fileID: 0}
   description: "Augmente les d\xE9g\xE2ts du laser de 50%"
-  targetTowerType: 0
+  targetTowerType: 2
   upgradeMethodName: IncreaseDamage
+  specificSlot: {fileID: 0}

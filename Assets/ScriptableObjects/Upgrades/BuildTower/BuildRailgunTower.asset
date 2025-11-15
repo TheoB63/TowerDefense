@@ -16,5 +16,5 @@ MonoBehaviour:
   icon: {fileID: 0}
   description: Very fast and explosive projectile
   towerPrefab: {fileID: 3680209922806064918, guid: 8f202ce18a06b5c439a0bcdab597f255, type: 3}
-  towerType: 4
+  towerType: 1
   specificSlot: {fileID: 0}

@@ -15,6 +15,6 @@ MonoBehaviour:
   upgradeName: Railgun Projectile +
   icon: {fileID: 0}
   description: Augmente le nombre de projectiles de 2
-  targetTowerType: 4
+  targetTowerType: 1
   upgradeMethodName: IncreaseNbProjectiles
   specificSlot: {fileID: 0}

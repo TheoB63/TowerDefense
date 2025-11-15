@@ -7,7 +7,6 @@ public class UpgradeChoiceManager : MonoBehaviour
 {
     [Header("Upgrades")]
     [SerializeField] List<TowerConstructionUpgrade> m_constructionUpgrades;
-    [SerializeField] List<TowerSpecificUpgrade> m_towerUpgrades;
     [SerializeField] List<PlayerUpgrade> m_playerUpgrades;
 
     [Header("References")]
@@ -91,30 +90,22 @@ public class UpgradeChoiceManager : MonoBehaviour
                 ITower tower = slot.GetTower();
                 if (tower != null)
                 {
-                    List<string> availableTowerUpgrades = tower.GetAvailableUpgrades();
+                    List<UpgradeBase> availableTowerUpgrades = tower.GetAvailableUpgrades();
 
-                    foreach (TowerSpecificUpgrade upgrade in m_towerUpgrades)
+                    foreach (UpgradeBase upgrade in availableTowerUpgrades)
                     {
-                        //Verif type and canApply
-                        if (upgrade.targetTowerType == slot.Type &&
-                            availableTowerUpgrades.Contains(upgrade.upgradeMethodName) &&
-                            upgrade.CanApply(slot, m_playerStats))
+                        bool isInList = false;
+                        foreach (UpgradeBase up in available)
                         {
-                            bool isInList = false;
-                            foreach (UpgradeBase up in available)
+                            if (upgrade.upgradeName == up.upgradeName)
                             {
-                                if (upgrade.upgradeName == up.upgradeName)
-                                {
-                                    isInList = true;
-                                }
+                                isInList = true;
                             }
-                            if (!isInList)
-                            {
-                                TowerSpecificUpgrade copy = Instantiate(upgrade);
-                                available.Add(copy);
-                            }
-
-
+                        }
+                        if (!isInList)
+                        {
+                            UpgradeBase copy = Instantiate(upgrade);
+                            available.Add(copy);
                         }
                     }
                 }
@@ -240,7 +231,7 @@ public class UpgradeChoiceManager : MonoBehaviour
                         }
                     }
                 }
-                else if (_choices[i] is TowerSpecificUpgrade towerUpgrade)
+                else if (_choices[i] is TowerUpgrade towerUpgrade)
                 {
                     foreach (TowerSlot slot in m_towerSlots)
                     {

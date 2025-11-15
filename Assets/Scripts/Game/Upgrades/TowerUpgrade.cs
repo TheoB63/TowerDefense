@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "TowerUpgrade", menuName = "Scriptable Objects/Upgrades/Tower Upgrade")]
-public class TowerSpecificUpgrade : UpgradeBase
+public class TowerUpgrade : UpgradeBase
 {
     public TowerType targetTowerType;
     public string upgradeMethodName; // Nom de la méthode à appeler
