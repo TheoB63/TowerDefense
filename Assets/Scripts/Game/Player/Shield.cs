@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Shield : MonoBehaviour
 {
@@ -24,5 +25,10 @@ public class Shield : MonoBehaviour
             _collision.GetComponent<Enemy>().Kill();
         }
         UI.Instance.UpdateUI();
+
+        if (m_currentHp <= 0)
+        {
+            SceneManager.LoadScene("Menu");
+        }
     }
 }
