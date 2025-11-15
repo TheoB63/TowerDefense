@@ -12,6 +12,7 @@ public class Shield : MonoBehaviour
     private void Start()
     {
         m_currentHp = m_baseHp;
+        UI.Instance.shield = this;
         UI.Instance.UpdateUI();
     }
 

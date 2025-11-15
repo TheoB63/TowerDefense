@@ -11,7 +11,7 @@ public class UI : MonoBehaviour
     [SerializeField] TextMeshProUGUI m_levelText;
     [SerializeField] Image m_xpBar;
 
-    [SerializeField] Shield shield;
+    public Shield shield;
     [SerializeField] TextMeshProUGUI m_shieldHpText;
     [SerializeField] Image m_shieldHpBar;
 
@@ -39,8 +39,8 @@ public class UI : MonoBehaviour
         if (shield != null)
         {
             m_shieldHpText.text = shield.Hp.ToString() + "/" + shield.BaseHp.ToString();
+            float amountHp = shield.Hp / shield.BaseHp;
+            m_shieldHpBar.fillAmount = amountHp;
         }
-        float amountHp = shield.Hp / shield.BaseHp;
-        m_shieldHpBar.fillAmount = amountHp;
     }
 }
