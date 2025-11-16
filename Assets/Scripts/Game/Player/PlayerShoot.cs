@@ -37,9 +37,9 @@ public class PlayerShoot : MonoBehaviour
 
     bool Shoot()
     {
-        if (GameManager.Instance.Enemies.Count > 0)
+        if (EnemyManager.Instance.Enemies.Count > 0)
         {
-            Enemy target = GameManager.Instance.GetNearestEnemy(transform);
+            Enemy target = EnemyManager.Instance.GetNearestEnemy(transform);
 
             float dist = Vector2.Distance(transform.position, target.transform.position);
 
@@ -111,9 +111,9 @@ public class PlayerShoot : MonoBehaviour
 
     private void MoveFireCanon()
     {
-        if (GameManager.Instance.Enemies.Count > 0)
+        if (EnemyManager.Instance.Enemies.Count > 0)
         {
-            Enemy target = GameManager.Instance.GetNearestEnemy(transform);
+            Enemy target = EnemyManager.Instance.GetNearestEnemy(transform);
 
             for (int i = 0; i < m_arms.Count; i++)
             {

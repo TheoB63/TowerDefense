@@ -12,7 +12,6 @@ public class Shield : MonoBehaviour
     private void Start()
     {
         m_currentHp = m_baseHp;
-        UI.Instance.shield = this;
         UI.Instance.UpdateUI();
     }
 
@@ -29,7 +28,7 @@ public class Shield : MonoBehaviour
 
         if (m_currentHp <= 0)
         {
-            SceneManager.LoadScene("Menu");
+            GameManager.Instance.EndLevel(false);
         }
     }
 }

@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] GameObject damageTextPrefab;
     [SerializeField] GameObject deathEffectsPrefab;
+    public Color previewColor;
 
     public string EnemyName;
     public int Hp;
@@ -55,7 +56,7 @@ public class Enemy : MonoBehaviour
         particle.GetComponent<ParticleSystem>().emission.SetBurst(0, newBurst);
 
 
-        GameManager.Instance.Enemies.Remove(this);
+        EnemyManager.Instance.Enemies.Remove(this);
         Destroy(this.gameObject);
     }
 }

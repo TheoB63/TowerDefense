@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BuildBasicTower
   m_EditorClassIdentifier: Assembly-CSharp::TowerConstructionUpgrade
   upgradeName: Basic Tower
-  icon: {fileID: 0}
+  icon: {fileID: -2330701393990720033, guid: 1adf53602ef5dcf4b8196ccf730cc033, type: 3}
   description: Tire sur les enemis.
   towerPrefab: {fileID: 3680209922806064918, guid: 7835d6068ae6591469f876f67a71a115, type: 3}
   towerType: 0

@@ -1,18 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RailgunTower : Tower
+public class BasicTower : Tower
 {
     [Header("Base Stats")]
     [SerializeField] float m_baseAttackSpeed;
     [SerializeField] int m_baseNbProjectiles;
-
     [SerializeField] int m_basePenetration;
 
     [Header("Upgrades")]
     [SerializeField] float m_attackSpeedMultiplier;
     [SerializeField] int m_nbProjectilesIncrease;
-
     [SerializeField] int m_penetrationIncrease;
 
     //Privates Current values in run time
@@ -25,27 +23,20 @@ public class RailgunTower : Tower
     public int NbProjectiles { get => m_currentNbProjectiles; set => m_currentNbProjectiles = value; }
     public int Penetration { get => m_currentPenetration; set => m_currentPenetration = value; }
 
+    //Timer
     float m_timerShoot;
 
     private void Start()
     {
         InitializeTower();
-        m_currentAttackSpeed = m_baseAttackSpeed;
-        m_currentNbProjectiles = m_baseNbProjectiles;
-        m_currentPenetration = m_basePenetration;
     }
 
     protected override void InitializeTower()
     {
         base.InitializeTower();
-        m_currentDamage = m_baseDamage;
-        m_currentRange = m_baseRange;
         m_currentAttackSpeed = m_baseAttackSpeed;
         m_currentNbProjectiles = m_baseNbProjectiles;
-
         m_currentPenetration = m_basePenetration;
-        m_currentCritRate = m_baseCritRate;
-        m_currentCritMultiplier = m_baseCritMultiplier;
     }
 
     void Update()
@@ -65,11 +56,11 @@ public class RailgunTower : Tower
 
     bool Shoot()
     {
-        if (GameManager.Instance.Enemies.Count > 0)
+        if (EnemyManager.Instance.Enemies.Count > 0)
         {
-            Enemy target = GameManager.Instance.GetNearestEnemy(transform);
+            Enemy target = EnemyManager.Instance.GetNearestEnemy(transform);
 
-            float dist = Vector2.Distance(transform.position, target.transform.position);
+            float dist = Vector2.Distance(m_barrel.position, target.transform.position);
 
             if (dist <= m_currentRange)
             {
@@ -90,12 +81,12 @@ public class RailgunTower : Tower
                         }
 
                         Vector3 posTarget = new Vector3(targetPos.x + targetDist, targetPos.y);
-                        direction = posTarget - transform.position;
+                        direction = posTarget - m_barrel.position;
                         direction.Normalize();
 
                         GameObject go = Instantiate(m_projectilesPrefab, m_barrel.position, Quaternion.identity);
-                        go.GetComponent<RailgunProjectile>().Direction = direction;
-                        go.GetComponent<RailgunProjectile>().SetStats(m_currentDamage, m_currentPenetration);
+                        go.GetComponent<PlayerProjectiles>().Direction = direction;
+                        go.GetComponent<PlayerProjectiles>().SetStats(m_currentDamage, m_currentPenetration);
                     }
                 }
                 else
@@ -113,12 +104,12 @@ public class RailgunTower : Tower
                         }
 
                         Vector3 posTarget = new Vector3(targetPos.x + targetDist, targetPos.y);
-                        direction = posTarget - transform.position;
+                        direction = posTarget - m_barrel.position;
                         direction.Normalize();
 
                         GameObject go = Instantiate(m_projectilesPrefab, m_barrel.position, Quaternion.identity);
-                        go.GetComponent<RailgunProjectile>().Direction = direction;
-                        go.GetComponent<RailgunProjectile>().SetStats(m_currentDamage, m_currentPenetration);
+                        go.GetComponent<PlayerProjectiles>().Direction = direction;
+                        go.GetComponent<PlayerProjectiles>().SetStats(m_currentDamage, m_currentPenetration);
                     }
                 }
                 return true;

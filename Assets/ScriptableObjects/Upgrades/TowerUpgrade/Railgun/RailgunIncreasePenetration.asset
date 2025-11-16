@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RailgunIncreasePenetration
   m_EditorClassIdentifier: Assembly-CSharp::TowerSpecificUpgrade
   upgradeName: Railgun Penetration+
-  icon: {fileID: 0}
+  icon: {fileID: 6241454495075796874, guid: 089f67ccabc135941bd8c278c1cc24d0, type: 3}
   description: Increase Penetration
   targetTowerType: 1
   upgradeMethodName: IncreasePenetration

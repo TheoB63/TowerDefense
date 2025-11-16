@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RailgunIncreaseNbProjectiles
   m_EditorClassIdentifier: Assembly-CSharp::TowerSpecificUpgrade
   upgradeName: Railgun Projectile +
-  icon: {fileID: 0}
+  icon: {fileID: 6241454495075796874, guid: 089f67ccabc135941bd8c278c1cc24d0, type: 3}
   description: Augmente le nombre de projectiles de 2
   targetTowerType: 1
   upgradeMethodName: IncreaseNbProjectiles

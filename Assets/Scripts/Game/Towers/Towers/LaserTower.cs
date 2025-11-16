@@ -152,7 +152,7 @@ public class LaserTower : Tower
 
     private void Attack()
     {
-        if (GameManager.Instance.Enemies.Count == 0)
+        if (EnemyManager.Instance.Enemies.Count == 0)
         {
             DisableAllLasers();
             m_lastTargets.Clear();
@@ -410,14 +410,14 @@ public class LaserTower : Tower
     {
         List<Enemy> nearestEnemies = new List<Enemy>();
 
-        if (GameManager.Instance.Enemies.Count == 0)
+        if (EnemyManager.Instance.Enemies.Count == 0)
         {
             return nearestEnemies;
         }
 
         List<System.Tuple<Enemy, float>> enemyDistances = new List<System.Tuple<Enemy, float>>();
 
-        foreach (Enemy enemy in GameManager.Instance.Enemies)
+        foreach (Enemy enemy in EnemyManager.Instance.Enemies)
         {
             if (enemy == null) continue;
 

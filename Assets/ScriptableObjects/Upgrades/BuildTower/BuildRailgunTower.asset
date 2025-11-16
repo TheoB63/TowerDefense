@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BuildRailgunTower
   m_EditorClassIdentifier: Assembly-CSharp::TowerConstructionUpgrade
   upgradeName: Railgun Tower
-  icon: {fileID: 0}
+  icon: {fileID: 6241454495075796874, guid: 089f67ccabc135941bd8c278c1cc24d0, type: 3}
   description: Very fast and explosive projectile
   towerPrefab: {fileID: 3680209922806064918, guid: 8f202ce18a06b5c439a0bcdab597f255, type: 3}
   towerType: 1

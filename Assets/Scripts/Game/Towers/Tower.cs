@@ -53,9 +53,9 @@ public class Tower : MonoBehaviour, ITower
 
     protected virtual void MoveLauncher()
     {
-        if (GameManager.Instance.Enemies.Count > 0)
+        if (EnemyManager.Instance.Enemies.Count > 0)
         {
-            Enemy target = GameManager.Instance.GetNearestEnemy(transform);
+            Enemy target = EnemyManager.Instance.GetNearestEnemy(transform);
             Vector2 dir = target.transform.position - m_launcher.position;
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             Quaternion targetRot = Quaternion.AngleAxis(angle - 90f, Vector3.forward);

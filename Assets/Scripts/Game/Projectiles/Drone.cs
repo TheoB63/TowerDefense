@@ -46,9 +46,9 @@ public class Drone : MonoBehaviour
     {
         isInRange = false;
 
-        if (GameManager.Instance.Enemies.Count > 0)
+        if (EnemyManager.Instance.Enemies.Count > 0)
         {
-            Enemy target = GameManager.Instance.GetNearestEnemy(transform);
+            Enemy target = EnemyManager.Instance.GetNearestEnemy(transform);
             float dist = Vector2.Distance(transform.position, target.transform.position);
             if (dist <= m_range)
             {
@@ -71,7 +71,7 @@ public class Drone : MonoBehaviour
 
     private void Attack()
     {
-        Enemy target = GameManager.Instance.GetNearestEnemy(transform);
+        Enemy target = EnemyManager.Instance.GetNearestEnemy(transform);
         Vector2 targetPos = target.transform.position;
 
 
