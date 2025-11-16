@@ -140,7 +140,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   damageTextPrefab: {fileID: 1620623676367991725, guid: 2329281d656483740b1ff72765bc582b, type: 3}
   deathEffectsPrefab: {fileID: 7181993071959690920, guid: 3e691a10e359d3947b832161dd17f446, type: 3}
-  previewColor: {r: 1, g: 0, b: 0, a: 0}
+  previewColor: {r: 1, g: 0, b: 0, a: 1}
   EnemyName: Enemy1
   Hp: 100
   Damage: 10

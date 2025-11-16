@@ -24,15 +24,15 @@ public class LevelConfigEditor : Editor
         EditorGUILayout.Space(5);
 
         // Stats principales
-        EditorGUILayout.LabelField($"Total Enemies: {level.GetTotalEnemies()}", EditorStyles.label);
+        EditorGUILayout.LabelField($"Total Enemies: {level.GetTotalEnemies()} ({level.GetMobCount()} mobs, {level.GetBossCount()} bosses)", EditorStyles.label);
         EditorGUILayout.LabelField($"Total XP Reward: {level.GetTotalXP()} XP", EditorStyles.label);
         EditorGUILayout.LabelField($"Level Duration: ~{level.GetLevelDuration():F1} seconds", EditorStyles.label);
 
         EditorGUILayout.Space(10);
 
         // Calcul de progression de level
-        float startLevel = level.GetStartLevel();
-        float endLevel = level.GetEndLevel();
+        int startLevel = level.GetStartLevel();
+        int endLevel = level.GetEndLevel();
 
         GUIStyle levelStyle = new GUIStyle(EditorStyles.boldLabel);
         levelStyle.normal.textColor = Color.yellow;
@@ -70,10 +70,12 @@ public class LevelConfigEditor : Editor
 
             foreach (var enemy in sortedEnemies)
             {
-                string enemyName = enemy.enemyPrefab ? enemy.enemyPrefab.name : "⚠️ NO PREFAB";
+                GameObject prefab = enemy.GetPrefab(level);
+                string enemyName = prefab ? prefab.name : $"⚠️ NO PREFAB for {enemy.slotType}";
                 string timeStr = FormatTime(enemy.spawnTime);
-                float xp = enemy.GetXPValue();
-                Color previewColor = enemy.GetPreviewColor();
+                float xp = enemy.GetXPValue(level);
+                Color previewColor = enemy.GetPreviewColor(level);
+                bool isBoss = enemy.IsBoss();
 
                 EditorGUILayout.BeginHorizontal("helpbox");
 
@@ -82,8 +84,18 @@ public class LevelConfigEditor : Editor
                 EditorGUI.DrawRect(colorRect, previewColor);
 
                 EditorGUILayout.LabelField($"{timeStr}", GUILayout.Width(60));
-                EditorGUILayout.LabelField($"→ {enemyName}", GUILayout.Width(150));
-                EditorGUILayout.LabelField($"({xp} XP)", EditorStyles.miniLabel);
+                EditorGUILayout.LabelField($"→ {enemy.slotType}", GUILayout.Width(70));
+                EditorGUILayout.LabelField($"({enemyName})", GUILayout.Width(150));
+                EditorGUILayout.LabelField($"{xp} XP", GUILayout.Width(60));
+
+                if (isBoss)
+                {
+                    GUIStyle bossStyle = new GUIStyle(EditorStyles.miniLabel);
+                    bossStyle.normal.textColor = Color.red;
+                    bossStyle.fontStyle = FontStyle.Bold;
+                    EditorGUILayout.LabelField("💀 BOSS", bossStyle, GUILayout.Width(60));
+                }
+
                 EditorGUILayout.EndHorizontal();
             }
 

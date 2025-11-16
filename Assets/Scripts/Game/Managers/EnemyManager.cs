@@ -41,7 +41,7 @@ public class EnemyManager : MonoBehaviour
 
     void Start()
     {
-        // Vérification du DataManager (ou GameDataManager selon ton nom)
+        // Vérification du DataManager
         if (DataManager.Instance == null)
         {
             Debug.LogError("❌ DataManager.Instance is null! Make sure you have a DataManager in your Menu scene.");
@@ -71,7 +71,7 @@ public class EnemyManager : MonoBehaviour
         EndLevel();
     }
 
-    // ========== FONCTION PRINCIPAL==========
+    // ========== FONCTION PRINCIPALE : CHARGER UN LEVEL ==========
     void LoadLevel(int levelNumber)
     {
         // Trouver le LevelConfig correspondant
@@ -106,7 +106,7 @@ public class EnemyManager : MonoBehaviour
 
         // Logs d'informations
         Debug.Log($"🎮 Starting {currentLevel.levelName}");
-        Debug.Log($"📊 {totalEnemiesInLevel} enemies, {currentLevel.GetTotalXP()} XP total");
+        Debug.Log($"📊 {totalEnemiesInLevel} enemies ({currentLevel.GetMobCount()} mobs, {currentLevel.GetBossCount()} bosses), {currentLevel.GetTotalXP()} XP total");
         Debug.Log($"🎯 Player Level progression: {currentLevel.GetStartLevel()} → {currentLevel.GetEndLevel()}");
         Debug.Log($"⏱️ Estimated duration: {currentLevel.GetLevelDuration():F1} seconds");
     }
@@ -145,9 +145,11 @@ public class EnemyManager : MonoBehaviour
     // ========== INSTANCIER UN ENNEMI ==========
     void SpawnEnemy(EnemySpawnData enemyData)
     {
-        if (enemyData.enemyPrefab == null)
+        GameObject prefab = enemyData.GetPrefab(currentLevel);
+
+        if (prefab == null)
         {
-            Debug.LogWarning("⚠️ Enemy prefab is null in spawn data!");
+            Debug.LogWarning($"⚠️ No prefab assigned for {enemyData.slotType} in {currentLevel.levelName}!");
             return;
         }
 
@@ -156,14 +158,27 @@ public class EnemyManager : MonoBehaviour
         Vector3 position = Camera.main.ScreenToWorldPoint(new Vector3(x, Screen.height, Camera.main.nearClipPlane));
         position.z = 0;
 
-        GameObject enemy = Instantiate(enemyData.enemyPrefab, position, Quaternion.identity);
-        m_enemies.Add(enemy.GetComponent<Enemy>());
+        GameObject enemy = Instantiate(prefab, position, Quaternion.identity);
+        Enemy enemyScript = enemy.GetComponent<Enemy>();
 
+        if (enemyScript != null)
+        {
+            m_enemies.Add(enemyScript);
+        }
 
         // L'XP est déjà défini dans le prefab Enemy.cs, pas besoin de le setter !
 
-        Debug.Log($"👾 Spawned {enemyData.GetEnemyName()} at {levelTimer:F1}s (worth {enemyData.GetXPValue()} XP)");
-
+        // Vérifier si c'est un boss pour des events spéciaux
+        bool isBoss = enemyData.IsBoss();
+        if (isBoss)
+        {
+            Debug.Log($"💀 BOSS SPAWNED: {enemyData.slotType} ({enemyData.GetEnemyName(currentLevel)}) at {levelTimer:F1}s!");
+            // Tu peux ajouter un event ici : OnBossSpawned?.Invoke(enemyScript);
+        }
+        else
+        {
+            Debug.Log($"👾 Spawned {enemyData.slotType} ({enemyData.GetEnemyName(currentLevel)}) at {levelTimer:F1}s (worth {enemyData.GetXPValue(currentLevel)} XP)");
+        }
     }
 
     // ========== FIN DU LEVEL ==========
@@ -188,6 +203,8 @@ public class EnemyManager : MonoBehaviour
     // ========== FONCTIONS UTILES ==========
     public Enemy GetNearestEnemy(Transform _transform)
     {
+        if (m_enemies.Count == 0) return null;
+
         Debug.Log("nb enemies get : " + m_enemies.Count);
 
         Enemy target = m_enemies[0];
@@ -195,6 +212,8 @@ public class EnemyManager : MonoBehaviour
         float dist = float.MaxValue;
         foreach (Enemy enemy in m_enemies)
         {
+            if (enemy == null) continue; // Sécurité si l'ennemi est détruit
+
             float newDist = Vector2.Distance(_transform.position, enemy.transform.position);
             if (newDist < dist)
             {
@@ -205,7 +224,6 @@ public class EnemyManager : MonoBehaviour
         return target;
     }
 
-
     // Arrêter complètement le level
     public void StopLevel()
     {
@@ -213,11 +231,14 @@ public class EnemyManager : MonoBehaviour
         remainingEnemies.Clear();
 
         // Détruire tous les ennemis restants
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        foreach (GameObject enemy in enemies)
+        foreach (Enemy enemy in m_enemies)
         {
-            Destroy(enemy);
+            if (enemy != null)
+            {
+                Destroy(enemy.gameObject);
+            }
         }
+        m_enemies.Clear();
 
         Debug.Log("🛑 Level stopped");
     }
@@ -254,6 +275,10 @@ public class EnemyManager : MonoBehaviour
     // Restart le level actuel
     public void RestartLevel()
     {
+        // Nettoyer d'abord
+        StopLevel();
+
+        // Recharger
         LoadLevel(currentLevelNumber);
     }
 
@@ -291,7 +316,7 @@ public class EnemyManager : MonoBehaviour
         }
 
         Debug.Log($"========== LEVEL {level.levelNumber}: {level.levelName} ==========");
-        Debug.Log($"Total Enemies: {level.GetTotalEnemies()}");
+        Debug.Log($"Total Enemies: {level.GetTotalEnemies()} ({level.GetMobCount()} mobs, {level.GetBossCount()} bosses)");
         Debug.Log($"Total XP: {level.GetTotalXP()}");
         Debug.Log($"Duration: ~{level.GetLevelDuration():F1}s");
         Debug.Log($"Player Level: {level.GetStartLevel()} → {level.GetEndLevel()}");
@@ -300,7 +325,8 @@ public class EnemyManager : MonoBehaviour
         var sortedEnemies = level.enemies.OrderBy(e => e.spawnTime).ToList();
         foreach (var enemy in sortedEnemies)
         {
-            Debug.Log($"  {enemy.spawnTime:F1}s → {enemy.GetEnemyName()} ({enemy.GetXPValue()} XP)");
+            string bossTag = enemy.IsBoss() ? " 💀 BOSS" : "";
+            Debug.Log($"  {enemy.spawnTime:F1}s → {enemy.slotType} ({enemy.GetEnemyName(level)}) - {enemy.GetXPValue(level)} XP{bossTag}");
         }
         Debug.Log("====================================");
     }

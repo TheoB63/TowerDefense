@@ -64,7 +64,7 @@ public class LevelPreviewDrawer
 
         // Grouper les ennemis par timing pour gérer les collisions
         var enemyGroups = level.enemies
-            .Where(e => e.enemyPrefab != null)
+            .Where(e => e.GetPrefab(level) != null)
             .GroupBy(e => Mathf.Round(e.spawnTime * 10f) / 10f) // Grouper par 0.1s
             .ToList();
 
@@ -87,23 +87,30 @@ public class LevelPreviewDrawer
                 Vector3 markerPos = basePos;
                 markerPos.x = startX + (i * 0.6f);
 
-                DrawEnemyMarker(markerPos, enemiesAtTime[i]);
+                DrawEnemyMarker(markerPos, enemiesAtTime[i], level);
             }
         }
     }
 
-    static void DrawEnemyMarker(Vector3 position, EnemySpawnData enemyData)
+    static void DrawEnemyMarker(Vector3 position, EnemySpawnData enemyData, LevelConfig level)
     {
-        Sprite sprite = enemyData.GetSprite();
-        Color color = enemyData.GetPreviewColor();
+        Sprite sprite = enemyData.GetSprite(level);
+        Color color = enemyData.GetPreviewColor(level);
+        string slotName = enemyData.GetEnemyName(level);
 
         // Taille du marker
         float size = 0.4f;
 
+        // Si c'est un boss, faire un marker plus gros
+        if (enemyData.IsBoss())
+        {
+            size = 0.6f;
+        }
+
         // Dessiner avec le sprite si disponible, sinon cercle coloré
         if (sprite != null)
         {
-            DrawSpriteIcon(position, size, enemyData);
+            DrawSpriteIcon(position, sprite, size, color, slotName);
         }
         else
         {
@@ -115,13 +122,13 @@ public class LevelPreviewDrawer
         }
 
         // Label avec les infos
-        DrawLabel(position, enemyData);
+        DrawLabel(position, enemyData, level);
     }
 
-    static void DrawSpriteIcon(Vector3 position, float size, EnemySpawnData enemyData)
+    static void DrawSpriteIcon(Vector3 position, Sprite sprite, float size, Color tint, string name)
     {
         // Méthode 1 : Essayer avec AssetPreview
-        Texture2D preview = AssetPreview.GetAssetPreview(enemyData.GetSprite());
+        Texture2D preview = AssetPreview.GetAssetPreview(sprite);
 
         if (preview != null)
         {
@@ -139,7 +146,7 @@ public class LevelPreviewDrawer
             );
 
             // Dessiner avec la couleur de teinte
-            GUI.color = enemyData.GetPreviewColor();
+            GUI.color = tint;
             GUI.DrawTexture(iconRect, preview, ScaleMode.ScaleToFit);
             GUI.color = Color.white;
 
@@ -148,7 +155,7 @@ public class LevelPreviewDrawer
         else
         {
             // Méthode 2 : Dessiner un carré coloré avec le nom
-            Handles.color = enemyData.GetPreviewColor();
+            Handles.color = tint;
             Handles.DrawSolidDisc(position, Vector3.forward, size);
             Handles.color = Color.black;
             Handles.DrawWireDisc(position, Vector3.forward, size + 0.02f);
@@ -163,14 +170,15 @@ public class LevelPreviewDrawer
             iconStyle.normal.textColor = Color.white;
             iconStyle.alignment = TextAnchor.MiddleCenter;
 
-            string initial = enemyData.GetEnemyName().Substring(0, 1).ToUpper();
+            string slotName = name;
+            string initial = slotName.Substring(slotName.Length - 1); // Prend le numéro (1, 2, 3...)
             GUI.Label(new Rect(screenPos.x - 10, screenPos.y - 10, 20, 20), initial, iconStyle);
 
             Handles.EndGUI();
         }
     }
 
-    static void DrawLabel(Vector3 position, EnemySpawnData enemyData)
+    static void DrawLabel(Vector3 position, EnemySpawnData enemyData, LevelConfig level)
     {
         Handles.BeginGUI();
 
@@ -182,7 +190,8 @@ public class LevelPreviewDrawer
         labelStyle.alignment = TextAnchor.MiddleLeft;
         labelStyle.padding = new RectOffset(5, 5, 2, 2);
 
-        string label = $"{enemyData.spawnTime:F1}s | {enemyData.GetEnemyName()} | {enemyData.GetXPValue()} XP";
+        string bossTag = enemyData.IsBoss() ? " 💀" : "";
+        string label = $"{enemyData.spawnTime:F1}s | {enemyData.slotType} ({enemyData.GetEnemyName(level)}) | {enemyData.GetXPValue(level)} XP{bossTag}";
         Vector2 labelSize = labelStyle.CalcSize(new GUIContent(label));
 
         GUI.backgroundColor = new Color(0, 0, 0, 0.8f);
@@ -270,8 +279,8 @@ public class LevelPreviewDrawer
         statsStyle.alignment = TextAnchor.MiddleLeft;
         statsStyle.padding = new RectOffset(10, 10, 5, 5);
 
-        string stats = $"Enemies: {level.GetTotalEnemies()} | XP: {level.GetTotalXP()} | Duration: {level.GetLevelDuration():F1}s | Level {level.GetStartLevel()} → {level.GetEndLevel()}";
-        GUI.Box(new Rect(10, 45, 600, 25), stats, statsStyle);
+        string stats = $"Enemies: {level.GetTotalEnemies()} ({level.GetMobCount()} mobs, {level.GetBossCount()} bosses) | XP: {level.GetTotalXP()} | Duration: {level.GetLevelDuration():F1}s | Level {level.GetStartLevel()} → {level.GetEndLevel()}";
+        GUI.Box(new Rect(10, 45, 700, 25), stats, statsStyle);
 
         Handles.EndGUI();
     }
