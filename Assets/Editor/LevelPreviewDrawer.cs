@@ -96,7 +96,7 @@ public class LevelPreviewDrawer
     {
         Sprite sprite = enemyData.GetSprite(level);
         Color color = enemyData.GetPreviewColor(level);
-        string slotName = enemyData.GetEnemyName(level);
+        string name = enemyData.GetEnemyName(level);
 
         // Taille du marker
         float size = 0.4f;
@@ -110,7 +110,7 @@ public class LevelPreviewDrawer
         // Dessiner avec le sprite si disponible, sinon cercle coloré
         if (sprite != null)
         {
-            DrawSpriteIcon(position, sprite, size, color, slotName);
+            DrawSpriteIcon(position, sprite, size, color, name);
         }
         else
         {
@@ -136,7 +136,7 @@ public class LevelPreviewDrawer
             Handles.BeginGUI();
 
             Vector3 screenCenter = HandleUtility.WorldToGUIPoint(position);
-            float screenSize = HandleUtility.GetHandleSize(position) * 40f;
+            float screenSize = 40f / HandleUtility.GetHandleSize(position);
 
             Rect iconRect = new Rect(
                 screenCenter.x - screenSize / 2,
@@ -191,7 +191,8 @@ public class LevelPreviewDrawer
         labelStyle.padding = new RectOffset(5, 5, 2, 2);
 
         string bossTag = enemyData.IsBoss() ? " 💀" : "";
-        string label = $"{enemyData.spawnTime:F1}s | {enemyData.slotType} ({enemyData.GetEnemyName(level)}) | {enemyData.GetXPValue(level)} XP{bossTag}";
+        string slotName = enemyData.GetSlotName(level);
+        string label = $"{enemyData.spawnTime:F1}s | {slotName} ({enemyData.GetEnemyName(level)}) | {enemyData.GetXPValue(level)} XP{bossTag}";
         Vector2 labelSize = labelStyle.CalcSize(new GUIContent(label));
 
         GUI.backgroundColor = new Color(0, 0, 0, 0.8f);

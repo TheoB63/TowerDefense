@@ -3039,7 +3039,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   allLevels:
-  - {fileID: 11400000, guid: 1cd37316386196e438a3ec16de227086, type: 2}
+  - {fileID: 11400000, guid: f6266390d5909c347b79f8cf045281b6, type: 2}
   spawnPoint: {fileID: 843564931}
   currentLevelNumber: 0
   levelTimer: 0
@@ -3923,7 +3923,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b93c4f0270bb96438e9435ae1412e5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  m_xpNeeded: 2
+  m_baseXpNeeded: 2
   m_xpNeededMultiplier: 1.5
 --- !u!4 &2042976163
 Transform:

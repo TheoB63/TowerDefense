@@ -7,10 +7,11 @@ public class LevelManager : MonoBehaviour
     static public LevelManager Instance;
 
     [Header("Level Values")]
+    [SerializeField] float m_baseXpNeeded;
+    [SerializeField] float m_xpNeededMultiplier;
+    float m_xpNeeded;
     int m_level = 0;
     float m_xp = 0;
-    [SerializeField] float m_xpNeeded;
-    [SerializeField] float m_xpNeededMultiplier;
 
 
     [Header("Public Values(Get only)")]
@@ -30,9 +31,9 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    void Update()
+    private void Start()
     {
-
+        m_xpNeeded = m_baseXpNeeded;
     }
 
     public void AddXp(float _xp)
@@ -48,7 +49,7 @@ public class LevelManager : MonoBehaviour
         {
             m_level++;
             m_xp -= m_xpNeeded;
-            m_xpNeeded *= m_xpNeededMultiplier;
+            m_xpNeeded += m_baseXpNeeded * m_xpNeededMultiplier;
             GetComponent<UpgradeChoiceManager>().OnLevelUp();
         }
     }

@@ -71,7 +71,8 @@ public class LevelConfigEditor : Editor
             foreach (var enemy in sortedEnemies)
             {
                 GameObject prefab = enemy.GetPrefab(level);
-                string enemyName = prefab ? prefab.name : $"⚠️ NO PREFAB for {enemy.slotType}";
+                string slotName = enemy.GetSlotName(level);
+                string enemyName = prefab ? prefab.name : "⚠️ MISSING";
                 string timeStr = FormatTime(enemy.spawnTime);
                 float xp = enemy.GetXPValue(level);
                 Color previewColor = enemy.GetPreviewColor(level);
@@ -84,7 +85,7 @@ public class LevelConfigEditor : Editor
                 EditorGUI.DrawRect(colorRect, previewColor);
 
                 EditorGUILayout.LabelField($"{timeStr}", GUILayout.Width(60));
-                EditorGUILayout.LabelField($"→ {enemy.slotType}", GUILayout.Width(70));
+                EditorGUILayout.LabelField($"→ {slotName}", GUILayout.Width(70));
                 EditorGUILayout.LabelField($"({enemyName})", GUILayout.Width(150));
                 EditorGUILayout.LabelField($"{xp} XP", GUILayout.Width(60));
 

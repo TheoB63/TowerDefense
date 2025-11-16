@@ -14,113 +14,1964 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelConfig
   levelNumber: 1
   levelName: Level 1
+  damageMultiplier: 1
+  hpMultiplier: 1
   mobPrefabs:
   - {fileID: 1475444714698727141, guid: a8f06fb7d1c4aae4daed507ca831e465, type: 3}
   - {fileID: 1475444714698727141, guid: cbcdd974137806641b2fe5dd1c9738c5, type: 3}
-  bossPrefabs: []
+  - {fileID: 1475444714698727141, guid: fc97cf283cc7d3d4e9b806c353ef8e7d, type: 3}
+  bossPrefabs:
+  - {fileID: 1475444714698727141, guid: 261adfe85b6b0e441b7524494435b2c7, type: 3}
+  - {fileID: 1475444714698727141, guid: 06506c17dbc862646ac965751bd35384, type: 3}
   enemies:
-  - slotType: 0
+  - type: 0
+    index: 1
     spawnTime: 0
-  - slotType: 0
-    spawnTime: 0.5
-  - slotType: 0
+  - type: 0
+    index: 0
     spawnTime: 1
-  - slotType: 0
-    spawnTime: 1.5
-  - slotType: 0
+  - type: 0
+    index: 2
+    spawnTime: 6
+  - type: 0
+    index: 2
+    spawnTime: 7
+  - type: 0
+    index: 2
+    spawnTime: 8
+  - type: 0
+    index: 2
+    spawnTime: 9
+  - type: 0
+    index: 2
+    spawnTime: 10
+  - type: 0
+    index: 2
+    spawnTime: 11
+  - type: 0
+    index: 2
+    spawnTime: 12
+  - type: 0
+    index: 2
+    spawnTime: 13
+  - type: 0
+    index: 2
+    spawnTime: 14
+  - type: 0
+    index: 2
+    spawnTime: 15
+  - type: 0
+    index: 2
+    spawnTime: 16
+  - type: 0
+    index: 2
+    spawnTime: 17
+  - type: 0
+    index: 2
+    spawnTime: 18
+  - type: 0
+    index: 2
+    spawnTime: 19
+  - type: 0
+    index: 2
+    spawnTime: 20
+  - type: 0
+    index: 2
+    spawnTime: 21
+  - type: 0
+    index: 2
+    spawnTime: 22
+  - type: 0
+    index: 2
+    spawnTime: 23
+  - type: 0
+    index: 2
+    spawnTime: 24
+  - type: 0
+    index: 2
+    spawnTime: 25
+  - type: 0
+    index: 2
+    spawnTime: 26
+  - type: 0
+    index: 2
+    spawnTime: 27
+  - type: 0
+    index: 2
+    spawnTime: 28
+  - type: 0
+    index: 2
+    spawnTime: 29
+  - type: 0
+    index: 2
+    spawnTime: 30
+  - type: 0
+    index: 2
+    spawnTime: 31
+  - type: 0
+    index: 2
+    spawnTime: 32
+  - type: 0
+    index: 2
+    spawnTime: 33
+  - type: 0
+    index: 2
+    spawnTime: 34
+  - type: 0
+    index: 2
+    spawnTime: 35
+  - type: 0
+    index: 2
+    spawnTime: 36
+  - type: 0
+    index: 2
+    spawnTime: 37
+  - type: 0
+    index: 2
+    spawnTime: 38
+  - type: 0
+    index: 2
+    spawnTime: 39
+  - type: 0
+    index: 2
+    spawnTime: 40
+  - type: 0
+    index: 2
+    spawnTime: 41
+  - type: 0
+    index: 2
+    spawnTime: 42
+  - type: 0
+    index: 2
+    spawnTime: 43
+  - type: 0
+    index: 2
+    spawnTime: 44
+  - type: 0
+    index: 2
+    spawnTime: 45
+  - type: 0
+    index: 2
+    spawnTime: 46
+  - type: 0
+    index: 2
+    spawnTime: 47
+  - type: 0
+    index: 2
+    spawnTime: 48
+  - type: 0
+    index: 2
+    spawnTime: 49
+  - type: 0
+    index: 2
+    spawnTime: 50
+  - type: 0
+    index: 2
+    spawnTime: 51
+  - type: 0
+    index: 2
+    spawnTime: 52
+  - type: 0
+    index: 2
+    spawnTime: 53
+  - type: 0
+    index: 2
+    spawnTime: 54
+  - type: 0
+    index: 2
+    spawnTime: 55
+  - type: 0
+    index: 2
+    spawnTime: 56
+  - type: 0
+    index: 2
+    spawnTime: 57
+  - type: 0
+    index: 2
+    spawnTime: 58
+  - type: 0
+    index: 2
+    spawnTime: 59
+  - type: 0
+    index: 2
+    spawnTime: 60
+  - type: 0
+    index: 2
+    spawnTime: 61
+  - type: 0
+    index: 2
+    spawnTime: 62
+  - type: 0
+    index: 2
+    spawnTime: 63
+  - type: 0
+    index: 2
+    spawnTime: 64
+  - type: 0
+    index: 2
+    spawnTime: 65
+  - type: 0
+    index: 2
+    spawnTime: 66
+  - type: 0
+    index: 2
+    spawnTime: 67
+  - type: 0
+    index: 2
+    spawnTime: 68
+  - type: 0
+    index: 2
+    spawnTime: 69
+  - type: 0
+    index: 2
+    spawnTime: 70
+  - type: 0
+    index: 2
+    spawnTime: 71
+  - type: 0
+    index: 2
+    spawnTime: 72
+  - type: 0
+    index: 2
+    spawnTime: 73
+  - type: 0
+    index: 2
+    spawnTime: 74
+  - type: 0
+    index: 2
+    spawnTime: 75
+  - type: 0
+    index: 2
+    spawnTime: 76
+  - type: 0
+    index: 2
+    spawnTime: 77
+  - type: 0
+    index: 2
+    spawnTime: 78
+  - type: 0
+    index: 2
+    spawnTime: 79
+  - type: 0
+    index: 2
+    spawnTime: 80
+  - type: 0
+    index: 2
+    spawnTime: 81
+  - type: 0
+    index: 2
+    spawnTime: 82
+  - type: 0
+    index: 2
+    spawnTime: 83
+  - type: 0
+    index: 2
+    spawnTime: 84
+  - type: 0
+    index: 2
+    spawnTime: 85
+  - type: 0
+    index: 2
+    spawnTime: 86
+  - type: 0
+    index: 2
+    spawnTime: 87
+  - type: 0
+    index: 2
+    spawnTime: 88
+  - type: 0
+    index: 2
+    spawnTime: 89
+  - type: 0
+    index: 2
+    spawnTime: 90
+  - type: 0
+    index: 2
+    spawnTime: 91
+  - type: 0
+    index: 2
+    spawnTime: 92
+  - type: 0
+    index: 2
+    spawnTime: 93
+  - type: 0
+    index: 2
+    spawnTime: 94
+  - type: 0
+    index: 2
+    spawnTime: 95
+  - type: 0
+    index: 2
+    spawnTime: 96
+  - type: 0
+    index: 2
+    spawnTime: 97
+  - type: 0
+    index: 2
+    spawnTime: 98
+  - type: 0
+    index: 0
+    spawnTime: 99
+  - type: 0
+    index: 0
+    spawnTime: 100
+  - type: 0
+    index: 0
+    spawnTime: 101
+  - type: 0
+    index: 0
+    spawnTime: 102
+  - type: 0
+    index: 0
+    spawnTime: 103
+  - type: 0
+    index: 0
+    spawnTime: 104
+  - type: 0
+    index: 0
+    spawnTime: 105
+  - type: 0
+    index: 0
+    spawnTime: 106
+  - type: 0
+    index: 0
+    spawnTime: 107
+  - type: 0
+    index: 0
+    spawnTime: 108
+  - type: 0
+    index: 0
+    spawnTime: 109
+  - type: 0
+    index: 0
+    spawnTime: 110
+  - type: 0
+    index: 0
+    spawnTime: 111
+  - type: 0
+    index: 0
+    spawnTime: 112
+  - type: 0
+    index: 0
+    spawnTime: 113
+  - type: 0
+    index: 0
+    spawnTime: 114
+  - type: 0
+    index: 0
+    spawnTime: 115
+  - type: 0
+    index: 0
+    spawnTime: 116
+  - type: 0
+    index: 0
+    spawnTime: 117
+  - type: 0
+    index: 0
+    spawnTime: 118
+  - type: 0
+    index: 0
+    spawnTime: 119
+  - type: 0
+    index: 0
+    spawnTime: 120
+  - type: 0
+    index: 0
+    spawnTime: 121
+  - type: 0
+    index: 0
+    spawnTime: 122
+  - type: 0
+    index: 0
+    spawnTime: 123
+  - type: 0
+    index: 0
+    spawnTime: 124
+  - type: 0
+    index: 0
+    spawnTime: 125
+  - type: 0
+    index: 0
+    spawnTime: 126
+  - type: 0
+    index: 0
+    spawnTime: 127
+  - type: 0
+    index: 0
+    spawnTime: 128
+  - type: 0
+    index: 0
+    spawnTime: 129
+  - type: 0
+    index: 0
+    spawnTime: 130
+  - type: 0
+    index: 0
+    spawnTime: 131
+  - type: 0
+    index: 0
+    spawnTime: 132
+  - type: 0
+    index: 0
+    spawnTime: 133
+  - type: 0
+    index: 0
+    spawnTime: 134
+  - type: 0
+    index: 0
+    spawnTime: 135
+  - type: 0
+    index: 0
+    spawnTime: 136
+  - type: 0
+    index: 0
+    spawnTime: 137
+  - type: 0
+    index: 0
+    spawnTime: 138
+  - type: 0
+    index: 0
+    spawnTime: 139
+  - type: 0
+    index: 0
+    spawnTime: 140
+  - type: 0
+    index: 0
+    spawnTime: 141
+  - type: 0
+    index: 0
+    spawnTime: 142
+  - type: 0
+    index: 0
+    spawnTime: 143
+  - type: 0
+    index: 0
+    spawnTime: 144
+  - type: 0
+    index: 0
+    spawnTime: 145
+  - type: 0
+    index: 0
+    spawnTime: 146
+  - type: 0
+    index: 0
+    spawnTime: 147
+  - type: 0
+    index: 0
+    spawnTime: 148
+  - type: 0
+    index: 0
+    spawnTime: 149
+  - type: 0
+    index: 0
+    spawnTime: 150
+  - type: 0
+    index: 0
+    spawnTime: 151
+  - type: 0
+    index: 0
+    spawnTime: 152
+  - type: 0
+    index: 0
+    spawnTime: 153
+  - type: 0
+    index: 0
+    spawnTime: 154
+  - type: 0
+    index: 0
+    spawnTime: 155
+  - type: 0
+    index: 0
+    spawnTime: 156
+  - type: 0
+    index: 0
+    spawnTime: 157
+  - type: 0
+    index: 0
+    spawnTime: 158
+  - type: 0
+    index: 0
+    spawnTime: 159
+  - type: 0
+    index: 0
+    spawnTime: 160
+  - type: 0
+    index: 0
+    spawnTime: 161
+  - type: 0
+    index: 0
+    spawnTime: 162
+  - type: 0
+    index: 0
+    spawnTime: 163
+  - type: 0
+    index: 0
+    spawnTime: 164
+  - type: 0
+    index: 0
+    spawnTime: 165
+  - type: 0
+    index: 0
+    spawnTime: 166
+  - type: 0
+    index: 0
+    spawnTime: 167
+  - type: 0
+    index: 0
+    spawnTime: 168
+  - type: 0
+    index: 0
+    spawnTime: 169
+  - type: 0
+    index: 0
+    spawnTime: 170
+  - type: 0
+    index: 0
+    spawnTime: 171
+  - type: 0
+    index: 0
+    spawnTime: 172
+  - type: 0
+    index: 0
+    spawnTime: 173
+  - type: 0
+    index: 0
+    spawnTime: 174
+  - type: 0
+    index: 0
+    spawnTime: 175
+  - type: 0
+    index: 0
+    spawnTime: 176
+  - type: 0
+    index: 0
+    spawnTime: 177
+  - type: 0
+    index: 0
+    spawnTime: 178
+  - type: 0
+    index: 0
+    spawnTime: 179
+  - type: 0
+    index: 0
+    spawnTime: 180
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 0
+    spawnTime: 1
+  - type: 0
+    index: 2
     spawnTime: 2
-  - slotType: 0
-    spawnTime: 2.5
-  - slotType: 0
+  - type: 0
+    index: 2
     spawnTime: 3
-  - slotType: 0
-    spawnTime: 3.5
-  - slotType: 0
+  - type: 0
+    index: 2
+    spawnTime: 3
+  - type: 0
+    index: 2
     spawnTime: 4
-  - slotType: 0
-    spawnTime: 4.5
-  - slotType: 0
+  - type: 0
+    index: 2
     spawnTime: 5
-  - slotType: 0
-    spawnTime: 5.5
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
-  - slotType: 0
-    spawnTime: 6
+  - type: 1
+    index: 0
+    spawnTime: 150
+  - type: 1
+    index: 1
+    spawnTime: 250
+  - type: 0
+    index: 0
+    spawnTime: 300
   baseXP: 0

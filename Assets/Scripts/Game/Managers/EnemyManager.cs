@@ -149,7 +149,7 @@ public class EnemyManager : MonoBehaviour
 
         if (prefab == null)
         {
-            Debug.LogWarning($"⚠️ No prefab assigned for {enemyData.slotType} in {currentLevel.levelName}!");
+            Debug.LogWarning($"⚠️ No prefab assigned for {enemyData.GetEnemyName(currentLevel)} in {currentLevel.levelName}!");
             return;
         }
 
@@ -172,12 +172,12 @@ public class EnemyManager : MonoBehaviour
         bool isBoss = enemyData.IsBoss();
         if (isBoss)
         {
-            Debug.Log($"💀 BOSS SPAWNED: {enemyData.slotType} ({enemyData.GetEnemyName(currentLevel)}) at {levelTimer:F1}s!");
+            Debug.Log($"💀 BOSS SPAWNED: {enemyData.GetEnemyName(currentLevel)} ({enemyData.GetEnemyName(currentLevel)}) at {levelTimer:F1}s!");
             // Tu peux ajouter un event ici : OnBossSpawned?.Invoke(enemyScript);
         }
         else
         {
-            Debug.Log($"👾 Spawned {enemyData.slotType} ({enemyData.GetEnemyName(currentLevel)}) at {levelTimer:F1}s (worth {enemyData.GetXPValue(currentLevel)} XP)");
+            Debug.Log($"👾 Spawned {enemyData.GetEnemyName(currentLevel)} ({enemyData.GetEnemyName(currentLevel)}) at {levelTimer:F1}s (worth {enemyData.GetXPValue(currentLevel)} XP)");
         }
     }
 
@@ -326,7 +326,7 @@ public class EnemyManager : MonoBehaviour
         foreach (var enemy in sortedEnemies)
         {
             string bossTag = enemy.IsBoss() ? " 💀 BOSS" : "";
-            Debug.Log($"  {enemy.spawnTime:F1}s → {enemy.slotType} ({enemy.GetEnemyName(level)}) - {enemy.GetXPValue(level)} XP{bossTag}");
+            Debug.Log($"  {enemy.spawnTime:F1}s → {enemy.GetEnemyName(currentLevel)} ({enemy.GetEnemyName(level)}) - {enemy.GetXPValue(level)} XP{bossTag}");
         }
         Debug.Log("====================================");
     }

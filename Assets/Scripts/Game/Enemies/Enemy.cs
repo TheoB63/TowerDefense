@@ -10,6 +10,12 @@ public interface IEnemyAction
     void OnEnterTrigger(Enemy enemy, Collider other);//when is trigger
 }
 
+public enum EnemyType
+{
+    Mob,
+    boss,
+}
+
 public class Enemy : MonoBehaviour
 {
     [SerializeField] GameObject damageTextPrefab;

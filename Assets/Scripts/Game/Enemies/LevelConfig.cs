@@ -6,26 +6,12 @@ using System.Linq;
 using UnityEditor;
 #endif
 
-// Enum pour identifier le type d'ennemi
-public enum EnemySlotType
-{
-    Mob1,
-    Mob2,
-    Mob3,
-    Mob4,
-    Mob5,
-    Boss1,
-    Boss2,
-    Boss3,
-    Boss4,
-    Boss5
-}
-
 [System.Serializable]
 public class EnemySpawnData
 {
-    [Tooltip("Type d'ennemi à spawn (Mob1, Mob2, Boss1...)")]
-    public EnemySlotType slotType;
+    public EnemyType type = EnemyType.Mob;
+    public int index = 0;
+
 
     [Tooltip("À quel moment spawn cet ennemi (en secondes depuis le début du level)")]
     public float spawnTime;
@@ -33,20 +19,46 @@ public class EnemySpawnData
     // Récupère le prefab depuis le LevelConfig
     public GameObject GetPrefab(LevelConfig levelConfig)
     {
-        return levelConfig.GetPrefabForSlot(slotType);
+        switch (type)
+        {
+            case EnemyType.Mob:
+                if (index <= levelConfig.mobPrefabs.Count && index >= 0)
+                {
+                    return levelConfig.mobPrefabs[index];
+                }
+                break;
+            case EnemyType.boss:
+                if (index <= levelConfig.bossPrefabs.Count && index >= 0)
+                {
+                    return levelConfig.bossPrefabs[index];
+                }
+                break;
+            default:
+                break;
+        }
+        return null;
     }
 
     // Vérifie si c'est un boss
     public bool IsBoss()
     {
-        return slotType == EnemySlotType.Boss1 ||
-               slotType == EnemySlotType.Boss2 ||
-               slotType == EnemySlotType.Boss3 ||
-               slotType == EnemySlotType.Boss4 ||
-               slotType == EnemySlotType.Boss5;
+        return type == EnemyType.boss;
     }
 
-    // Récupère l'XP (en passant le levelConfig pour avoir le prefab)
+    // Récupère le type d'ennemi sous forme de string pour affichage
+    public string GetSlotName(LevelConfig levelConfig)
+    {
+        if (IsBoss())
+        {
+            return $"Boss{index + 1}";
+        }
+        else
+        {
+            return $"Mob{index + 1}";
+        }
+    }
+
+    // Récupère l'XP
     public float GetXPValue(LevelConfig levelConfig)
     {
         GameObject prefab = GetPrefab(levelConfig);
@@ -83,7 +95,30 @@ public class EnemySpawnData
     public string GetEnemyName(LevelConfig levelConfig)
     {
         GameObject prefab = GetPrefab(levelConfig);
-        return prefab != null ? prefab.name : $"[{slotType}]";
+        return prefab != null ? prefab.name : $"[{GetSlotName(levelConfig)} - MISSING]";
+    }
+
+    // Nettoie les index invalides (appelé automatiquement)
+    public void CleanupIndices(LevelConfig levelConfig)
+    {
+        switch (type)
+        {
+            case EnemyType.Mob:
+                if (index >= levelConfig.mobPrefabs.Count)
+                {
+                    index = levelConfig.mobPrefabs.Count > 0 ? 0 : -1;
+                }
+                break;
+            case EnemyType.boss:
+                if (index >= levelConfig.bossPrefabs.Count)
+                {
+                    index = -1;
+                    index = levelConfig.mobPrefabs.Count > 0 ? 0 : -1;
+                }
+                break;
+            default:
+                break;
+        }
     }
 }
 
@@ -93,12 +128,14 @@ public class LevelConfig : ScriptableObject
     [Header("Level Info")]
     public int levelNumber = 1;
     public string levelName = "Level 1";
+    public int damageMultiplier = 1;
+    public int hpMultiplier = 1;
 
     [Header("Enemy Prefabs Assignment")]
-    [Tooltip("Liste des prefabs de mobs normaux (Mob1, Mob2, Mob3...)")]
+    [Tooltip("Liste des prefabs de mobs normaux")]
     public List<GameObject> mobPrefabs = new List<GameObject>();
 
-    [Tooltip("Liste des prefabs de boss (Boss1, Boss2, Boss3...)")]
+    [Tooltip("Liste des prefabs de boss")]
     public List<GameObject> bossPrefabs = new List<GameObject>();
 
     [Header("Enemies Timeline")]
@@ -109,51 +146,18 @@ public class LevelConfig : ScriptableObject
     [Tooltip("XP de base que le joueur a au début de ce level")]
     public float baseXP = 0;
 
-    // ====== RÉCUPÉRER LE PREFAB SELON LE SLOT ======
-    public GameObject GetPrefabForSlot(EnemySlotType slotType)
-    {
-        switch (slotType)
-        {
-            // Mobs
-            case EnemySlotType.Mob1:
-                return mobPrefabs.Count > 0 ? mobPrefabs[0] : null;
-            case EnemySlotType.Mob2:
-                return mobPrefabs.Count > 1 ? mobPrefabs[1] : null;
-            case EnemySlotType.Mob3:
-                return mobPrefabs.Count > 2 ? mobPrefabs[2] : null;
-            case EnemySlotType.Mob4:
-                return mobPrefabs.Count > 3 ? mobPrefabs[3] : null;
-            case EnemySlotType.Mob5:
-                return mobPrefabs.Count > 4 ? mobPrefabs[4] : null;
-
-            // Boss
-            case EnemySlotType.Boss1:
-                return bossPrefabs.Count > 0 ? bossPrefabs[0] : null;
-            case EnemySlotType.Boss2:
-                return bossPrefabs.Count > 1 ? bossPrefabs[1] : null;
-            case EnemySlotType.Boss3:
-                return bossPrefabs.Count > 2 ? bossPrefabs[2] : null;
-            case EnemySlotType.Boss4:
-                return bossPrefabs.Count > 3 ? bossPrefabs[3] : null;
-            case EnemySlotType.Boss5:
-                return bossPrefabs.Count > 4 ? bossPrefabs[4] : null;
-
-            default:
-                return null;
-        }
-    }
-
     // ====== MODIFIE CETTE FONCTION SELON TON SYSTÈME DE LEVEL ======
     public int CalculateLevel(float totalXP)
     {
         int level = 0;
-        float xpNeeded = 2f;
+        float baseXpNeeded = 2f;
+        float xpNeeded = baseXpNeeded;
         float xpNeededMultiplier = 1.5f;
         while (totalXP > xpNeeded)
         {
             level++;
             totalXP -= xpNeeded;
-            xpNeeded *= xpNeededMultiplier;
+            xpNeeded += baseXpNeeded * xpNeededMultiplier;
         }
         return level;
     }
@@ -210,8 +214,17 @@ public class LevelConfig : ScriptableObject
         return enemies.Count(e => !e.IsBoss());
     }
 
-    // ====== TRI MANUEL ======
+    // ====== NETTOYAGE AUTOMATIQUE DES INDEX INVALIDES ======
 #if UNITY_EDITOR
+    private void OnValidate()
+    {
+        // Nettoyer tous les index invalides quand on modifie les listes
+        foreach (var enemy in enemies)
+        {
+            enemy.CleanupIndices(this);
+        }
+    }
+
     [ContextMenu("Sort Enemies by Time")]
     public void SortEnemiesByTime()
     {
@@ -227,6 +240,17 @@ public class LevelConfig : ScriptableObject
     public void DuplicateLevelStructure()
     {
         Debug.Log("💡 To duplicate: Right-click this asset → Duplicate, then change the prefab assignments!");
+    }
+
+    [ContextMenu("Cleanup All Enemy Indices")]
+    public void CleanupAllIndices()
+    {
+        foreach (var enemy in enemies)
+        {
+            enemy.CleanupIndices(this);
+        }
+        EditorUtility.SetDirty(this);
+        Debug.Log("✅ Cleaned up all enemy indices");
     }
 #endif
 }
