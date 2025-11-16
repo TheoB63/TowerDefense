@@ -11,7 +11,11 @@ public class UI : MonoBehaviour
     [SerializeField] TextMeshProUGUI m_levelText;
     [SerializeField] Image m_xpBar;
 
-    public Shield shield;
+    [Header("Timer")]
+    [SerializeField] TextMeshProUGUI timerText;
+
+    [Header("Level")]
+    [SerializeField] Shield shield;
     [SerializeField] TextMeshProUGUI m_shieldHpText;
     [SerializeField] Image m_shieldHpBar;
 
@@ -25,6 +29,11 @@ public class UI : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void Update()
+    {
+        timerText.text = FormatTime(EnemyManager.Instance.LevelTimer);
     }
 
     public void UpdateUI()
@@ -42,4 +51,12 @@ public class UI : MonoBehaviour
             m_shieldHpBar.fillAmount = amountHp;
         }
     }
+
+    private string FormatTime(float seconds)
+    {
+        int minutes = Mathf.FloorToInt(seconds / 60f);
+        int secs = Mathf.FloorToInt(seconds % 60f);
+        return string.Format("{0}:{1:00}", minutes, secs);
+    }
+
 }

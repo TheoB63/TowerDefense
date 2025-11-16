@@ -9,7 +9,7 @@ public class LevelManager : MonoBehaviour
     [Header("Level Values")]
     [SerializeField] float m_baseXpNeeded;
     [SerializeField] float m_xpNeededMultiplier;
-    float m_xpNeeded;
+    float m_xpNeeded = 1;
     int m_level = 0;
     float m_xp = 0;
 

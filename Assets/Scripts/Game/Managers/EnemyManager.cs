@@ -25,7 +25,10 @@ public class EnemyManager : MonoBehaviour
     private List<EnemySpawnData> remainingEnemies = new List<EnemySpawnData>();
 
     List<Enemy> m_enemies = new List<Enemy>();
+
+    //public ref
     public List<Enemy> Enemies { get => m_enemies; }
+    public float LevelTimer { get => levelTimer; set => levelTimer = value; }
 
     private void Awake()
     {
