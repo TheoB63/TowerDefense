@@ -153,45 +153,6 @@ public class UpgradeChoiceManager : MonoBehaviour
         List<UpgradeBase> selected = new List<UpgradeBase>();
         List<UpgradeBase> pool = new List<UpgradeBase>(_available);
 
-        //-------
-
-        // Prioriser la diversité des choix
-        // Séparer par type pour éviter d'avoir 3 fois le même upgrade
-        //var constructions = pool.OfType<TowerConstructionUpgrade>().ToList();
-        //var towerUpgrades = pool.OfType<TowerSpecificUpgrade>().ToList();
-        //var playerUpgrades = pool.OfType<PlayerUpgrade>().ToList();
-
-        // Essayer d'avoir au moins 1 de chaque type si possible
-        //List<List<UpgradeBase>> categories = new List<List<UpgradeBase>>
-        //{
-        //    constructions.Cast<UpgradeBase>().ToList(),
-        //    towerUpgrades.Cast<UpgradeBase>().ToList(),
-        //    playerUpgrades.Cast<UpgradeBase>().ToList()
-        //};
-
-        //// Mélanger les catégories
-        //categories = categories.OrderBy(x => Random.value).ToList();
-
-        //// Prendre un de chaque catégorie d'abord
-        //foreach (var category in categories)
-        //{
-        //    if (selected.Count >= _count) break;
-        //    if (category.Count > 0)
-        //    {
-        //        int randomIndex = Random.Range(0, category.Count);
-        //        selected.Add(category[randomIndex]);
-        //        category.Remove(category[randomIndex]);
-        //    }
-        //}
-
-        //----
-
-        // Compléter avec le reste aléatoirement
-        //var remaining = constructions.Cast<UpgradeBase>()
-        //    .Concat(towerUpgrades.Cast<UpgradeBase>())
-        //    .Concat(playerUpgrades.Cast<UpgradeBase>())
-        //    .ToList();
-
         while (selected.Count < _count && pool.Count > 0)
         {
             int randomIndex = Random.Range(0, pool.Count);
@@ -268,6 +229,6 @@ public class UpgradeChoiceManager : MonoBehaviour
     {
         if (m_upgradePanel != null) m_upgradePanel.SetActive(false);
         //Same as stop time, need to find other solution
-        Time.timeScale = 1f;
+        Time.timeScale = 5f;
     }
 }

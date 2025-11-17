@@ -12,6 +12,7 @@ public class LevelManager : MonoBehaviour
     float m_xpNeeded = 1;
     int m_level = 0;
     float m_xp = 0;
+    float m_totXp = 0;
 
 
     [Header("Public Values(Get only)")]
@@ -39,6 +40,9 @@ public class LevelManager : MonoBehaviour
     public void AddXp(float _xp)
     {
         m_xp += _xp;
+
+        m_totXp += _xp;
+        Debug.Log("xp tot = " + m_totXp);
         LevelUp();
         UI.Instance.UpdateUI();
     }

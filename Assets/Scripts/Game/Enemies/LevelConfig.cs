@@ -153,6 +153,7 @@ public class LevelConfig : ScriptableObject
         float baseXpNeeded = 2f;
         float xpNeeded = baseXpNeeded;
         float xpNeededMultiplier = 1.5f;
+
         while (totalXP > xpNeeded)
         {
             level++;

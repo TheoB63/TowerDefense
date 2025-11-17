@@ -35,7 +35,10 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-
+        if (Hp <= 0)
+        {
+            Kill();
+        }
     }
 
     public void TakeDamage(int _damage)
@@ -43,11 +46,6 @@ public class Enemy : MonoBehaviour
         Hp -= _damage;
         GameObject go = Instantiate(damageTextPrefab, transform.position, Quaternion.identity);
         go.GetComponent<DamageText>().Setup(_damage);
-
-        if (Hp <= 0)
-        {
-            Kill();
-        }
     }
 
     public void Kill()

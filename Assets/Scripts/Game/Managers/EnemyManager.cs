@@ -116,8 +116,6 @@ public class EnemyManager : MonoBehaviour
 
     void EndLevel()
     {
-        Debug.Log("Enemy end : remain=" + remainingEnemies.Count + " count=" + m_enemies.Count);
-
         if (remainingEnemies.Count == 0)
         {
             if (m_enemies.Count == 0)
