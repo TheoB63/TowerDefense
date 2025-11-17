@@ -1894,9 +1894,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ebe66f53d73deb4889e53bd89bbd054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameMenuManager
-  m_startLevel: 1
-  m_maxLevel: 5
-  levelText: {fileID: 1823812014}
+  m_levelText: {fileID: 1823812014}
+  m_levels:
+  - {fileID: 11400000, guid: b22f01f672e73124cbdd7c7b74fc55e1, type: 2}
+  - {fileID: 11400000, guid: 3d7cd55b90459114ea55684335877d11, type: 2}
+  - {fileID: 11400000, guid: e4b8efebd6d8aa54fb8e7fb541833163, type: 2}
 --- !u!1 &611905113
 GameObject:
   m_ObjectHideFlags: 0
@@ -5246,7 +5248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cce0c0070ed81e948a0e679f54ec1768, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  selectedLevel: 1
+  selectedLevel: {fileID: 0}
 --- !u!4 &1594778557
 Transform:
   m_ObjectHideFlags: 0

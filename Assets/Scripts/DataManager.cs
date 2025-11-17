@@ -5,7 +5,7 @@ public class DataManager : MonoBehaviour
     public static DataManager Instance;
 
     //Level Data
-    public int selectedLevel = 1;
+    public LevelConfig selectedLevel;
 
     void Awake()
     {

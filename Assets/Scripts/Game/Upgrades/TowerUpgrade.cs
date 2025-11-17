@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "TowerUpgrade", menuName = "Scriptable Objects/Upgrades/Tower Upgrade")]
+[CreateAssetMenu(fileName = "TowerUpgrade", menuName = "TowerDefense/Upgrades/Tower Upgrade")]
 public class TowerUpgrade : UpgradeBase
 {
     public TowerType targetTowerType;

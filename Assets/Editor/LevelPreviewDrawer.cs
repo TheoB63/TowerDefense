@@ -27,10 +27,10 @@ public class LevelPreviewDrawer
         if (Selection.activeGameObject != null)
         {
             EnemyManager manager = Selection.activeGameObject.GetComponent<EnemyManager>();
-            if (manager != null && manager.allLevels.Count > 0)
+            if (manager != null)
             {
                 // Afficher le premier level par défaut
-                LevelConfig levelToShow = manager.allLevels[0];
+                LevelConfig levelToShow = manager.CurrentLevel;
                 DrawLevelPreview(levelToShow);
             }
         }

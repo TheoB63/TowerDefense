@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,28 +6,23 @@ public class EnemyManager : MonoBehaviour
 {
     public static EnemyManager Instance;
 
-    [Header("Configuration")]
-    [Tooltip("Glisse tous tes LevelConfig ici (Level1, Level2, etc.)")]
-    public List<LevelConfig> allLevels = new List<LevelConfig>();
-
-    [Tooltip("Le Transform où spawner les ennemis (en haut de l'écran)")]
     public Transform spawnPoint;
 
     [Header("Debug Info - READ ONLY")]
-    [SerializeField] private int currentLevelNumber;
     [SerializeField] private float levelTimer;
     [SerializeField] private int enemiesSpawned;
     [SerializeField] private int totalEnemiesInLevel;
     [SerializeField] private bool isLevelActive = false;
 
-    private LevelConfig currentLevel;
-    private List<EnemySpawnData> remainingEnemies = new List<EnemySpawnData>();
+    LevelConfig currentLevel;
+    List<EnemySpawnData> remainingEnemies = new List<EnemySpawnData>();
 
     List<Enemy> m_enemies = new List<Enemy>();
 
     //public ref
     public List<Enemy> Enemies { get => m_enemies; }
     public float LevelTimer { get => levelTimer; set => levelTimer = value; }
+    public LevelConfig CurrentLevel { get => currentLevel; set => currentLevel = value; }
 
     private void Awake()
     {
@@ -51,8 +45,7 @@ public class EnemyManager : MonoBehaviour
             return;
         }
 
-        int selectedLevel = DataManager.Instance.selectedLevel;
-        LoadLevel(selectedLevel);
+        LoadLevel();
     }
 
     void Update()
@@ -75,15 +68,12 @@ public class EnemyManager : MonoBehaviour
     }
 
     // ========== FONCTION PRINCIPALE : CHARGER UN LEVEL ==========
-    void LoadLevel(int levelNumber)
+    void LoadLevel()
     {
-        // Trouver le LevelConfig correspondant
-        currentLevel = allLevels.Find(l => l.levelNumber == levelNumber);
+        currentLevel = DataManager.Instance.selectedLevel;
 
         if (currentLevel == null)
         {
-            Debug.LogError($"❌ Level {levelNumber} not found in allLevels list!");
-            Debug.LogWarning($"Available levels: {string.Join(", ", allLevels.Select(l => l.levelNumber))}");
             return;
         }
 
@@ -95,7 +85,6 @@ public class EnemyManager : MonoBehaviour
         }
 
         // Initialiser le level
-        currentLevelNumber = levelNumber;
         levelTimer = 0f;
         enemiesSpawned = 0;
         totalEnemiesInLevel = currentLevel.GetTotalEnemies();
@@ -158,6 +147,7 @@ public class EnemyManager : MonoBehaviour
         float x = Random.Range(0, Screen.width);
         Vector3 position = Camera.main.ScreenToWorldPoint(new Vector3(x, Screen.height, Camera.main.nearClipPlane));
         position.z = 0;
+        position.y = spawnPoint.position.y;
 
         GameObject enemy = Instantiate(prefab, position, Quaternion.identity);
         Enemy enemyScript = enemy.GetComponent<Enemy>();
@@ -258,21 +248,6 @@ public class EnemyManager : MonoBehaviour
         Debug.Log("▶️ Level resumed");
     }
 
-    // Charger le level suivant
-    public void LoadNextLevel()
-    {
-        int nextLevel = currentLevelNumber + 1;
-
-        if (allLevels.Any(l => l.levelNumber == nextLevel))
-        {
-            LoadLevel(nextLevel);
-        }
-        else
-        {
-            Debug.Log("🏆 No more levels! Game completed!");
-        }
-    }
-
     // Restart le level actuel
     public void RestartLevel()
     {
@@ -280,39 +255,22 @@ public class EnemyManager : MonoBehaviour
         StopLevel();
 
         // Recharger
-        LoadLevel(currentLevelNumber);
-    }
-
-    // ========== COROUTINE UTILE ==========
-    IEnumerator LoadNextLevelAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        LoadNextLevel();
+        LoadLevel();
     }
 
     // ========== PREVIEW DANS L'ÉDITEUR (sans lancer le jeu) ==========
-    [ContextMenu("Preview Level 1")]
-    void PreviewLevel1()
-    {
-        PreviewLevel(1);
-    }
-
     [ContextMenu("Preview Current Level")]
     void PreviewCurrentLevel()
     {
-        if (allLevels.Count > 0)
-        {
-            PreviewLevel(allLevels[0].levelNumber);
-        }
+        PreviewLevel(currentLevel);
     }
 
-    void PreviewLevel(int levelNumber)
+    void PreviewLevel(LevelConfig _level)
     {
-        LevelConfig level = allLevels.Find(l => l.levelNumber == levelNumber);
+        LevelConfig level = _level;
 
         if (level == null)
         {
-            Debug.LogWarning($"Level {levelNumber} not found!");
             return;
         }
 
