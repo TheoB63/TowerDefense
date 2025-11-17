@@ -142,7 +142,7 @@ MonoBehaviour:
   deathEffectsPrefab: {fileID: 7181993071959690920, guid: 3e691a10e359d3947b832161dd17f446, type: 3}
   previewColor: {r: 0, g: 0, b: 0, a: 1}
   EnemyName: Enemy1
-  Hp: 500
+  Hp: 2000
   Damage: 50
   Speed: 1
   Xp: 5

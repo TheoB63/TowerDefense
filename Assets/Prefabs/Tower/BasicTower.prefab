@@ -232,7 +232,7 @@ MonoBehaviour:
   m_armRotationSpeed: 10
   m_type: 0
   m_towerName: Basic Tower
-  m_baseDamage: 5
+  m_baseDamage: 10
   m_baseRange: 5
   m_baseCritRate: 0
   m_baseCritMultiplier: 0

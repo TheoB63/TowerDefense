@@ -3118,6 +3118,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   allLevels:
   - {fileID: 11400000, guid: 1cd37316386196e438a3ec16de227086, type: 2}
+  - {fileID: 11400000, guid: ac806dd3debe9a542b3f01df048dd17e, type: 2}
+  - {fileID: 11400000, guid: 9242af7bd9d045e42bc546a52cbdf500, type: 2}
   spawnPoint: {fileID: 843564931}
   currentLevelNumber: 0
   levelTimer: 0
@@ -4168,9 +4170,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeChoiceManager
   m_constructionUpgrades:
   - {fileID: 11400000, guid: f72aa746878e0a74fa88b251dc74a661, type: 2}
-  - {fileID: 11400000, guid: d60a4b385e6a2214ea743550cb7b6d76, type: 2}
-  - {fileID: 11400000, guid: 1a0eb61a6ceddf648aa82bba9a0f2626, type: 2}
-  - {fileID: 11400000, guid: 73b265fce6113e0429326cf8f00eeb3c, type: 2}
   m_playerUpgrades:
   - {fileID: 11400000, guid: ec1d59a3eace73e449f0f63a118a5b4e, type: 2}
   - {fileID: 11400000, guid: 5de4ca9c42daafb42bee5d4ecbabf094, type: 2}

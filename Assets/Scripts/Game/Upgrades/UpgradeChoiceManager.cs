@@ -1,6 +1,4 @@
-﻿using Mono.Cecil.Cil;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class UpgradeChoiceManager : MonoBehaviour
