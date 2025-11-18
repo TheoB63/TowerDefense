@@ -6,6 +6,7 @@ public class DataManager : MonoBehaviour
 
     //Level Data
     public LevelConfig selectedLevel;
+    public float gameSpeed = 1f;
 
     void Awake()
     {

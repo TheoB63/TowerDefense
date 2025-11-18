@@ -167,8 +167,7 @@ public class UpgradeChoiceManager : MonoBehaviour
     {
         if (m_upgradePanel != null) m_upgradePanel.SetActive(true);
 
-        //Stop Time but isn't a good way, need to see other method
-        Time.timeScale = 0f;
+        GameManager.Instance.PauseGame();
 
         //Setup Buttons
         for (int i = 0; i < m_upgradeButtons.Count; i++)
@@ -228,7 +227,7 @@ public class UpgradeChoiceManager : MonoBehaviour
     void CloseUpgradeUI()
     {
         if (m_upgradePanel != null) m_upgradePanel.SetActive(false);
-        //Same as stop time, need to find other solution
-        Time.timeScale = 5f;
+
+        GameManager.Instance.ResumeGame();
     }
 }

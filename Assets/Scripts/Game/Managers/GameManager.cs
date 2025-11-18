@@ -11,8 +11,8 @@ public class GameManager : MonoBehaviour
     float m_gameSpeed;
 
     //public references
-    public bool IsPause { get => m_isPause;}
-    public float LevelTimer { get => m_levelTimer;}
+    public bool IsPause { get => m_isPause; }
+    public float LevelTimer { get => m_levelTimer; }
 
     private void Awake()
     {
@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        SetGameSpeed(DataManager.Instance.gameSpeed);
         //Load all informations of DataManager
     }
 
@@ -40,7 +41,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void PauseGame()
-    {       
+    {
         m_isPause = true;
         Time.timeScale = 0f;
     }
@@ -54,6 +55,10 @@ public class GameManager : MonoBehaviour
     public void SetGameSpeed(float _speed)
     {
         m_gameSpeed = _speed;
+        if (!m_isPause)
+        {
+            Time.timeScale = m_gameSpeed;
+        }
     }
 
     public void EndLevel(bool _win)
@@ -66,5 +71,5 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadScene("Menu");
         }
-    }    
+    }
 }

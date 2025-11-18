@@ -5249,6 +5249,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   selectedLevel: {fileID: 0}
+  gameSpeed: 50
 --- !u!4 &1594778557
 Transform:
   m_ObjectHideFlags: 0

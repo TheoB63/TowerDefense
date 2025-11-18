@@ -71,6 +71,16 @@ public class TabMenu : MonoBehaviour
     {
         EnsureIndexIsInRange(_index);
 
+        for (int i = 0; i < m_pages.Count; i++)
+        {
+            bool isActivePage = (i == m_pageIndex);
+
+            m_pages[i].alpha = isActivePage ? 1 : 0;
+            m_pages[i].interactable = isActivePage;
+            m_pages[i].blocksRaycasts = isActivePage;
+
+        }
+
         foreach (var toggle in m_tabs)
         {
             toggle.GetComponent<ToggleHighlightStaysActive>().RefreshHighlight();
@@ -78,15 +88,6 @@ public class TabMenu : MonoBehaviour
 
         if (Application.isPlaying)
         {
-            for (int i = 0; i < m_pages.Count; i++)
-            {
-                bool isActivePage = (i == m_pageIndex);
-
-                m_pages[i].alpha = isActivePage ? 1 : 0;
-                m_pages[i].interactable = isActivePage;
-                m_pages[i].blocksRaycasts = isActivePage;
-            }
-
             OnPageIndexChanged?.Invoke(m_pageIndex);
         }
     }
