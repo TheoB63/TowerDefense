@@ -4,7 +4,7 @@ using UnityEngine;
 public class TowerUpgrade : UpgradeBase
 {
     public TowerType targetTowerType;
-    public string upgradeMethodName; // Nom de la méthode à appeler
+    public string upgradeMethodName;
     public TowerSlot specificSlot;
 
     public override bool CanApply(TowerSlot _slot, PlayerStats _player)

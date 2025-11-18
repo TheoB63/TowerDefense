@@ -38,6 +38,8 @@ public class Enemy : MonoBehaviour
         {
             Kill();
         }
+
+
     }
 
     public void TakeDamage(int _damage)

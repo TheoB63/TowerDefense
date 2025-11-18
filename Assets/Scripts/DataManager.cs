@@ -8,6 +8,15 @@ public class DataManager : MonoBehaviour
     public LevelConfig selectedLevel;
     public float gameSpeed = 1f;
 
+    //Player
+    //level
+    //
+
+    //Tower
+
+    //Inv
+    //
+
     void Awake()
     {
         if (Instance == null)
