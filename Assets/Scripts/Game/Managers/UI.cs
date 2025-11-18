@@ -1,11 +1,10 @@
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UI : MonoBehaviour
 {
-    static public UI Instance;
+    public static UI Instance;
 
     [Header("Level")]
     [SerializeField] TextMeshProUGUI m_levelText;
@@ -33,7 +32,7 @@ public class UI : MonoBehaviour
 
     private void Update()
     {
-        timerText.text = FormatTime(EnemyManager.Instance.LevelTimer);
+        timerText.text = FormatTime(GameManager.Instance.LevelTimer);
     }
 
     public void UpdateUI()

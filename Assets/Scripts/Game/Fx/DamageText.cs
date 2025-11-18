@@ -19,7 +19,7 @@ public class DamageText : MonoBehaviour
         m_timer += Time.deltaTime;
         if (m_timer > m_lifeTime)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 }

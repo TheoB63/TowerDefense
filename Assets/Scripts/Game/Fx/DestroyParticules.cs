@@ -2,17 +2,17 @@ using UnityEngine;
 
 public class DestroyParticules : MonoBehaviour
 {
-    ParticleSystem ps;
+    ParticleSystem m_ps;
     void Start()
     {
-        ps = GetComponent<ParticleSystem>();
+        m_ps = GetComponent<ParticleSystem>();
     }
 
     void Update()
     {
-        if (ps)
+        if (m_ps)
         {
-            if (!ps.IsAlive())
+            if (!m_ps.IsAlive())
             {
                 Destroy(gameObject);
             }

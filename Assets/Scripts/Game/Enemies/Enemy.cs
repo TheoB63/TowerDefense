@@ -1,5 +1,4 @@
 using UnityEngine;
-using static UnityEngine.ParticleSystem;
 
 public interface IEnemyAction
 {
@@ -61,6 +60,6 @@ public class Enemy : MonoBehaviour
 
 
         EnemyManager.Instance.Enemies.Remove(this);
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 }

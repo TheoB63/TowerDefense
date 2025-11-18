@@ -192,7 +192,7 @@ public class LevelPreviewDrawer
 
         string bossTag = enemyData.IsBoss() ? " 💀" : "";
         string slotName = enemyData.GetSlotName(level);
-        string label = $"{enemyData.spawnTime:F1}s | {slotName} ({enemyData.GetEnemyName(level)}) | {enemyData.GetXPValue(level)} XP{bossTag}";
+        string label = $"{enemyData.spawnTime:F1}s | {slotName} ({enemyData.GetEnemyName(level)}) | {enemyData.GetXpValue(level)} XP{bossTag}";
         Vector2 labelSize = labelStyle.CalcSize(new GUIContent(label));
 
         GUI.backgroundColor = new Color(0, 0, 0, 0.8f);

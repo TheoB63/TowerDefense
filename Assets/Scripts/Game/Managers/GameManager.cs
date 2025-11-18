@@ -1,11 +1,18 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    //instance
-    static public GameManager Instance;
+    public static GameManager Instance;
+
+    //Time
+    bool m_isPause;
+    float m_levelTimer;
+    float m_gameSpeed;
+
+    //public references
+    public bool IsPause { get => m_isPause;}
+    public float LevelTimer { get => m_levelTimer;}
 
     private void Awake()
     {
@@ -19,13 +26,37 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        //Load all informations of DataManager
+    }
 
     void Update()
     {
-        //SpawnEnemies();
+        if (!m_isPause)
+        {
+            m_levelTimer += Time.deltaTime;
+        }
     }
 
-   public void EndLevel(bool _win)
+    public void PauseGame()
+    {       
+        m_isPause = true;
+        Time.timeScale = 0f;
+    }
+
+    public void ResumeGame()
+    {
+        m_isPause = false;
+        Time.timeScale = m_gameSpeed;
+    }
+
+    public void SetGameSpeed(float _speed)
+    {
+        m_gameSpeed = _speed;
+    }
+
+    public void EndLevel(bool _win)
     {
         if (_win)
         {

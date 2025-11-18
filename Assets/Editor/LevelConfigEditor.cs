@@ -74,7 +74,7 @@ public class LevelConfigEditor : Editor
                 string slotName = enemy.GetSlotName(level);
                 string enemyName = prefab ? prefab.name : "⚠️ MISSING";
                 string timeStr = FormatTime(enemy.spawnTime);
-                float xp = enemy.GetXPValue(level);
+                float xp = enemy.GetXpValue(level);
                 Color previewColor = enemy.GetPreviewColor(level);
                 bool isBoss = enemy.IsBoss();
 

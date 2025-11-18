@@ -6,17 +6,15 @@ using System.Linq;
 using UnityEditor;
 #endif
 
+//EnemySpawnData
 [System.Serializable]
 public class EnemySpawnData
 {
     public EnemyType type = EnemyType.Mob;
     public int index = 0;
 
-
-    [Tooltip("À quel moment spawn cet ennemi (en secondes depuis le début du level)")]
     public float spawnTime;
 
-    // Récupère le prefab depuis le LevelConfig
     public GameObject GetPrefab(LevelConfig levelConfig)
     {
         switch (type)
@@ -39,13 +37,11 @@ public class EnemySpawnData
         return null;
     }
 
-    // Vérifie si c'est un boss
     public bool IsBoss()
     {
         return type == EnemyType.boss;
     }
 
-    // Récupère le type d'ennemi sous forme de string pour affichage
     public string GetSlotName(LevelConfig levelConfig)
     {
         if (IsBoss())
@@ -58,48 +54,68 @@ public class EnemySpawnData
         }
     }
 
-    // Récupère l'XP
-    public float GetXPValue(LevelConfig levelConfig)
+    public float GetXpValue(LevelConfig levelConfig)
     {
         GameObject prefab = GetPrefab(levelConfig);
-        if (prefab == null) return 0;
+        if (prefab == null)
+        {
+            return 0;
+        }
 
         Enemy enemyScript = prefab.GetComponent<Enemy>();
-        if (enemyScript == null) return 0;
+        if (enemyScript == null)
+        {
+            return 0;
+        }
+
         return enemyScript.Xp;
     }
 
-    // Récupère la couleur pour le preview
     public Color GetPreviewColor(LevelConfig levelConfig)
     {
         GameObject prefab = GetPrefab(levelConfig);
-        if (prefab == null) return Color.gray;
+        if (prefab == null)
+        {
+            return Color.gray;
+        }
 
         Enemy enemyScript = prefab.GetComponent<Enemy>();
-        if (enemyScript == null) return Color.white;
+        if (enemyScript == null)
+        {
+            return Color.white;
+        }
+
         return enemyScript.previewColor;
     }
 
-    // Récupère le sprite pour l'affichage
     public Sprite GetSprite(LevelConfig levelConfig)
     {
         GameObject prefab = GetPrefab(levelConfig);
-        if (prefab == null) return null;
+        if (prefab == null)
+        {
+            return null;
+        }
 
         SpriteRenderer spriteRenderer = prefab.GetComponentInChildren<SpriteRenderer>();
-        if (spriteRenderer == null) return null;
+        if (spriteRenderer == null)
+        {
+            return null;
+        }
+
         return spriteRenderer.sprite;
     }
 
-    // Récupère le nom de l'ennemi
     public string GetEnemyName(LevelConfig levelConfig)
     {
         GameObject prefab = GetPrefab(levelConfig);
-        return prefab != null ? prefab.name : $"[{GetSlotName(levelConfig)} - MISSING]";
+        if (prefab != null)
+        {
+            return prefab.name;
+        }
+        return $"[{GetSlotName(levelConfig)} - Missing]";
     }
 
-    // Nettoie les index invalides (appelé automatiquement)
-    public void CleanupIndices(LevelConfig levelConfig)
+    public void CleanupIndex(LevelConfig levelConfig)
     {
         switch (type)
         {
@@ -112,7 +128,6 @@ public class EnemySpawnData
             case EnemyType.boss:
                 if (index >= levelConfig.bossPrefabs.Count)
                 {
-                    index = -1;
                     index = levelConfig.mobPrefabs.Count > 0 ? 0 : -1;
                 }
                 break;
@@ -122,31 +137,51 @@ public class EnemySpawnData
     }
 }
 
+
+//LevelConfig
 [CreateAssetMenu(fileName = "Level", menuName = "TowerDefense/Level Config")]
 public class LevelConfig : ScriptableObject
 {
     [Header("Level Info")]
     public int levelNumber = 1;
-    public string levelName = "Level 1";
+    public string levelName = "Level X";
     public int damageMultiplier = 1;
     public int hpMultiplier = 1;
 
-    [Header("Enemy Prefabs Assignment")]
-    [Tooltip("Liste des prefabs de mobs normaux")]
+    [Header("Enemy Prefabs")]
     public List<GameObject> mobPrefabs = new List<GameObject>();
-
-    [Tooltip("Liste des prefabs de boss")]
     public List<GameObject> bossPrefabs = new List<GameObject>();
 
     [Header("Enemies Timeline")]
-    [Tooltip("Structure du level : définit QUAND spawn QUEL type d'ennemi")]
     public List<EnemySpawnData> enemies = new List<EnemySpawnData>();
 
-    [Header("Player Level Calculation")]
-    [Tooltip("XP de base que le joueur a au début de ce level")]
+    [Header("Xp")]
     public float baseXP = 0;
 
-    // ====== MODIFIE CETTE FONCTION SELON TON SYSTÈME DE LEVEL ======
+    public int GetTotalEnemies()
+    {
+        return enemies.Count;
+    }
+
+    public float GetLevelDuration()
+    {
+        if (enemies.Count <= 0)
+        {
+            return 0;
+        }
+
+        float maxTime = 0;
+        foreach (var enemy in enemies)
+        {
+            if (enemy.spawnTime > maxTime)
+            {
+                maxTime = enemy.spawnTime;
+            }
+        }
+        return maxTime;
+    }
+
+
     public int CalculateLevel(float totalXP)
     {
         int level = 0;
@@ -162,35 +197,15 @@ public class LevelConfig : ScriptableObject
         }
         return level;
     }
-    // ================================================================
-
-    // === Fonctions utiles pour l'éditeur et le gameplay ===
-
-    public int GetTotalEnemies()
-    {
-        return enemies.Count;
-    }
 
     public float GetTotalXP()
     {
         float total = 0;
         foreach (var enemy in enemies)
         {
-            total += enemy.GetXPValue(this);
+            total += enemy.GetXpValue(this);
         }
         return total;
-    }
-
-    public float GetLevelDuration()
-    {
-        if (enemies.Count == 0) return 0;
-        float maxTime = 0;
-        foreach (var enemy in enemies)
-        {
-            if (enemy.spawnTime > maxTime)
-                maxTime = enemy.spawnTime;
-        }
-        return maxTime;
     }
 
     public int GetStartLevel()
@@ -203,26 +218,23 @@ public class LevelConfig : ScriptableObject
         return CalculateLevel(baseXP + GetTotalXP());
     }
 
-    // Compter les boss dans le level
     public int GetBossCount()
     {
         return enemies.Count(e => e.IsBoss());
     }
 
-    // Compter les mobs dans le level
     public int GetMobCount()
     {
         return enemies.Count(e => !e.IsBoss());
     }
 
-    // ====== NETTOYAGE AUTOMATIQUE DES INDEX INVALIDES ======
+    //In Editor
 #if UNITY_EDITOR
     private void OnValidate()
     {
-        // Nettoyer tous les index invalides quand on modifie les listes
         foreach (var enemy in enemies)
         {
-            enemy.CleanupIndices(this);
+            enemy.CleanupIndex(this);
         }
     }
 
@@ -233,14 +245,7 @@ public class LevelConfig : ScriptableObject
         {
             enemies = enemies.OrderBy(e => e.spawnTime).ToList();
             EditorUtility.SetDirty(this);
-            Debug.Log($"✅ Sorted {enemies.Count} enemies by spawn time");
         }
-    }
-
-    [ContextMenu("Duplicate Level Structure")]
-    public void DuplicateLevelStructure()
-    {
-        Debug.Log("💡 To duplicate: Right-click this asset → Duplicate, then change the prefab assignments!");
     }
 
     [ContextMenu("Cleanup All Enemy Indices")]
@@ -248,10 +253,9 @@ public class LevelConfig : ScriptableObject
     {
         foreach (var enemy in enemies)
         {
-            enemy.CleanupIndices(this);
+            enemy.CleanupIndex(this);
         }
         EditorUtility.SetDirty(this);
-        Debug.Log("✅ Cleaned up all enemy indices");
     }
 #endif
 }
