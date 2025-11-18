@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: TowerData
   m_EditorClassIdentifier: 
   Type: 0
-  Name: 
-  prefab: {fileID: 0}
-  baseDamage: 0
-  possibleUpgrades: []
+  Name: Basic
+  prefab: {fileID: 3680209922806064918, guid: 7835d6068ae6591469f876f67a71a115, type: 3}
+  baseDamage: 10
+  possibleUpgrades:
+  - {fileID: 11400000, guid: 367eb1ef7a640d446a319843908e665c, type: 2}
+  - {fileID: 11400000, guid: ddc02dc8ace8a474a88c5b7244a52141, type: 2}
