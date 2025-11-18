@@ -2,9 +2,6 @@
 using UnityEditor;
 using System.Linq;
 
-// CE SCRIPT VA DANS UN DOSSIER "Editor" à la racine de ton projet
-// Il customise l'affichage du LevelConfig dans l'Inspector
-
 [CustomEditor(typeof(LevelConfig))]
 public class LevelConfigEditor : Editor
 {
@@ -14,7 +11,7 @@ public class LevelConfigEditor : Editor
     {
         LevelConfig level = (LevelConfig)target;
 
-        // ========== BOX AVEC LES STATS DU LEVEL ==========
+        //Level Stats Box
         EditorGUILayout.BeginVertical("box");
         GUIStyle titleStyle = new GUIStyle(EditorStyles.boldLabel);
         titleStyle.fontSize = 14;
@@ -23,14 +20,14 @@ public class LevelConfigEditor : Editor
         EditorGUILayout.LabelField("📊 LEVEL STATISTICS", titleStyle);
         EditorGUILayout.Space(5);
 
-        // Stats principales
+        //Level Stats
         EditorGUILayout.LabelField($"Total Enemies: {level.GetTotalEnemies()} ({level.GetMobCount()} mobs, {level.GetBossCount()} bosses)", EditorStyles.label);
         EditorGUILayout.LabelField($"Total XP Reward: {level.GetTotalXP()} XP", EditorStyles.label);
         EditorGUILayout.LabelField($"Level Duration: ~{level.GetLevelDuration():F1} seconds", EditorStyles.label);
 
         EditorGUILayout.Space(10);
 
-        // Calcul de progression de level
+        //Xp level
         int startLevel = level.GetStartLevel();
         int endLevel = level.GetEndLevel();
 
@@ -58,14 +55,13 @@ public class LevelConfigEditor : Editor
 
         EditorGUILayout.Space(10);
 
-        // ========== TIMELINE DES ENNEMIS ==========
+        //ENEMIES
         showTimeline = EditorGUILayout.Foldout(showTimeline, "⏱️ ENEMIES TIMELINE", true);
 
         if (showTimeline && level.enemies.Count > 0)
         {
             EditorGUILayout.BeginVertical("box");
 
-            // Trier par temps de spawn pour l'affichage
             var sortedEnemies = level.enemies.OrderBy(e => e.spawnTime).ToList();
 
             foreach (var enemy in sortedEnemies)
@@ -80,7 +76,7 @@ public class LevelConfigEditor : Editor
 
                 EditorGUILayout.BeginHorizontal("helpbox");
 
-                // Petit carré de couleur
+                //Color
                 Rect colorRect = EditorGUILayout.GetControlRect(GUILayout.Width(20), GUILayout.Height(20));
                 EditorGUI.DrawRect(colorRect, previewColor);
 
@@ -109,7 +105,7 @@ public class LevelConfigEditor : Editor
 
         EditorGUILayout.Space(10);
 
-        // ========== BOUTONS UTILES ==========
+        //Buttons
         EditorGUILayout.BeginHorizontal();
 
         if (GUILayout.Button("Sort by Spawn Time"))
@@ -121,15 +117,13 @@ public class LevelConfigEditor : Editor
 
         if (GUILayout.Button("Show Preview in Scene"))
         {
-            // Sélectionner l'objet pour que SceneView soit actif
             Selection.activeObject = level;
             SceneView.RepaintAll();
         }
 
         if (GUILayout.Button("Clear All Enemies"))
         {
-            if (EditorUtility.DisplayDialog("Clear Enemies",
-                "Are you sure you want to remove all enemies?", "Yes", "Cancel"))
+            if (EditorUtility.DisplayDialog("Clear Enemies","Are you sure you want to remove all enemies?", "Yes", "Cancel"))
             {
                 Undo.RecordObject(level, "Clear Enemies");
                 level.enemies.Clear();
@@ -141,7 +135,6 @@ public class LevelConfigEditor : Editor
 
         EditorGUILayout.Space(10);
 
-        // Inspector par défaut pour modifier les valeurs
         DrawDefaultInspector();
     }
 
@@ -151,8 +144,12 @@ public class LevelConfigEditor : Editor
         int secs = Mathf.FloorToInt(seconds % 60);
 
         if (mins > 0)
+        { 
             return $"{mins}:{secs:D2}";
+        }
         else
+        { 
             return $"{secs}s";
+        }
     }
 }

@@ -2,9 +2,6 @@ using UnityEngine;
 
 public class PlayerProjectiles : Projectiles
 {
-    [Header("Values")]
-    [SerializeField] int m_damageBase;
-
     //runtime values
     int m_damage;
     int m_penetration;
@@ -38,7 +35,7 @@ public class PlayerProjectiles : Projectiles
     {
         if (_collision.GetComponent<Enemy>())
         {
-            _collision.GetComponent<Enemy>().TakeDamage(m_damageBase + m_damage);
+            _collision.GetComponent<Enemy>().TakeDamage(m_damage);
 
             m_penetration--;
 

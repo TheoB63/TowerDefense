@@ -38,7 +38,7 @@ public class UI : MonoBehaviour
     public void UpdateUI()
     {
         //level
-        m_levelText.text = LevelManager.Instance.Level.ToString();
+        m_levelText.text = "Lvl." + LevelManager.Instance.Level.ToString();
         float amountLvl = LevelManager.Instance.Xp / LevelManager.Instance.XpNeeded;
         m_xpBar.fillAmount = amountLvl;
 

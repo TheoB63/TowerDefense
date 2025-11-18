@@ -3,7 +3,6 @@ using UnityEngine;
 public class RailgunProjectile : Projectiles
 {
     [Header("Values")]
-    [SerializeField] int m_damageBase;
     [SerializeField] float m_explosionRadius;
     [SerializeField] float m_explosionForce;
     int m_damage;
@@ -38,7 +37,7 @@ public class RailgunProjectile : Projectiles
     {
         if (_collision.GetComponent<Enemy>())
         {
-            _collision.GetComponent<Enemy>().TakeDamage(m_damageBase + m_damage);
+            _collision.GetComponent<Enemy>().TakeDamage(m_damage);
 
             m_penetration--;
 

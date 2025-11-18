@@ -21,7 +21,6 @@ public class EnemyManager : MonoBehaviour
 
     //Public
     public List<Enemy> Enemies { get => m_enemies; }
-    public LevelConfig CurrentLevel { get => currentLevel; set => currentLevel = value; }
 
     private void Awake()
     {

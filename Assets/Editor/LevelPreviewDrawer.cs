@@ -1,11 +1,6 @@
-﻿using Codice.CM.Client.Differences.Graphic;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using UnityEditor;
 using UnityEngine;
-
-// ⚠️ CE SCRIPT DOIT ÊTRE DANS UN DOSSIER NOMMÉ "Editor" À LA RACINE DE TON PROJET
-// Il permet de visualiser les spawns directement dans la SceneView
 
 [InitializeOnLoad]
 public class LevelPreviewDrawer
@@ -17,31 +12,21 @@ public class LevelPreviewDrawer
 
     static void OnSceneGUI(SceneView sceneView)
     {
-        // Vérifier si un LevelConfig est sélectionné dans le Project
         if (Selection.activeObject is LevelConfig level)
         {
             DrawLevelPreview(level);
-        }
-
-        // Vérifier si un EnemyManager est sélectionné dans la scène
-        if (Selection.activeGameObject != null)
-        {
-            EnemyManager manager = Selection.activeGameObject.GetComponent<EnemyManager>();
-            if (manager != null)
-            {
-                // Afficher le premier level par défaut
-                LevelConfig levelToShow = manager.CurrentLevel;
-                DrawLevelPreview(levelToShow);
-            }
         }
     }
 
     static void DrawLevelPreview(LevelConfig level)
     {
-        if (level.enemies.Count == 0) return;
+        if (level.enemies.Count == 0)
+        {
+            return;
+        }
 
-        // Trouver le spawn point dans la scène
         EnemyManager manager = GameObject.FindFirstObjectByType<EnemyManager>();
+
         Transform spawnPoint = manager != null ? manager.spawnPoint : null;
 
         if (spawnPoint == null)
@@ -52,33 +37,26 @@ public class LevelPreviewDrawer
 
         Vector3 spawnPos = spawnPoint.position;
 
-        // Calculer la durée max
         float maxTime = level.GetLevelDuration();
         if (maxTime <= 0) maxTime = 10f;
 
-        // Dessiner le titre en overlay
         DrawTitle(level);
 
-        // Dessiner la timeline (1 seconde = 1 unité Unity)
         DrawTimeline(spawnPos, maxTime);
 
-        // Grouper les ennemis par timing pour gérer les collisions
         var enemyGroups = level.enemies
             .Where(e => e.GetPrefab(level) != null)
             .GroupBy(e => Mathf.Round(e.spawnTime * 10f) / 10f) // Grouper par 0.1s
             .ToList();
 
-        // Dessiner chaque groupe d'ennemis
         foreach (var group in enemyGroups)
         {
             float groupTime = group.Key;
             var enemiesAtTime = group.ToList();
 
-            // Position Y = spawnPos.y + temps (1 seconde = 1 unité vers le HAUT)
             Vector3 basePos = spawnPos;
-            basePos.y = spawnPos.y + groupTime; // VERS LE HAUT
+            basePos.y = spawnPos.y + groupTime;
 
-            // Si plusieurs ennemis au même moment, les espacer horizontalement
             float totalWidth = (enemiesAtTime.Count - 1) * 0.6f;
             float startX = basePos.x - totalWidth / 2f;
 
@@ -98,41 +76,34 @@ public class LevelPreviewDrawer
         Color color = enemyData.GetPreviewColor(level);
         string name = enemyData.GetEnemyName(level);
 
-        // Taille du marker
         float size = 0.4f;
 
-        // Si c'est un boss, faire un marker plus gros
         if (enemyData.IsBoss())
         {
             size = 0.6f;
         }
 
-        // Dessiner avec le sprite si disponible, sinon cercle coloré
         if (sprite != null)
         {
             DrawSpriteIcon(position, sprite, size, color, name);
         }
         else
         {
-            // Fallback : cercle coloré
             Handles.color = color;
             Handles.DrawSolidDisc(position, Vector3.forward, size);
             Handles.color = Color.black;
             Handles.DrawWireDisc(position, Vector3.forward, size);
         }
 
-        // Label avec les infos
         DrawLabel(position, enemyData, level);
     }
 
     static void DrawSpriteIcon(Vector3 position, Sprite sprite, float size, Color tint, string name)
     {
-        // Méthode 1 : Essayer avec AssetPreview
         Texture2D preview = AssetPreview.GetAssetPreview(sprite);
 
         if (preview != null)
         {
-            // Afficher la preview avec teinte
             Handles.BeginGUI();
 
             Vector3 screenCenter = HandleUtility.WorldToGUIPoint(position);
@@ -145,7 +116,6 @@ public class LevelPreviewDrawer
                 screenSize
             );
 
-            // Dessiner avec la couleur de teinte
             GUI.color = tint;
             GUI.DrawTexture(iconRect, preview, ScaleMode.ScaleToFit);
             GUI.color = Color.white;
@@ -154,13 +124,11 @@ public class LevelPreviewDrawer
         }
         else
         {
-            // Méthode 2 : Dessiner un carré coloré avec le nom
             Handles.color = tint;
             Handles.DrawSolidDisc(position, Vector3.forward, size);
             Handles.color = Color.black;
             Handles.DrawWireDisc(position, Vector3.forward, size + 0.02f);
 
-            // Afficher l'initiale du nom au centre
             Handles.BeginGUI();
             Vector3 screenPos = HandleUtility.WorldToGUIPoint(position);
 
@@ -171,7 +139,7 @@ public class LevelPreviewDrawer
             iconStyle.alignment = TextAnchor.MiddleCenter;
 
             string slotName = name;
-            string initial = slotName.Substring(slotName.Length - 1); // Prend le numéro (1, 2, 3...)
+            string initial = slotName.Substring(slotName.Length - 1);
             GUI.Label(new Rect(screenPos.x - 10, screenPos.y - 10, 20, 20), initial, iconStyle);
 
             Handles.EndGUI();
@@ -203,15 +171,13 @@ public class LevelPreviewDrawer
 
     static void DrawTimeline(Vector3 spawnPos, float maxTime)
     {
-        // Timeline : 1 seconde = 1 unité Unity vers le HAUT
+        // 1s = 1u
         Vector3 timelineStart = spawnPos + new Vector3(-1.5f, 0, 0);
-        Vector3 timelineEnd = timelineStart + new Vector3(0, maxTime, 0); // VERS LE HAUT
+        Vector3 timelineEnd = timelineStart + new Vector3(0, maxTime, 0);
 
-        // Ligne principale
         Handles.color = new Color(1, 1, 1, 0.6f);
         Handles.DrawLine(timelineStart, timelineEnd);
 
-        // Graduations tous les 1 secondes
         int numTicks = Mathf.CeilToInt(maxTime) + 1;
 
         for (int i = 0; i < numTicks; i++)
@@ -219,14 +185,11 @@ public class LevelPreviewDrawer
             float time = i;
             if (time > maxTime) break;
 
-            // Position : spawn + time (1 unité par seconde)
             Vector3 tickPos = timelineStart + new Vector3(0, time, 0);
 
-            // Tick mark
             Handles.color = new Color(1, 1, 1, 0.6f);
             Handles.DrawLine(tickPos, tickPos + Vector3.left * 0.2f);
 
-            // Label du temps
             Handles.BeginGUI();
             Vector3 screenPos = HandleUtility.WorldToGUIPoint(tickPos);
 
@@ -238,7 +201,6 @@ public class LevelPreviewDrawer
 
             string timeLabel = $"{time:F0}s";
 
-            // Background pour le label
             Vector2 labelSize = timeStyle.CalcSize(new GUIContent(timeLabel));
             Rect bgRect = new Rect(screenPos.x - labelSize.x - 10, screenPos.y - 10, labelSize.x + 5, 20);
             GUI.backgroundColor = new Color(0, 0, 0, 0.7f);
@@ -250,7 +212,6 @@ public class LevelPreviewDrawer
             Handles.EndGUI();
         }
 
-        // Flèche en haut pour indiquer le sens du temps
         Handles.color = Color.yellow;
         Vector3 arrowBase = timelineEnd;
         Vector3 arrowTip = arrowBase + Vector3.up * 0.3f;
@@ -273,7 +234,6 @@ public class LevelPreviewDrawer
         GUI.backgroundColor = new Color(0, 0, 0, 0.8f);
         GUI.Box(new Rect(10, 10, 350, 30), title, titleStyle);
 
-        // Stats du level
         GUIStyle statsStyle = new GUIStyle(GUI.skin.box);
         statsStyle.fontSize = 11;
         statsStyle.normal.textColor = Color.white;
