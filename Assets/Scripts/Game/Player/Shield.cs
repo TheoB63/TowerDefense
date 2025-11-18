@@ -28,7 +28,7 @@ public class Shield : MonoBehaviour
 
         if (m_currentHp <= 0)
         {
-            GameManager.Instance.EndLevel(false);
+            GameManager.Instance.EndGame(false);
         }
     }
 }

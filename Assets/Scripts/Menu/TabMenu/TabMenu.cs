@@ -40,10 +40,14 @@ public class TabMenu : MonoBehaviour
 
     private void Start()
     {
-        EnsureIndexIsInRange(m_startPage);
-        m_pageIndex = m_startPage;
-        m_tabs[m_pageIndex].SetIsOnWithoutNotify(true);
-        OpenPage(m_pageIndex);
+        for (int i = 0; i < m_tabs.Count; i++)
+        {
+            if (m_tabs[i] != null)
+            {
+                m_tabs[i].SetIsOnWithoutNotify(i == m_startPage);
+            }
+        }
+        OpenPage(m_startPage);
     }
 
     private void OnDestroy()
@@ -81,13 +85,12 @@ public class TabMenu : MonoBehaviour
             m_pages[i].blocksRaycasts = isActivePage;
         }
 
+        OnPageIndexChanged?.Invoke(m_pageIndex);
+
         foreach (var toggle in m_tabs)
         {
             toggle.GetComponent<ToggleHighlightStaysActive>().RefreshHighlight();
         }
-
-
-        OnPageIndexChanged?.Invoke(m_pageIndex);
     }
 
     private void EnsureIndexIsInRange(int _index)

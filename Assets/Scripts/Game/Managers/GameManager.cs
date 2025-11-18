@@ -29,7 +29,6 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         SetGameSpeed(DataManager.Instance.gameSpeed);
-        //Load all informations of DataManager
     }
 
     void Update()
@@ -61,7 +60,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void EndLevel(bool _win)
+    public void EndGame(bool _win)
     {
         if (_win)
         {

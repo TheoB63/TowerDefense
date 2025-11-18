@@ -49,7 +49,7 @@ public class EnemyManager : MonoBehaviour
 
         if (LevelIsEnd())
         {
-            GameManager.Instance.EndLevel(true);
+            GameManager.Instance.EndGame(true);
         }
     }
 
