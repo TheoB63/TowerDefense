@@ -7,13 +7,3 @@ public interface ITower
     void ApplyUpgrade(string _upgradeName);
     List<UpgradeBase> GetAvailableUpgrades();
 }
-
-public enum TowerType
-{
-    Projectile,
-    Railgun,
-    Laser,
-    Drone,
-    SlowArea,
-    // etc.
-}
