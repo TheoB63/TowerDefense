@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -17,16 +18,45 @@ public class TabMenu : MonoBehaviour
     [Header("Event to call")]
     public UnityEvent<int> OnPageIndexChanged;
 
-    private void OnValidate()
+    private void Initialized()
     {
         for (int i = 0; i < m_tabs.Count; i++)
         {
-            if (m_tabs[i] != null)
-            {
-                m_tabs[i].SetIsOnWithoutNotify(i == m_pageIndex);
-            }
+            m_tabs[i].group = m_toggleGroup;
+            m_tabs[i].isOn = i == m_pageIndex;
         }
         OpenPage(m_pageIndex);
+    }
+
+    private void Reset()
+    {
+        Initialized();
+    }
+
+    private void OnValidate()
+    {
+        Initialized();        
+    }
+
+    private void OpenPage(int _index)
+    {
+        for (int i = 0; i < m_pages.Count; i++)
+        {
+            bool isActivePage = (i == m_pageIndex);
+
+            m_pages[i].gameObject.SetActive(isActivePage);
+            m_pages[i].alpha = isActivePage ? 1f : 0f;
+            m_pages[i].interactable = isActivePage;
+            m_pages[i].blocksRaycasts = isActivePage;
+
+            m_tabs[i].isOn = isActivePage;
+        }
+
+        foreach (var toggle in m_tabs)
+        {
+            var highlight = toggle.GetComponent<ToggleHighlightStaysActive>();
+            highlight.RefreshHighlight();
+        }
     }
 
     private void Awake()
@@ -34,28 +64,10 @@ public class TabMenu : MonoBehaviour
         foreach (Toggle toggle in m_tabs)
         {
             toggle.onValueChanged.AddListener(CheckForTab);
-            toggle.group = m_toggleGroup;
         }
-    }
 
-    private void Start()
-    {
-        for (int i = 0; i < m_tabs.Count; i++)
-        {
-            if (m_tabs[i] != null)
-            {
-                m_tabs[i].SetIsOnWithoutNotify(i == m_startPage);
-            }
-        }
-        OpenPage(m_startPage);
-    }
-
-    private void OnDestroy()
-    {
-        foreach (Toggle toggle in m_tabs)
-        {
-            toggle.onValueChanged.RemoveListener(CheckForTab);
-        }
+        m_pageIndex = m_startPage;
+        Initialized();
     }
 
     private void CheckForTab(bool _value)
@@ -71,41 +83,18 @@ public class TabMenu : MonoBehaviour
         OpenPage(m_pageIndex);
     }
 
-    private void OpenPage(int _index)
+    private void OnDestroy()
     {
-        EnsureIndexIsInRange(_index);
-
-        for (int i = 0; i < m_pages.Count; i++)
+        foreach (Toggle toggle in m_tabs)
         {
-            bool isActivePage = (i == m_pageIndex);
-
-            m_pages[i].gameObject.SetActive(isActivePage);
-            m_pages[i].alpha = isActivePage ? 1 : 0;
-            m_pages[i].interactable = isActivePage;
-            m_pages[i].blocksRaycasts = isActivePage;
-        }
-
-        OnPageIndexChanged?.Invoke(m_pageIndex);
-
-        foreach (var toggle in m_tabs)
-        {
-            toggle.GetComponent<ToggleHighlightStaysActive>().RefreshHighlight();
+            toggle.onValueChanged.RemoveListener(CheckForTab);
+            toggle.isOn = false;
         }
     }
 
-    private void EnsureIndexIsInRange(int _index)
-    {
-        if (m_tabs.Count == 0 || m_pages.Count == 0)
-        {
-            return;
-        }
-
-        m_pageIndex = Mathf.Clamp(_index, 0, m_pages.Count - 1);
-    }
-
-    public void JumpToPage(int _page)
-    {
-        EnsureIndexIsInRange(_page);
-        m_tabs[m_pageIndex].isOn = true;
-    }
+    //public void JumpToPage(int _page)
+    //{
+    //    EnsureIndexIsInRange(_page);
+    //    m_tabs[m_pageIndex].isOn = true;
+    //}
 }
