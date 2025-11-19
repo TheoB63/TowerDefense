@@ -11,6 +11,7 @@ public class DataManager : MonoBehaviour
     public float gameSpeed = 1f;
 
     //Player
+    public PlayerData playerData;
 
     //Levels
     //
@@ -34,10 +35,12 @@ public class DataManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            //test
-            TowerStats towerStats = new TowerStats();
-            towerStats.type = TowerType.Projectile;
-            unlockedTowers.Add(towerStats);
+
+            if (true)
+            {
+                CreateNewSave();
+            }
+
         }
         else
         {
@@ -48,6 +51,13 @@ public class DataManager : MonoBehaviour
     private void Start()
     {
         
+    }
+
+    void CreateNewSave()
+    {
+        TowerStats towerStats = new TowerStats();
+        towerStats.type = TowerType.Projectile;
+        unlockedTowers.Add(towerStats);
     }
 
     //public void UnlockTower(TowerData _tower)
