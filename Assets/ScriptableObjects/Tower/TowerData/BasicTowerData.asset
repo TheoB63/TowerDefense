@@ -10,12 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 26cced4fbb61228479b1ce32d06c080d, type: 3}
-  m_Name: TowerData
+  m_Name: BasicTowerData
   m_EditorClassIdentifier: 
-  Type: 0
-  Name: Basic
+  type: 0
+  towerName: Basic Tower
   prefab: {fileID: 3680209922806064918, guid: 7835d6068ae6591469f876f67a71a115, type: 3}
+  sprite: {fileID: -2330701393990720033, guid: 1adf53602ef5dcf4b8196ccf730cc033, type: 3}
   baseDamage: 10
+  baseCooldown: 0.2
+  baseRange: 5
+  baseExplosionDamage: 0
+  baseDamageRange: 0
+  baseDuration: 0
+  baseDamageInterval: 0
+  baseNbAttack: 0
+  basePenetration: 0
   possibleUpgrades:
   - {fileID: 11400000, guid: 367eb1ef7a640d446a319843908e665c, type: 2}
   - {fileID: 11400000, guid: ddc02dc8ace8a474a88c5b7244a52141, type: 2}

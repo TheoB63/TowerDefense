@@ -14,9 +14,10 @@ public enum TowerType
 public class TowerData : ScriptableObject
 {
     [Header("TowerType")]
-    public TowerType Type;
-    public string Name;
+    public TowerType type;
+    public string towerName;
     public GameObject prefab;
+    public Sprite sprite;
 
     [Header("Common Stats")]
     public float baseDamage;

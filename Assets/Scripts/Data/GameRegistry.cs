@@ -24,7 +24,7 @@ public class GameRegistry : MonoBehaviour
 
     public TowerData GetTowerByType(TowerType _type)
     {
-        return towers.Find(t => t.Type == _type);
+        return towers.Find(t => t.type == _type);
     }
 
     public UpgradeBase GetUpgradeByName(string _name)
