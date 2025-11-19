@@ -20,7 +20,7 @@ public class DataManager : MonoBehaviour
     public Dictionary<TowerData, TowerStats> towerStats = new Dictionary<TowerData, TowerStats>();
 
     //Upgrades
-    public List<UpgradeBase> unlockedGameUpgrades = new List<UpgradeBase>();
+    public List<string> unlockedGameUpgrades = new List<string>();
 
     //Inv
     //
@@ -53,9 +53,9 @@ public class DataManager : MonoBehaviour
 
     public void UnlockGameUpgrade(UpgradeBase _upgrade)
     {
-        if (!unlockedGameUpgrades.Contains(_upgrade))
+        if (!unlockedGameUpgrades.Contains(_upgrade.name))
         {
-            unlockedGameUpgrades.Add(_upgrade);
+            unlockedGameUpgrades.Add(_upgrade.name);
         }
     }
 
