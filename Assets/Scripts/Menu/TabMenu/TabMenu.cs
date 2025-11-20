@@ -69,6 +69,11 @@ public class TabMenu : MonoBehaviour
         Initialized();
     }
 
+    private void Start()
+    {
+        
+    }
+
     private void CheckForTab(bool _value)
     {
         for (int i = 0; i < m_tabs.Count; i++)

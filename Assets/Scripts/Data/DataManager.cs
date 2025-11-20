@@ -1,46 +1,44 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DataManager : MonoBehaviour
 {
     public static DataManager Instance;
 
+    //Player
+    [Header("Managers")]
+    public PlayerManager playerManager;
+    public UnlockManager unlockManager;
+
     //Level Data
+    [Header("Level")]
     public LevelConfig selectedLevel;
     public float gameSpeed = 1f;
 
-    //Player
-    public PlayerData playerData;
+
 
     //Levels
     //
 
-    //Tower
+    [Header("Towers")]
     public List<TowerStats> unlockedTowers = new List<TowerStats>();
 
-    //Upgrades
+    [Header("Upgrades")]
     public List<string> unlockedGameUpgrades = new List<string>();
 
     //Inv
     //
 
-    //Events
-    public static event Action<int> OnPlayerLevelUp;
-    public static event Action<TowerData> OnTowerUnlock;
-
+    
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-
-            if (true)
-            {
-                CreateNewSave();
-            }
-
+            LoadGame();
         }
         else
         {
@@ -48,16 +46,28 @@ public class DataManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    void LoadGame()
     {
-        
+        bool save = false; //need to replace with verification
+        if (save)//save
+        {
+            LoadSave();
+        }
+        else
+        {
+            CreateSave();
+        }
     }
 
-    void CreateNewSave()
+    void CreateSave()
     {
-        TowerStats towerStats = new TowerStats();
-        towerStats.type = TowerType.Projectile;
-        unlockedTowers.Add(towerStats);
+        playerManager = this.AddComponent<PlayerManager>();
+        unlockManager = this.AddComponent<UnlockManager>();
+    }
+
+    void LoadSave()
+    {
+
     }
 
     //public void UnlockTower(TowerData _tower)

@@ -51,6 +51,9 @@ public class LevelSelector : MonoBehaviour
 
     public void StartGame()
     {
+        //test lvl up if launch game
+        DataManager.Instance.playerManager.AddXp(15);
+
         DataManager.Instance.selectedLevel = m_currentLevel;
         SceneManager.LoadScene("Game");
     }

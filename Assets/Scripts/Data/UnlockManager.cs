@@ -1,0 +1,63 @@
+using System;
+using UnityEngine;
+
+public class UnlockManager : MonoBehaviour
+{
+    public static UnlockManager Instance;
+
+    //player
+    PlayerManager playerManager;
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    void Start()
+    {
+        playerManager = GetComponent<PlayerManager>();
+    }
+
+    void Update()
+    {
+
+    }
+
+
+    void OnEnable()
+    {
+        GetComponent<PlayerManager>().OnPlayerLevelUp += HandleLevelUp;
+    }
+
+    void HandleLevelUp(int level)
+    {
+        if (playerManager.level == 0) //start new save
+        {
+            UnlockTower(TowerType.Basic);
+        }
+        else if (playerManager.level == 1)
+        {
+            UnlockTower(TowerType.Railgun);
+        }
+    }
+
+    void OnDisable()
+    {
+        playerManager.OnPlayerLevelUp -= HandleLevelUp;
+    }
+
+    void UnlockTower(TowerType _type)
+    {
+        TowerStats stats = new TowerStats();
+        stats.type = _type;
+        DataManager.Instance.unlockedTowers.Add(stats);
+    }
+}

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TowerStats : MonoBehaviour
+public class TowerStats
 {
     public TowerType type;
     public int level = 0;
