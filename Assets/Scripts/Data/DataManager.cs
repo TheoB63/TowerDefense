@@ -24,13 +24,16 @@ public class DataManager : MonoBehaviour
     //Inv
     //
 
-    
+
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            //GetManagers
+            playerManager = GetComponent<PlayerManager>();
+            unlockManager = GetComponent<UnlockManager>();
         }
         else
         {
@@ -40,10 +43,6 @@ public class DataManager : MonoBehaviour
 
     private void Start()
     {
-        //GetManagers
-        playerManager = GetComponent<PlayerManager>();
-        unlockManager = GetComponent<UnlockManager>();
-
         LoadGame();
     }
 
@@ -61,7 +60,7 @@ public class DataManager : MonoBehaviour
     }
 
     void CreateSave()
-    {        
+    {
         playerManager.CreateNewPlayer();
     }
 

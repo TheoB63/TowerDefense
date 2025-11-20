@@ -332,8 +332,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cce0c0070ed81e948a0e679f54ec1768, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  playerManager: {fileID: 0}
-  unlockManager: {fileID: 0}
+  playerManager: {fileID: 1594778560}
+  unlockManager: {fileID: 1594778559}
   selectedLevel: {fileID: 0}
   gameSpeed: 2
   unlockedGameUpgrades: []

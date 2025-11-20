@@ -1,4 +1,6 @@
+using System.Linq;
 using TMPro;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,19 +16,26 @@ public class TowerPanel : MonoBehaviour
     public TowerType type;
     public bool unlock = false;
 
-    private void Awake()
+    private void Start()
     {
-        //m_towerStats = GetComponent<TowerStats>();
-        //m_towerData = GameRegistry.Instance.GetTowerByType(m_towerStats.type);
-        //m_nameText.text = m_towerData.towerName;
-        //m_icon.sprite = m_towerData.sprite;
+        TowerData data = GameRegistry.Instance.GetTowerByType(type);
+        m_nameText.text = data.towerName;
+        m_icon.sprite = data.sprite;
 
         UpdatePanel();
     }
 
     void UpdatePanel()
     {
-        //m_lvlText.text = "Lvl." + m_towerStats.level.ToString();
+        if (DataManager.Instance.unlockedTowers.Any(t => t.type == type))
+        {
+            TowerStats stats = DataManager.Instance.unlockedTowers.Find(t => t.type == type);
+            m_lvlText.text = "Lvl." + stats.level.ToString();
+        }
+        else
+        {
+            m_lvlText.text = "Lvl.0";
+        }
 
         m_costBar.fillAmount = 0.1f;
         m_costText.text = "10/100";

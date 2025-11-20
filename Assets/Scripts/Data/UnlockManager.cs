@@ -14,24 +14,17 @@ public class UnlockManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            playerManager = GetComponent<PlayerManager>();
         }
         else
         {
             Destroy(gameObject);
         }
     }
-
-    void Start()
-    {
-        playerManager = GetComponent<PlayerManager>();
-    }
-
     void Update()
     {
 
     }
-
-
     void OnEnable()
     {
         GetComponent<PlayerManager>().OnPlayerLevelUp += HandleLevelUp;
@@ -64,7 +57,7 @@ public class UnlockManager : MonoBehaviour
 
         //Add Upgrade
         TowerData data = GameRegistry.Instance.GetTowerByType(_type);
-        foreach (UpgradeBase upgrade  in data.possibleUpgrades)
+        foreach (UpgradeBase upgrade in data.possibleUpgrades)
         {
             DataManager.Instance.unlockedGameUpgrades.Add(upgrade.name);
         }

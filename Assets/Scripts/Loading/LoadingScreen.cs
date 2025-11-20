@@ -12,7 +12,7 @@ public class LoadingScreen : MonoBehaviour
     {
         if (true)//here loading end
         {
-            SceneManager.LoadScene("Menu");
+            //SceneManager.LoadScene("Menu");
         }
     }
 }
