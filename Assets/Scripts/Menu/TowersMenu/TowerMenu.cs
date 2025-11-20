@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,63 +10,19 @@ public class TowerMenu : MonoBehaviour
 
     List<TowerPanel> panels = new List<TowerPanel>();
 
-    private void Awake() //awake because if it's new game need to be load before
+    private void Start()
     {
-        //Debug.Log("awake tower");
-
-        //foreach (TowerData tower in GameRegistry.Instance.towers)
-        //{
-        //    GameObject go = Instantiate(m_towerPanelPrefab, m_group.transform);
-        //    //TowerStats stats = go.GetComponent<TowerStats>();
-
-        //    TowerStats stats = DataManager.Instance.unlockedTowers.Find(t => t.type == tower.type);
-
-        //    if ()
-        //    {
-        //        Debug.Log("Tower find in mana : " + tower.type);
-        //        //stats = DataManager.Instance.unlockedTowers.Find(t => t.GetComponent<TowerStats>().type == tower.type);
-        //    }
-        //    else
-        //    {
-        //        Debug.Log("setType to panel");
-        //        //stats.type = tower.type;
-        //    }
-        //    panels.Add(go.GetComponent<TowerPanel>());
-        //}
-    }
-
-    public void UnlockBasicTower()
-    {
-        Debug.Log("unlock basic");
-
-        TowerPanel panel = panels.Find(p => p.GetComponent<TowerStats>().type == TowerType.Basic);
-        if (panel != null)
+        foreach (TowerData tower in GameRegistry.Instance.towers)
         {
-            panel.UnlockTower();
-            DataManager.Instance.unlockedTowers.Add(panel.GetComponent<TowerStats>());
+            GameObject go = Instantiate(m_towerPanelPrefab, m_group.transform);
+            go.GetComponent<TowerPanel>().type = tower.type;
+
+            if (DataManager.Instance.unlockedTowers.Any(t=>t.type == tower.type))
+            {
+                go.GetComponent<TowerPanel>().unlock = true;
+            }
+
+            panels.Add(go.GetComponent<TowerPanel>());
         }
-        else
-        {
-            Debug.Log("panel null");
-        }
-    }
-
-
-    public void UnlockRailgunTower()
-    {
-        TowerPanel panel = panels.Find(p => p.GetComponent<TowerStats>().type == TowerType.Railgun);
-        panel.UnlockTower();
-        DataManager.Instance.unlockedTowers.Add(panel.GetComponent<TowerStats>());
-
-    }
-
-    public void UnlockLaserTower()
-    {
-
-    }
-
-    public void UnlockDroneTower()
-    {
-
     }
 }

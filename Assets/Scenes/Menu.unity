@@ -1489,6 +1489,7 @@ GameObject:
   - component: {fileID: 415619956}
   - component: {fileID: 415619955}
   - component: {fileID: 415619954}
+  - component: {fileID: 415619957}
   m_Layer: 5
   m_Name: Page Towers
   m_TagString: Untagged
@@ -1567,6 +1568,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 415619952}
   m_CullTransparentMesh: 1
+--- !u!114 &415619957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 415619952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e6465c898cf6ad46bd9f42b83cdb63c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_towerPanelPrefab: {fileID: 224856137513861723, guid: 48c61dac81c94ed4b937ba1d081584d1, type: 3}
+  m_group: {fileID: 1625488317}
 --- !u!1 &434768046
 GameObject:
   m_ObjectHideFlags: 0
@@ -4914,87 +4929,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1411787326}
   m_CullTransparentMesh: 1
---- !u!1 &1452090486
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1452090488}
-  - component: {fileID: 1452090487}
-  m_Layer: 0
-  m_Name: Player
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1452090487
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1452090486}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4009d89c01b89c04cb0a52d88bbc459f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  level: 0
-  xp: 0
-  xpNeeded: 15
-  xpMultiplierNeeded: 1.1
-  levelUpEvents:
-  - level: 0
-    onLevelUp:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1949373644}
-          m_TargetAssemblyTypeName: TowerMenu, Assembly-CSharp
-          m_MethodName: UnlockBasicTower
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - level: 1
-    onLevelUp:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1949373644}
-          m_TargetAssemblyTypeName: TowerMenu, Assembly-CSharp
-          m_MethodName: UnlockRailgunTower
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
---- !u!4 &1452090488
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1452090486}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1493512011
 GameObject:
   m_ObjectHideFlags: 0
@@ -5667,72 +5601,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1594604595}
   m_CullTransparentMesh: 1
---- !u!1 &1594778555
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1594778557}
-  - component: {fileID: 1594778556}
-  - component: {fileID: 1594778558}
-  m_Layer: 0
-  m_Name: DataManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1594778556
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1594778555}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cce0c0070ed81e948a0e679f54ec1768, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  selectedLevel: {fileID: 0}
-  gameSpeed: 2
-  playerData: {fileID: 1452090487}
-  unlockedTowers: []
-  unlockedGameUpgrades: []
---- !u!4 &1594778557
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1594778555}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1594778558
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1594778555}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 741627ef108ba2c4bb1b5b86f7050ead, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  towers:
-  - {fileID: 11400000, guid: b15bc557f00672648b9f9bd4c724ffa6, type: 2}
-  - {fileID: 11400000, guid: 08f05e74ce634e240bd67f42edfc54c0, type: 2}
-  upgrades: []
 --- !u!1 &1595242720
 GameObject:
   m_ObjectHideFlags: 0
@@ -7526,52 +7394,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1931223097}
   m_CullTransparentMesh: 1
---- !u!1 &1949373643
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1949373645}
-  - component: {fileID: 1949373644}
-  m_Layer: 0
-  m_Name: PagesMenu
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1949373644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1949373643}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e6465c898cf6ad46bd9f42b83cdb63c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_towerPanelPrefab: {fileID: 224856137513861723, guid: 48c61dac81c94ed4b937ba1d081584d1, type: 3}
-  m_group: {fileID: 1625488317}
---- !u!4 &1949373645
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1949373643}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2057051227
 GameObject:
   m_ObjectHideFlags: 0
@@ -7795,8 +7617,5 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 38091312}
-  - {fileID: 1594778557}
-  - {fileID: 1452090488}
-  - {fileID: 1949373645}
   - {fileID: 1018399569}
   - {fileID: 1596493323}
