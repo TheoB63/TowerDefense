@@ -32,11 +32,11 @@ public class UnlockManager : MonoBehaviour
 
     void HandleLevelUp(int level)
     {
-        if (playerManager.level == 0) //start new save
+        if (playerManager.level == 1) //start new save
         {
             UnlockTower(TowerType.Basic);
         }
-        else if (playerManager.level == 1)
+        else if (playerManager.level == 2)
         {
             UnlockTower(TowerType.Railgun);
         }

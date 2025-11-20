@@ -1,6 +1,7 @@
 using System.Linq;
 using TMPro;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,17 +16,19 @@ public class TowerPanel : MonoBehaviour
 
     public TowerType type;
     public bool unlock = false;
+    public TowerMenu towerMenu;
 
     private void Start()
     {
         TowerData data = GameRegistry.Instance.GetTowerByType(type);
         m_nameText.text = data.towerName;
         m_icon.sprite = data.sprite;
-
         UpdatePanel();
+
+        GetComponent<Button>().onClick.AddListener(OpenTowerInformationPanel);
     }
 
-    void UpdatePanel()
+    public void UpdatePanel()
     {
         if (DataManager.Instance.unlockedTowers.Any(t => t.type == type))
         {
@@ -49,5 +52,13 @@ public class TowerPanel : MonoBehaviour
     {
         unlock = true;
         UpdatePanel();
+    }
+
+    void OpenTowerInformationPanel()
+    {
+        if (unlock)
+        {
+            towerMenu.OpenTowerInformationPanel(type);
+        }
     }
 }
