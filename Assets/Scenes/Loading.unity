@@ -311,6 +311,8 @@ GameObject:
   - component: {fileID: 1594778557}
   - component: {fileID: 1594778556}
   - component: {fileID: 1594778558}
+  - component: {fileID: 1594778560}
+  - component: {fileID: 1594778559}
   m_Layer: 0
   m_Name: DataManager
   m_TagString: Untagged
@@ -330,10 +332,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cce0c0070ed81e948a0e679f54ec1768, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  playerManager: {fileID: 0}
+  unlockManager: {fileID: 0}
   selectedLevel: {fileID: 0}
   gameSpeed: 2
-  playerData: {fileID: 0}
-  unlockedTowers: []
   unlockedGameUpgrades: []
 --- !u!4 &1594778557
 Transform:
@@ -366,6 +368,34 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b15bc557f00672648b9f9bd4c724ffa6, type: 2}
   - {fileID: 11400000, guid: 08f05e74ce634e240bd67f42edfc54c0, type: 2}
   upgrades: []
+--- !u!114 &1594778559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1594778555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf0401816eb24ab4dab8215fa648ac12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1594778560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1594778555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4009d89c01b89c04cb0a52d88bbc459f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  level: 0
+  xp: 0
+  xpNeeded: 15
+  xpMultiplierNeeded: 1.1
 --- !u!1 &1596493320
 GameObject:
   m_ObjectHideFlags: 0

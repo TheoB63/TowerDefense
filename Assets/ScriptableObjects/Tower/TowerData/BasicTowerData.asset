@@ -26,5 +26,6 @@ MonoBehaviour:
   baseNbAttack: 0
   basePenetration: 0
   possibleUpgrades:
+  - {fileID: 11400000, guid: f72aa746878e0a74fa88b251dc74a661, type: 2}
   - {fileID: 11400000, guid: 367eb1ef7a640d446a319843908e665c, type: 2}
   - {fileID: 11400000, guid: ddc02dc8ace8a474a88c5b7244a52141, type: 2}
