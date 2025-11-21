@@ -22,7 +22,7 @@ public class TowerStats
     public void Create()
     {
         TowerData data = GameRegistry.Instance.GetTowerByType(type);
-        level = 0;
+        level = 1;
         damage = data.baseDamage;
         cooldown = data.baseCooldown;
         range = data.baseRange;
@@ -31,6 +31,8 @@ public class TowerStats
         duration = data.baseDuration;
         damageInterval = data.baseDamageInterval;
         nbAttack = data.baseNbAttack;
+
+        Debug.Log(data.type.ToString() + " p = " + data.basePenetration);
         penetration = data.basePenetration;
     }
 }

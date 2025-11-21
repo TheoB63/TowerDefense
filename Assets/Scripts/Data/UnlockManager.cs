@@ -39,6 +39,7 @@ public class UnlockManager : MonoBehaviour
         else if (playerManager.level == 2)
         {
             UnlockTower(TowerType.Railgun);
+            UnlockTower(TowerType.Laser);
         }
     }
 
@@ -51,6 +52,7 @@ public class UnlockManager : MonoBehaviour
     {
         //Create Tower Stats
         TowerStats stats = new TowerStats();
+        stats.type = _type;
         stats.Create();
         stats.type = _type;
         DataManager.Instance.unlockedTowers.Add(stats);
