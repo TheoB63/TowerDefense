@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TowerStats
@@ -10,7 +11,7 @@ public class TowerStats
     public float cooldown;
     public float range;
 
-    [Header("Common Stats")]
+    [Header("Special Stats")]
     public float explosionDamage;
     public float damageRange;
     public float duration;
@@ -18,9 +19,10 @@ public class TowerStats
     public float nbAttack;
     public float penetration;
 
-    private void Start()
+    public void Create()
     {
         TowerData data = GameRegistry.Instance.GetTowerByType(type);
+        level = 0;
         damage = data.baseDamage;
         cooldown = data.baseCooldown;
         range = data.baseRange;

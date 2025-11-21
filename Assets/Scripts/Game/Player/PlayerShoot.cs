@@ -37,6 +37,8 @@ public class PlayerShoot : MonoBehaviour
 
     bool Shoot()
     {
+        Transform fireCanon = GetFireCanon();
+
         if (EnemyManager.Instance.Enemies.Count > 0)
         {
             Enemy target = EnemyManager.Instance.GetNearestEnemy(transform);
@@ -65,7 +67,7 @@ public class PlayerShoot : MonoBehaviour
                         direction = posTarget - transform.position;
                         direction.Normalize();
 
-                        GameObject go = Instantiate(m_projectilesPrefab, GetFireCanon().position, Quaternion.identity);
+                        GameObject go = Instantiate(m_projectilesPrefab, fireCanon.position, Quaternion.identity);
                         go.GetComponent<PlayerProjectiles>().Direction = direction;
                         go.GetComponent<PlayerProjectiles>().SetStats(m_playerStats.Damage, m_playerStats.Penetration);
                     }
@@ -88,7 +90,7 @@ public class PlayerShoot : MonoBehaviour
                         direction = posTarget - transform.position;
                         direction.Normalize();
 
-                        GameObject go = Instantiate(m_projectilesPrefab, GetFireCanon().position, Quaternion.identity);
+                        GameObject go = Instantiate(m_projectilesPrefab, fireCanon.position, Quaternion.identity);
                         go.GetComponent<PlayerProjectiles>().Direction = direction;
                         go.GetComponent<PlayerProjectiles>().SetStats(m_playerStats.Damage, m_playerStats.Penetration);
                     }
