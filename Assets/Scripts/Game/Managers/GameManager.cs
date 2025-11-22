@@ -70,5 +70,6 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadScene("Menu");
         }
+        DataManager.Instance.playerManager.AddXp(15);
     }
 }

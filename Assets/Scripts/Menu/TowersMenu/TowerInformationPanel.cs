@@ -54,25 +54,25 @@ public class TowerInformationPanel : MonoBehaviour
         if (stats.duration > 0)
         {
             GameObject durationPanel = Instantiate(m_statPanelPrefab, m_group.transform);
-            durationPanel.GetComponent<TowerStatPanel>().Setup("Duration", Mathf.Floor(stats.duration).ToString());
+            durationPanel.GetComponent<TowerStatPanel>().Setup("Duration", stats.duration.ToString());
             m_statsPanels.Add(durationPanel);
         }
         if (stats.damageInterval > 0)
         {
             GameObject damageIntervalPanel = Instantiate(m_statPanelPrefab, m_group.transform);
-            damageIntervalPanel.GetComponent<TowerStatPanel>().Setup("Damage IntervalPanel", Mathf.Floor(stats.damageInterval).ToString());
+            damageIntervalPanel.GetComponent<TowerStatPanel>().Setup("Damage IntervalPanel", stats.damageInterval.ToString());
             m_statsPanels.Add(damageIntervalPanel);
         }
         if (stats.nbAttack > 0)
         {
             GameObject nbAttackPanel = Instantiate(m_statPanelPrefab, m_group.transform);
-            nbAttackPanel.GetComponent<TowerStatPanel>().Setup("Nb Attack", Mathf.Floor(stats.nbAttack).ToString());
+            nbAttackPanel.GetComponent<TowerStatPanel>().Setup("Nb Attack", stats.nbAttack.ToString());
             m_statsPanels.Add(nbAttackPanel);
         }
         if (stats.penetration > 0)
         {
             GameObject penetrationPanel = Instantiate(m_statPanelPrefab, m_group.transform);
-            penetrationPanel.GetComponent<TowerStatPanel>().Setup("Penetration", Mathf.Floor(stats.penetration).ToString());
+            penetrationPanel.GetComponent<TowerStatPanel>().Setup("Penetration", stats.penetration.ToString());
             m_statsPanels.Add(penetrationPanel);
         }
 

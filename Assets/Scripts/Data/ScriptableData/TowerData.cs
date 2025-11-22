@@ -85,7 +85,7 @@ public class TowerData : ScriptableObject
 
         foreach (TowerStatUpgrade levelUpgrade in statsUpgrades)
         {
-            if (levelUpgrade.level <= _level)
+            if (levelUpgrade.level == _level)
             {
                 if (levelUpgrade.type == _type)
                 {

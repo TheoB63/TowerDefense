@@ -34,4 +34,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 863e724c30c327f4e9f021f095dbb920, type: 2}
   lockedUpgrades: []
   damageUpgrades: 1.1
-  statsUpgrades: []
+  statsUpgrades:
+  - level: 10
+    type: 5
+    value: 0.5
