@@ -3,11 +3,11 @@ using UnityEngine.SceneManagement;
 
 public class Shield : MonoBehaviour
 {
-    [SerializeField] int m_baseHp;
-    int m_currentHp;
+    [SerializeField] float m_baseHp;
+    float m_currentHp;
 
-    public int BaseHp { get => m_baseHp;}
-    public int Hp { get => m_currentHp; }
+    public float BaseHp { get => m_baseHp; }
+    public float Hp { get => m_currentHp; }
 
     private void Start()
     {

@@ -16,6 +16,7 @@ MonoBehaviour:
   towerName: Laser Tower
   prefab: {fileID: 3680209922806064918, guid: 70a04de30fb41b4499041c270047c365, type: 3}
   sprite: {fileID: 9082429109045791810, guid: 337412b43ff458147a40c8e2c6f6ba99, type: 3}
+  unlockLevel: 3
   damageType: 2
   baseDamage: 20
   baseCooldown: 2

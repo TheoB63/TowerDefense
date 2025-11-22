@@ -1,51 +1,27 @@
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class RailgunTower : Tower
 {
     [Header("Base Stats")]
-    [SerializeField] float m_baseAttackSpeed;
     [SerializeField] int m_baseNbProjectiles;
 
-    [SerializeField] int m_basePenetration;
-
-    [Header("Upgrades")]
-    [SerializeField] float m_attackSpeedMultiplier;
-    [SerializeField] int m_nbProjectilesIncrease;
-
-    [SerializeField] int m_penetrationIncrease;
-
     //Privates Current values in run time
-    float m_currentAttackSpeed;
-    int m_currentNbProjectiles;
-    int m_currentPenetration;
-
-    [Header("Public Values (Get Only)")]
-    public float AttackSpeed { get => m_currentAttackSpeed; set => m_currentAttackSpeed = value; }
-    public int NbProjectiles { get => m_currentNbProjectiles; set => m_currentNbProjectiles = value; }
-    public int Penetration { get => m_currentPenetration; set => m_currentPenetration = value; }
+    int m_nbProjectiles;
 
     float m_timerShoot;
 
     private void Start()
     {
         InitializeTower();
-        m_currentAttackSpeed = m_baseAttackSpeed;
-        m_currentNbProjectiles = m_baseNbProjectiles;
-        m_currentPenetration = m_basePenetration;
+        m_nbProjectiles = m_baseNbProjectiles;
     }
 
     protected override void InitializeTower()
     {
         base.InitializeTower();
-        m_currentDamage = m_baseDamage;
-        m_currentRange = m_baseRange;
-        m_currentAttackSpeed = m_baseAttackSpeed;
-        m_currentNbProjectiles = m_baseNbProjectiles;
-
-        m_currentPenetration = m_basePenetration;
-        m_currentCritRate = m_baseCritRate;
-        m_currentCritMultiplier = m_baseCritMultiplier;
+        m_nbProjectiles = m_baseNbProjectiles;
     }
 
     void Update()
@@ -54,7 +30,7 @@ public class RailgunTower : Tower
 
         m_timerShoot += Time.deltaTime;
 
-        if (m_timerShoot > (1 / m_currentAttackSpeed))
+        if (m_timerShoot > (m_cooldown))
         {
             if (Shoot())
             {
@@ -71,22 +47,22 @@ public class RailgunTower : Tower
 
             float dist = Vector2.Distance(transform.position, target.transform.position);
 
-            if (dist <= m_currentRange)
+            if (dist <= m_range)
             {
                 Vector2 direction;
                 Vector2 targetPos = target.transform.position;
-                if (m_currentNbProjectiles % 2 == 0)
+                if (m_nbProjectiles % 2 == 0)
                 {
-                    for (int i = 0; i < m_currentNbProjectiles; i++)
+                    for (int i = 0; i < m_nbProjectiles; i++)
                     {
                         float targetDist;
-                        if (i < m_currentNbProjectiles / 2)
+                        if (i < m_nbProjectiles / 2)
                         {
                             targetDist = (-1f) * 0.5f * i;
                         }
                         else
                         {
-                            targetDist = 0.5f * (i - m_currentNbProjectiles / 2);
+                            targetDist = 0.5f * (i - m_nbProjectiles / 2);
                         }
 
                         Vector3 posTarget = new Vector3(targetPos.x + targetDist, targetPos.y);
@@ -95,21 +71,21 @@ public class RailgunTower : Tower
 
                         GameObject go = Instantiate(m_projectilesPrefab, m_barrel.position, Quaternion.identity);
                         go.GetComponent<RailgunProjectile>().Direction = direction;
-                        go.GetComponent<RailgunProjectile>().SetStats(m_currentDamage, m_currentPenetration);
+                        go.GetComponent<RailgunProjectile>().SetStats(m_damage, m_penetration);
                     }
                 }
                 else
                 {
-                    for (int i = 0; i < m_currentNbProjectiles; i++)
+                    for (int i = 0; i < m_nbProjectiles; i++)
                     {
                         float targetDist = 0;
-                        if (i < m_currentNbProjectiles / 2)
+                        if (i < m_nbProjectiles / 2)
                         {
                             targetDist = (-1f) * 0.5f * i;
                         }
-                        else if (i > m_currentNbProjectiles / 2)
+                        else if (i > m_nbProjectiles / 2)
                         {
-                            targetDist = 0.5f * (i - m_currentNbProjectiles / 2);
+                            targetDist = 0.5f * (i - m_nbProjectiles / 2);
                         }
 
                         Vector3 posTarget = new Vector3(targetPos.x + targetDist, targetPos.y);
@@ -118,7 +94,7 @@ public class RailgunTower : Tower
 
                         GameObject go = Instantiate(m_projectilesPrefab, m_barrel.position, Quaternion.identity);
                         go.GetComponent<RailgunProjectile>().Direction = direction;
-                        go.GetComponent<RailgunProjectile>().SetStats(m_currentDamage, m_currentPenetration);
+                        go.GetComponent<RailgunProjectile>().SetStats(m_damage, m_penetration);
                     }
                 }
                 return true;
@@ -153,38 +129,26 @@ public class RailgunTower : Tower
         }
     }
 
-    public override List<UpgradeBase> GetAvailableUpgrades()
-    {
-        List<UpgradeBase> available = new List<UpgradeBase>();
-
-        foreach (TowerUpgrade upgrade in m_towerUpgrades)
-        {
-            TowerUpgrade copy = Instantiate(upgrade);
-            available.Add(copy);
-        }
-        return available;
-    }
-
     private void IncreaseDamage()
     {
-        m_currentDamage = (int)(m_currentDamage * m_damageMultiplier);
+        m_damage += m_stats.damage * 0.5f;
     }
     private void IncreaseRange()
     {
-        m_currentRange += m_rangeIncrease;
+        m_range += 1;
     }
     private void IncreaseAttackSpeed()
     {
-        m_currentAttackSpeed *= m_attackSpeedMultiplier;
+        m_cooldown -= m_stats.cooldown * 0.1f;
     }
 
     private void IncreasePenetration()
     {
-        m_currentPenetration += m_penetrationIncrease;
+        m_penetration += 1;
     }
 
     private void IncreaseNbProjectiles()
     {
-        m_currentNbProjectiles += m_nbProjectilesIncrease;
+        m_nbProjectiles += 2;
     }
 }

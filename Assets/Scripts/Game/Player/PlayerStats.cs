@@ -79,20 +79,6 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-    public List<string> GetAvailableUpgrades()
-    {
-        var upgrades = new List<string>();
-
-        //add all for test but need to see later how to get nb upgrade use (max upgrade and rarity of the upgrade)
-        upgrades.Add("IncreaseDamage");
-        upgrades.Add("IncreaseRange");
-        upgrades.Add("IncreaseAttackSpeed");        
-        upgrades.Add("IncreasePenetration");        
-        upgrades.Add("IncreaseNbProjectiles");        
-
-        return upgrades;
-    }
-
     //Upgrades Methods
     private void IncreaseDamage()
     {

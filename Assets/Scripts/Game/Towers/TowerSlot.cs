@@ -22,7 +22,7 @@ public class TowerSlot : MonoBehaviour
         UpdateVisual();
     }
 
-    public void BuildTower(GameObject _towerPrefab, TowerType _type)
+    public void BuildTower(TowerType _type)
     {
         if (m_currentTower != null)
         {
@@ -31,7 +31,9 @@ public class TowerSlot : MonoBehaviour
             return;
         }
 
-        m_currentTower = Instantiate(_towerPrefab, transform.position, Quaternion.identity);
+        TowerData data = GameRegistry.Instance.GetTowerByType(_type);
+
+        m_currentTower = Instantiate(data.prefab, transform.position, Quaternion.identity);
         m_currentTower.transform.SetParent(transform);
         m_type = _type;
         UpdateVisual();

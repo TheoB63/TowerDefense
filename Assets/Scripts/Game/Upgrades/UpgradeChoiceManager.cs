@@ -4,8 +4,7 @@ using UnityEngine;
 public class UpgradeChoiceManager : MonoBehaviour
 {
     [Header("Upgrades")]
-    [SerializeField] List<TowerConstructionUpgrade> m_constructionUpgrades;
-    [SerializeField] List<PlayerUpgrade> m_playerUpgrades;
+    [SerializeField] List<UpgradeBase> m_allUpgrades = new List<UpgradeBase>();
 
     [Header("References")]
     [SerializeField] PlayerStats m_playerStats;
@@ -17,6 +16,11 @@ public class UpgradeChoiceManager : MonoBehaviour
 
     void Start()
     {
+        foreach (string upgrade in DataManager.Instance.unlockedGameUpgrades)
+        {
+            m_allUpgrades.Add(GameRegistry.Instance.GetUpgradeByName(upgrade));
+        }
+
         if (m_upgradePanel != null)
         {
             m_upgradePanel.SetActive(false);
@@ -52,82 +56,93 @@ public class UpgradeChoiceManager : MonoBehaviour
             }
         }
 
-        //Available build
-        foreach (TowerSlot slot in m_towerSlots)
+        foreach (UpgradeBase upgrade in m_allUpgrades)
         {
-            if (!slot.HasTower())
+            //Available build
+            if (upgrade is TowerConstructionUpgrade constructionUpgrade)
             {
-                foreach (TowerConstructionUpgrade construction in m_constructionUpgrades)
+                if (!existingTowerTypes.Contains(constructionUpgrade.towerType))
                 {
-                    if (!existingTowerTypes.Contains(construction.towerType) &&
-                        construction.CanApply(slot, m_playerStats))
+                    foreach (TowerSlot slot in m_towerSlots)
                     {
-                        bool isInList = false;
-                        foreach (UpgradeBase up in available)
+                        if (!slot.HasTower())
                         {
-                            if (construction.upgradeName == up.upgradeName)
+                            if (constructionUpgrade.CanApply(slot, m_playerStats))
                             {
-                                isInList = true;
+                                bool isInList = false;
+                                foreach (UpgradeBase up in available)
+                                {
+                                    if (constructionUpgrade.upgradeName == up.upgradeName)
+                                    {
+                                        isInList = true;
+                                        break;
+                                    }
+                                }
+                                if (!isInList)
+                                {
+                                    TowerConstructionUpgrade copy = Instantiate(constructionUpgrade);
+                                    available.Add(copy);
+                                }
+                                break;
                             }
-                        }
-                        if (!isInList)
-                        {
-                            TowerConstructionUpgrade copy = Instantiate(construction);
-                            available.Add(copy);
                         }
                     }
                 }
             }
-        }
 
-        //Upgrades Tower
-        foreach (var slot in m_towerSlots)
-        {
-            if (slot.HasTower())
+            //PlayerUpgrade
+            else if (upgrade is PlayerUpgrade playerUpgrade)
             {
-                ITower tower = slot.GetTower();
-                if (tower != null)
+                //Need to rework when upgrade level and maxUgrade was created
+                if (playerUpgrade.CanApply(null, m_playerStats))
                 {
-                    List<UpgradeBase> availableTowerUpgrades = tower.GetAvailableUpgrades();
+                    //verif if can upgrade with upgrade level and tiers
 
-                    foreach (UpgradeBase upgrade in availableTowerUpgrades)
+                    bool isInList = false;
+                    foreach (UpgradeBase up in available)
                     {
-                        bool isInList = false;
-                        foreach (UpgradeBase up in available)
+                        if (playerUpgrade.upgradeName == up.upgradeName)
                         {
-                            if (upgrade.upgradeName == up.upgradeName)
-                            {
-                                isInList = true;
-                            }
+                            isInList = true;
+                            break;
                         }
-                        if (!isInList)
-                        {
-                            UpgradeBase copy = Instantiate(upgrade);
-                            available.Add(copy);
-                        }
+                    }
+                    if (!isInList)
+                    {
+                        available.Add(playerUpgrade);
                     }
                 }
             }
-        }
 
-        //Player Upgrades
-        foreach (PlayerUpgrade upgrade in m_playerUpgrades)
-        {
-            List<string> availablePlayerUpgrades = m_playerStats.GetAvailableUpgrades();
-            if (availablePlayerUpgrades.Contains(upgrade.upgradeMethodName) &&
-                upgrade.CanApply(null, m_playerStats))
+            //TowerUpgrade
+            else if (upgrade is TowerUpgrade towerUpgrade)
             {
-                bool isInList = false;
-                foreach (UpgradeBase up in available)
+                //need to rework beacause dont work with m_allUgrade here
+                foreach (TowerSlot slot in m_towerSlots)
                 {
-                    if (upgrade.upgradeName == up.upgradeName)
+                    if (slot.HasTower() && slot.Type == towerUpgrade.targetTowerType)
                     {
-                        isInList = true;
+                        ITower tower = slot.GetTower();
+                        if (tower != null)
+                        {
+                            bool isInList = false;
+                            foreach (UpgradeBase up in available)
+                            {
+                                if (towerUpgrade.upgradeName == up.upgradeName)
+                                {
+                                    isInList = true;
+                                    break;
+                                }
+                            }
+                            if (!isInList)
+                            {
+                                UpgradeBase copy = Instantiate(towerUpgrade);
+                                available.Add(copy);
+                            }
+                            break;
+                        }
+                        break;
                     }
-                }
-                if (!isInList)
-                {
-                    available.Add(upgrade);
                 }
             }
         }
@@ -136,9 +151,12 @@ public class UpgradeChoiceManager : MonoBehaviour
         {
             //This warning is normally impossible to attempt
             Debug.LogWarning("No upgrade Available ! Add Player Upgrade to debug this !");
-            foreach (PlayerUpgrade upgrade in m_playerUpgrades)
+            foreach (UpgradeBase upgrade in m_allUpgrades)
             {
-                available.Add(upgrade);
+                if (upgrade is PlayerUpgrade playerUpgrade)
+                {
+                    available.Add(playerUpgrade);
+                }
             }
         }
 

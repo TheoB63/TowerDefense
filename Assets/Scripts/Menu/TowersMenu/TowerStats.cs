@@ -16,8 +16,8 @@ public class TowerStats
     public float damageRange;
     public float duration;
     public float damageInterval;
-    public float nbAttack;
-    public float penetration;
+    public int nbAttack;
+    public int penetration;
 
     public void Create()
     {

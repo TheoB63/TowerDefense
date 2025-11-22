@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 
 public class UnlockManager : MonoBehaviour
@@ -21,6 +22,15 @@ public class UnlockManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    private void Start()
+    {
+        foreach (var upgrade in GameRegistry.Instance.upgrades)
+        {
+            DataManager.Instance.unlockedGameUpgrades.Add(upgrade.name);
+        }
+    }
+
     void Update()
     {
 
@@ -32,14 +42,10 @@ public class UnlockManager : MonoBehaviour
 
     void HandleLevelUp(int level)
     {
-        if (playerManager.level == 1) //start new save
+        if (GameRegistry.Instance.towers.Any(t => t.unlockLevel == level))
         {
-            UnlockTower(TowerType.Basic);
-        }
-        else if (playerManager.level == 2)
-        {
-            UnlockTower(TowerType.Railgun);
-            UnlockTower(TowerType.Laser);
+            TowerType type = GameRegistry.Instance.towers.Find(t => t.unlockLevel == level).type;
+            UnlockTower(type);
         }
     }
 

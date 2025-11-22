@@ -22,7 +22,7 @@ public class Enemy : MonoBehaviour
     public Color previewColor;
 
     public string EnemyName;
-    public int Hp;
+    public float Hp;
     public int Damage;
     public float Speed;
     public float Xp;
@@ -42,7 +42,7 @@ public class Enemy : MonoBehaviour
 
     }
 
-    public void TakeDamage(int _damage)
+    public void TakeDamage(float _damage)
     {
         Hp -= _damage;
         GameObject go = Instantiate(damageTextPrefab, transform.position, Quaternion.identity);

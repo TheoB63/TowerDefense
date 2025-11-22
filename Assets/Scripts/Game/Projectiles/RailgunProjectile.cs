@@ -5,7 +5,7 @@ public class RailgunProjectile : Projectiles
     [Header("Values")]
     [SerializeField] float m_explosionRadius;
     [SerializeField] float m_explosionForce;
-    int m_damage;
+    float m_damage;
     int m_penetration;
     Vector2 direction;
 
@@ -27,7 +27,7 @@ public class RailgunProjectile : Projectiles
         }
     }
 
-    public void SetStats(int _damage, int _penetration)
+    public void SetStats(float _damage, int _penetration)
     {
         m_damage = _damage;
         m_penetration = _penetration;

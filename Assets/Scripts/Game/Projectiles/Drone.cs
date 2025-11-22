@@ -10,14 +10,14 @@ public class Drone : MonoBehaviour
 
     //private values
     int m_currentNbAttack;
-    int m_damage;
+    float m_damage;
 
     bool isInRange;
 
     //Timer
     float m_timerShoot;
 
-    public void SetStats(int _damage, int _nbAttack)
+    public void SetStats(float _damage, int _nbAttack)
     {
         m_damage = _damage;
         m_currentNbAttack = _nbAttack;

@@ -3,7 +3,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "BuildTower", menuName = "TowerDefense/Upgrades/Build Tower")]
 public class TowerConstructionUpgrade : UpgradeBase
 {
-    public GameObject towerPrefab;
     public TowerType towerType;
     public TowerSlot specificSlot;
 
@@ -16,7 +15,7 @@ public class TowerConstructionUpgrade : UpgradeBase
 
     public override void Apply(TowerSlot _slot, PlayerStats _player)
     {
-        _slot.BuildTower(towerPrefab,towerType);
+        _slot.BuildTower(towerType);
     }
 
     public override string GetDisplayText(TowerSlot _slot, PlayerStats _player)

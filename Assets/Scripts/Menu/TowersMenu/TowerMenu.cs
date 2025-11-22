@@ -19,7 +19,7 @@ public class TowerMenu : MonoBehaviour
             go.GetComponent<TowerPanel>().type = tower.type;
             go.GetComponent<TowerPanel>().towerMenu = this;
 
-            if (DataManager.Instance.unlockedTowers.Any(t=>t.type == tower.type))
+            if (DataManager.Instance.unlockedTowers.Any(t => t.type == tower.type))
             {
                 go.GetComponent<TowerPanel>().unlock = true;
             }
@@ -55,8 +55,8 @@ public class TowerMenu : MonoBehaviour
         stats.damageRange += data.GetUpgradeStatForLevel(StatType.DamageRange, stats.level);
         stats.duration += data.GetUpgradeStatForLevel(StatType.Duration, stats.level);
         stats.damageInterval += data.GetUpgradeStatForLevel(StatType.DamageInterval, stats.level);
-        stats.nbAttack += data.GetUpgradeStatForLevel(StatType.NbAttack, stats.level);
-        stats.penetration += data.GetUpgradeStatForLevel(StatType.Penetration, stats.level);
+        stats.nbAttack += (int)data.GetUpgradeStatForLevel(StatType.NbAttack, stats.level);
+        stats.penetration += (int)data.GetUpgradeStatForLevel(StatType.Penetration, stats.level);
 
         //Update Panels
         TowerPanel panel = panels.Find(t => t.type == selectedType);

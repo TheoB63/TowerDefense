@@ -12,31 +12,22 @@ public class Tower : MonoBehaviour, ITower
     [Header("Bases Stats")]
     [SerializeField] protected TowerType m_type;
     [SerializeField] protected string m_towerName;
-
-    [SerializeField] protected int m_baseDamage;
-    [SerializeField] protected float m_baseRange;
-    [SerializeField] protected float m_baseCritRate;
-    [SerializeField] protected float m_baseCritMultiplier;
-
-    [Header("Upgrades")]
-    [SerializeField] protected List<TowerUpgrade> m_towerUpgrades;
-    [SerializeField] protected float m_damageMultiplier;
-    [SerializeField] protected int m_rangeIncrease;
-    [SerializeField] protected float m_critRateIncrease;
-    [SerializeField] protected float m_CritMultiplierIncrease;
+    protected TowerStats m_stats;
 
     //RuntimeValues
-    protected int m_currentDamage;
-    protected float m_currentRange;
+    protected float m_damage;
+    protected float m_cooldown;
+    protected float m_range;
+    protected float m_explosionDamage;
+    protected float m_damageRange;
+    protected float m_duration;
+    protected float m_damageInterval;
+    protected int m_nbAttack;
+    protected int m_penetration;
+
+
     protected float m_currentCritRate;
     protected float m_currentCritMultiplier;
-
-    //Public Values
-    public int Damage { get => m_currentDamage; set => m_currentDamage = value; }
-    public float Range { get => m_currentRange; set => m_currentRange = value; }
-    public float CritRate { get => m_currentCritRate; set => m_currentCritRate = value; }
-    public float CritMultiplier { get => m_currentCritMultiplier; set => m_currentCritMultiplier = value; }
-
 
     void Start()
     {
@@ -45,10 +36,17 @@ public class Tower : MonoBehaviour, ITower
 
     protected virtual void InitializeTower()
     {
-        m_currentDamage = m_baseDamage;
-        m_currentRange = m_baseRange;
-        m_currentCritRate = m_baseCritRate;
-        m_currentCritMultiplier = m_baseCritMultiplier;
+        m_stats = DataManager.Instance.unlockedTowers.Find(t => t.type == m_type);
+
+        m_damage = m_stats.damage;
+        m_cooldown = m_stats.cooldown;
+        m_range = m_stats.range;
+        m_explosionDamage = m_stats.explosionDamage;
+        m_damageRange = m_stats.damageRange;
+        m_duration = m_stats.duration;
+        m_damageInterval = m_stats.damageInterval;
+        m_nbAttack = m_stats.nbAttack;
+        m_penetration = m_stats.penetration;
     }
 
     protected virtual void MoveLauncher()

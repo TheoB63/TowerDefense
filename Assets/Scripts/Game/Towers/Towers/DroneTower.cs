@@ -6,21 +6,11 @@ public class DroneTower : Tower
 {
     [Header("Spawner Settings")]
     [SerializeField] int m_baseMaxDrone;
-    [SerializeField] float m_baseSpawnCooldown;
     [SerializeField] float m_baseReloadCooldown;
-    [SerializeField] int m_baseNbAttack;
-
-    [Header("Upgrades")]
-    [SerializeField] int m_maxDroneIncrease;
-    [SerializeField] float m_spawnCooldownDecrease;
-    [SerializeField] float m_reloadCooldownDecrease;
-    [SerializeField] int m_nbAttackIncrease;
 
     //Privates Current values in run time
-    int m_currentMaxDrone;
-    float m_currentSpawnCooldown;
-    float m_currentReloadCooldown;
-    int m_currentNbAttack;
+    int m_maxDrone;
+    float m_reloadCooldown;
 
     int m_nbDroneSpawn; //nb spawn before reload
 
@@ -36,10 +26,8 @@ public class DroneTower : Tower
     protected override void InitializeTower()
     {
         base.InitializeTower();
-        m_currentMaxDrone = m_baseMaxDrone;
-        m_currentSpawnCooldown = m_baseSpawnCooldown;
-        m_currentReloadCooldown = m_baseReloadCooldown;
-        m_currentNbAttack = m_baseNbAttack;
+        m_maxDrone = m_baseMaxDrone;
+        m_reloadCooldown = m_baseReloadCooldown;
     }
 
     private void Update()
@@ -54,9 +42,9 @@ public class DroneTower : Tower
             {
                 Spawn();
                 m_nbDroneSpawn++;
-                if (m_nbDroneSpawn >= m_currentMaxDrone)
+                if (m_nbDroneSpawn >= m_maxDrone)
                 {
-                    m_timerReload = m_currentReloadCooldown;
+                    m_timerReload = m_reloadCooldown;
                 }
             }
         }
@@ -75,7 +63,7 @@ public class DroneTower : Tower
     void Spawn()
     {
         GameObject go = Instantiate(m_projectilesPrefab, m_barrel.position, Quaternion.identity);
-        go.GetComponent<Drone>().SetStats(m_currentDamage, m_currentNbAttack);
+        go.GetComponent<Drone>().SetStats(m_damage, m_nbAttack);
         Debug.Log("spawn drone");
     }
 
@@ -95,20 +83,8 @@ public class DroneTower : Tower
         }
     }
 
-    public override List<UpgradeBase> GetAvailableUpgrades()
-    {
-        List<UpgradeBase> available = new List<UpgradeBase>();
-
-        foreach (TowerUpgrade upgrade in m_towerUpgrades)
-        {
-            TowerUpgrade copy = Instantiate(upgrade);
-            available.Add(copy);
-        }
-        return available;
-    }
-
     private void IncreaseMaxDrones()
     {
-        m_currentMaxDrone += m_maxDroneIncrease;
+        m_maxDrone += 2;
     }
 }

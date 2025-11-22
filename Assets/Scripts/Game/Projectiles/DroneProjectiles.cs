@@ -3,7 +3,7 @@ using UnityEngine;
 public class DroneProjectiles : Projectiles
 {
     //runtime values
-    int m_damage;
+    float m_damage;
     int m_penetration;
     Vector2 m_direction;
 
@@ -25,7 +25,7 @@ public class DroneProjectiles : Projectiles
         }
     }
 
-    public void SetStats(int _damage, int _penetration)
+    public void SetStats(float _damage, int _penetration)
     {
         m_damage = _damage;
         m_penetration = _penetration;

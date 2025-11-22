@@ -4,16 +4,7 @@ using UnityEngine;
 public class LaserTower : Tower
 {
     [Header("Laser Base Stats")]
-    [SerializeField] float m_baseReloadTime;
-    [SerializeField] float m_baseDuration;
-    [SerializeField] float m_baseTickRate;
     [SerializeField] int m_baseNbTarget;
-
-    [Header("Upgrades")]
-    [SerializeField] float m_reloadTimeDecrease;
-    [SerializeField] float m_durationIncrease;
-    [SerializeField] float m_tickRateIncrease;
-    [SerializeField] int m_nbTargetIncrease;
 
     [Header("Laser Visual Settings")]
     [SerializeField] float m_laserWidth;
@@ -30,10 +21,7 @@ public class LaserTower : Tower
     [SerializeField] float m_animationSpeed = 1f; // Vitesse de l'animation subtile (0 = pas d'animation)
 
     //Runtime values
-    float m_currentReloadTime;
-    float m_currentDuration;
-    float m_currentTickRate;
-    int m_currentNbTarget;
+    int m_nbTarget;
 
     //timers
     float m_timerDuration;
@@ -68,10 +56,7 @@ public class LaserTower : Tower
     protected override void InitializeTower()
     {
         base.InitializeTower();
-        m_currentReloadTime = m_baseReloadTime;
-        m_currentDuration = m_baseDuration;
-        m_currentTickRate = m_baseTickRate;
-        m_currentNbTarget = m_baseNbTarget;
+        m_nbTarget = m_baseNbTarget;
 
         m_organicRandom = new System.Random();
 
@@ -79,7 +64,7 @@ public class LaserTower : Tower
         m_mainBranch = CreateLineRenderer("MainLaser");
 
         m_timerReload = 0;
-        m_timerDuration = m_currentDuration;
+        m_timerDuration = m_duration;
         m_animationTime = 0f;
     }
 
@@ -130,7 +115,7 @@ public class LaserTower : Tower
 
                 if (m_timerReload <= 0)
                 {
-                    m_timerDuration = m_currentDuration;
+                    m_timerDuration = m_duration;
                     m_timerTick = 0;
                 }
             }
@@ -143,7 +128,7 @@ public class LaserTower : Tower
                 if (m_timerDuration <= 0)
                 {
                     DisableAllLasers();
-                    m_timerReload = m_currentReloadTime;
+                    m_timerReload = m_cooldown;
                     m_lastTargets.Clear();
                 }
             }
@@ -159,7 +144,7 @@ public class LaserTower : Tower
             return;
         }
 
-        List<Enemy> targets = GetNearestEnemies(transform, m_currentNbTarget);
+        List<Enemy> targets = GetNearestEnemies(transform, m_nbTarget);
 
         if (targets.Count == 0)
         {
@@ -168,9 +153,9 @@ public class LaserTower : Tower
             return;
         }
 
-        while (targets.Count < m_currentNbTarget)
+        while (targets.Count < m_nbTarget)
         {
-            List<Enemy> addTargets = GetNearestEnemies(transform, m_currentNbTarget - targets.Count);
+            List<Enemy> addTargets = GetNearestEnemies(transform, m_nbTarget - targets.Count);
             foreach (Enemy enemy in addTargets)
             {
                 targets.Add(enemy);
@@ -181,10 +166,10 @@ public class LaserTower : Tower
         m_timerTick -= Time.deltaTime;
         if (m_timerTick <= 0)
         {
-            m_timerTick = m_currentTickRate;
+            m_timerTick = m_damageInterval;
             foreach (Enemy target in targets)
             {
-                target?.TakeDamage(m_currentDamage);
+                target?.TakeDamage(m_damage);
             }
         }
 
@@ -423,7 +408,7 @@ public class LaserTower : Tower
 
             float dist = Vector2.Distance(_transform.position, enemy.transform.position);
 
-            if (dist <= m_currentRange)
+            if (dist <= m_range)
                 enemyDistances.Add(new System.Tuple<Enemy, float>(enemy, dist));
         }
 
@@ -439,8 +424,7 @@ public class LaserTower : Tower
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        float range = Application.isPlaying ? m_currentRange : m_baseRange;
-        Gizmos.DrawWireSphere(transform.position, range);
+        Gizmos.DrawWireSphere(transform.position, m_range);
     }
 
     public override void ApplyUpgrade(string _upgradeName)
@@ -461,30 +445,18 @@ public class LaserTower : Tower
         }
     }
 
-    public override List<UpgradeBase> GetAvailableUpgrades()
-    {
-        List<UpgradeBase> available = new List<UpgradeBase>();
-
-        foreach (TowerUpgrade upgrade in m_towerUpgrades)
-        {
-            TowerUpgrade copy = Instantiate(upgrade);
-            available.Add(copy);
-        }
-        return available;
-    }
-
     private void IncreaseDamage()
     {
-        m_currentDamage = (int)(m_currentDamage * m_damageMultiplier);
+        m_damage += m_stats.damage * 0.5f;
     }
 
     private void IncreaseRange()
     {
-        m_currentRange += m_rangeIncrease;
+        m_range += 1;
     }
 
     private void IncreaseTargets()
     {
-        m_currentNbTarget += m_nbTargetIncrease;
+        m_nbTarget += 2;
     }
 }

@@ -55,6 +55,7 @@ public class TowerData : ScriptableObject
     public string towerName;
     public GameObject prefab;
     public Sprite sprite;
+    public int unlockLevel;
 
     [Header("Common Stats")]
     public DamageType damageType = DamageType.Physic;
@@ -67,8 +68,8 @@ public class TowerData : ScriptableObject
     public float baseDamageRange;
     public float baseDuration;
     public float baseDamageInterval;
-    public float baseNbAttack;
-    public float basePenetration;
+    public int baseNbAttack;
+    public int basePenetration;
 
     [Header("Game Upgrades")]
     public List<UpgradeBase> baseUpgrades;

@@ -6410,7 +6410,6 @@ GameObject:
   - component: {fileID: 1859508112}
   - component: {fileID: 1859508111}
   - component: {fileID: 1859508115}
-  - component: {fileID: 1859508116}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -6541,103 +6540,6 @@ MonoBehaviour:
   m_penetrationIncrease: 1
   m_critRateIncrease: 10
   m_CritMultiplierIncrease: 1.1
---- !u!82 &1859508116
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1859508109}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 66c9f9c283b8a2043b14b9f80e011577, type: 3}
-  m_Resource: {fileID: 8300000, guid: 66c9f9c283b8a2043b14b9f80e011577, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &1899465077
 GameObject:
   m_ObjectHideFlags: 0
@@ -7638,14 +7540,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06dd6295b98d5c2408e3886bbd5c2937, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeChoiceManager
-  m_constructionUpgrades:
-  - {fileID: 11400000, guid: f72aa746878e0a74fa88b251dc74a661, type: 2}
-  m_playerUpgrades:
-  - {fileID: 11400000, guid: ec1d59a3eace73e449f0f63a118a5b4e, type: 2}
-  - {fileID: 11400000, guid: 5de4ca9c42daafb42bee5d4ecbabf094, type: 2}
-  - {fileID: 11400000, guid: 978a4cac558dafc44b52fe9264368272, type: 2}
-  - {fileID: 11400000, guid: 2eed3e06d11666446ada712b31f7deae, type: 2}
-  - {fileID: 11400000, guid: 38a262011c490dd458d550f29bd6ee16, type: 2}
+  m_allUpgrades: []
   m_playerStats: {fileID: 1859508115}
   m_towerSlots:
   - {fileID: 1000124967}

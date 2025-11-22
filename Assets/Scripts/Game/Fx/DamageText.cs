@@ -8,9 +8,9 @@ public class DamageText : MonoBehaviour
 
     float m_timer;
 
-    public void Setup(int _damage)
+    public void Setup(float _damage)
     {
-        m_text.text = "-"+_damage.ToString();
+        m_text.text = "-" + Mathf.Floor(_damage).ToString();
 
     }
 
