@@ -13,7 +13,24 @@ MonoBehaviour:
   m_Name: RailgunTowerData
   m_EditorClassIdentifier: 
   type: 1
-  towerName: Railgun Tower
+  towerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:802f86d19a4dc864e9c6ad8d82d4c508
+    m_TableEntryReference:
+      m_KeyId: 817934213120
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  towerDescription:
+    m_TableReference:
+      m_TableCollectionName: GUID:802f86d19a4dc864e9c6ad8d82d4c508
+    m_TableEntryReference:
+      m_KeyId: 1162005553152
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   prefab: {fileID: 3680209922806064918, guid: 8f202ce18a06b5c439a0bcdab597f255, type: 3}
   sprite: {fileID: 6241454495075796874, guid: 089f67ccabc135941bd8c278c1cc24d0, type: 3}
   unlockLevel: 2
@@ -41,3 +58,6 @@ MonoBehaviour:
   lockedUpgrades: []
   damageUpgrades: 1.1
   statsUpgrades: []
+  references:
+    version: 2
+    RefIds: []

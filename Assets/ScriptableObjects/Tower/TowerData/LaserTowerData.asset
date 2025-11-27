@@ -13,7 +13,24 @@ MonoBehaviour:
   m_Name: LaserTowerData
   m_EditorClassIdentifier: 
   type: 2
-  towerName: Laser Tower
+  towerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:802f86d19a4dc864e9c6ad8d82d4c508
+    m_TableEntryReference:
+      m_KeyId: 817934213120
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  towerDescription:
+    m_TableReference:
+      m_TableCollectionName: GUID:802f86d19a4dc864e9c6ad8d82d4c508
+    m_TableEntryReference:
+      m_KeyId: 1162005553152
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   prefab: {fileID: 3680209922806064918, guid: 70a04de30fb41b4499041c270047c365, type: 3}
   sprite: {fileID: 9082429109045791810, guid: 337412b43ff458147a40c8e2c6f6ba99, type: 3}
   unlockLevel: 3
@@ -42,3 +59,6 @@ MonoBehaviour:
   - level: 10
     type: 5
     value: 0.5
+  references:
+    version: 2
+    RefIds: []

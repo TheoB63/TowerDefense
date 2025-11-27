@@ -13,7 +13,24 @@ MonoBehaviour:
   m_Name: BasicTowerData
   m_EditorClassIdentifier: 
   type: 0
-  towerName: Basic Tower
+  towerName:
+    m_TableReference:
+      m_TableCollectionName: GUID:802f86d19a4dc864e9c6ad8d82d4c508
+    m_TableEntryReference:
+      m_KeyId: 817934213120
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  towerDescription:
+    m_TableReference:
+      m_TableCollectionName: GUID:802f86d19a4dc864e9c6ad8d82d4c508
+    m_TableEntryReference:
+      m_KeyId: 1162005553152
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
   prefab: {fileID: 3680209922806064918, guid: 7835d6068ae6591469f876f67a71a115, type: 3}
   sprite: {fileID: -2330701393990720033, guid: 1adf53602ef5dcf4b8196ccf730cc033, type: 3}
   unlockLevel: 1
@@ -38,3 +55,6 @@ MonoBehaviour:
   lockedUpgrades: []
   damageUpgrades: 1.1
   statsUpgrades: []
+  references:
+    version: 2
+    RefIds: []
