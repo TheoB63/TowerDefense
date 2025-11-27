@@ -34,14 +34,17 @@ public class TowerPanel : MonoBehaviour
         {
             TowerStats stats = DataManager.Instance.unlockedTowers.Find(t => t.type == type);
             m_lvlText.text = "Lvl." + stats.level.ToString();
+
+            int nbFragments = InventoryManager.Instance.GetTowerFragments(stats.type);
+            m_costText.text = nbFragments + "/" + stats.fragmentsCost;
+            m_costBar.fillAmount = (float)nbFragments / stats.fragmentsCost;
         }
         else
         {
             m_lvlText.text = "Lvl.0";
+            m_costText.text = "";
+            m_costBar.fillAmount = 0;
         }
-
-        m_costBar.fillAmount = 0.1f;
-        m_costText.text = "10/100";
 
         Color color = m_lockImage.color;
         float alpha = unlock ? 0f : 0.9f;

@@ -9,6 +9,7 @@ public class DataManager : MonoBehaviour
 
     [Header("Managers")]
     public PlayerManager playerManager;
+    public InventoryManager inventoryManager;
     public UnlockManager unlockManager;
 
     [Header("Level")]
@@ -33,6 +34,7 @@ public class DataManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             //GetManagers
             playerManager = GetComponent<PlayerManager>();
+            inventoryManager = GetComponent<InventoryManager>();
             unlockManager = GetComponent<UnlockManager>();
         }
         else

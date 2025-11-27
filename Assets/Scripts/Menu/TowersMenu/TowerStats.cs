@@ -5,6 +5,8 @@ public class TowerStats
 {
     public TowerType type;
     public int level = 0;
+    public int goldCost;
+    public int fragmentsCost;
 
     [Header("Common Stats")]
     public float damage;
@@ -23,6 +25,9 @@ public class TowerStats
     {
         TowerData data = GameRegistry.Instance.GetTowerByType(type);
         level = 1;
+        goldCost = data.goldCost;
+        fragmentsCost = data.fragmentsCost;
+
         damage = data.baseDamage;
         cooldown = data.baseCooldown;
         range = data.baseRange;

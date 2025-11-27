@@ -56,6 +56,10 @@ public class TowerData : ScriptableObject
     public GameObject prefab;
     public Sprite sprite;
     public int unlockLevel;
+    public int goldCost;
+    public int goldCostIncrease;
+    public int fragmentsCost;
+    public int fragmentsCostIncrease;
 
     [Header("Common Stats")]
     public DamageType damageType = DamageType.Physic;

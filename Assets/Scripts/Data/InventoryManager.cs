@@ -32,16 +32,16 @@ public class InventoryManager : MonoBehaviour
     public static InventoryManager Instance;
 
     //Basic
-    public int gold;
-    public int diamond;
+    private int m_gold;
+    private int m_diamond;
 
     //Stuff
-    [SerializeField] private List<StuffItem> ownedStuff = new List<StuffItem>();
-    private Dictionary<StuffType, StuffItem> equippedStuff = new Dictionary<StuffType, StuffItem>();
+    [SerializeField] private List<StuffItem> m_ownedStuff = new List<StuffItem>();
+    private Dictionary<StuffType, StuffItem> m_equippedStuff = new Dictionary<StuffType, StuffItem>();
 
     //Fragments upgrade
-    private Dictionary<TowerType, int> towerFragments = new Dictionary<TowerType, int>();
-    private Dictionary<StuffType, int> stuffBlueprints = new Dictionary<StuffType, int>();
+    private Dictionary<TowerType, int> m_towerFragments = new Dictionary<TowerType, int>();
+    private Dictionary<StuffType, int> m_stuffBlueprints = new Dictionary<StuffType, int>();
 
     //Upgrades
 
@@ -50,6 +50,10 @@ public class InventoryManager : MonoBehaviour
     public event Action<int> OnGoldChanged;
     public event Action<int> OnDiamondChanged;
     public event Action<StuffType, StuffItem> OnStuffEquipped;
+
+    //Public
+    public int Gold { get => m_gold; }
+    public int Diamond { get => m_diamond; }
 
     void Awake()
     {
@@ -64,19 +68,25 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        AddTowerFragments(TowerType.Basic, 400);
+        AddGold(40000);
+    }
+
     // ========== GOLD ==========
     public void AddGold(int amount)
     {
         if (amount < 0) return;
-        gold += amount;
-        OnGoldChanged?.Invoke(gold);
+        m_gold += amount;
+        OnGoldChanged?.Invoke(m_gold);
     }
 
     public bool SpendGold(int amount)
     {
-        if (amount < 0 || gold < amount) return false;
-        gold -= amount;
-        OnGoldChanged?.Invoke(gold);
+        if (amount < 0 || m_gold < amount) return false;
+        m_gold -= amount;
+        OnGoldChanged?.Invoke(m_gold);
         return true;
     }
 
@@ -84,15 +94,15 @@ public class InventoryManager : MonoBehaviour
     public void AddDiamond(int amount)
     {
         if (amount < 0) return;
-        diamond += amount;
-        OnDiamondChanged?.Invoke(diamond);
+        m_diamond += amount;
+        OnDiamondChanged?.Invoke(m_diamond);
     }
 
     public bool SpendDiamond(int amount)
     {
-        if (amount < 0 || diamond < amount) return false;
-        diamond -= amount;
-        OnDiamondChanged?.Invoke(diamond);
+        if (amount < 0 || m_diamond < amount) return false;
+        m_diamond -= amount;
+        OnDiamondChanged?.Invoke(m_diamond);
         return true;
     }
 
@@ -100,23 +110,23 @@ public class InventoryManager : MonoBehaviour
     public void AddStuff(StuffItem item)
     {
         if (item == null) return;
-        ownedStuff.Add(item);
+        m_ownedStuff.Add(item);
         Debug.Log($"Added {item.Type} (Level {item.Level}) to inventory");
     }
 
     public void RemoveStuff(StuffItem item)
     {
-        ownedStuff.Remove(item);
+        m_ownedStuff.Remove(item);
     }
 
     public List<StuffItem> GetOwnedStuff()
     {
-        return new List<StuffItem>(ownedStuff); // Retourne une copie
+        return new List<StuffItem>(m_ownedStuff); // Retourne une copie
     }
 
     public List<StuffItem> GetStuffByType(StuffType type)
     {
-        return ownedStuff.FindAll(s => s.Type == type);
+        return m_ownedStuff.FindAll(s => s.Type == type);
     }
 
     // ========== EQUIPPED STUFF ==========
@@ -125,28 +135,28 @@ public class InventoryManager : MonoBehaviour
         if (item == null) return;
 
         // Si un item est déjà équipé, le retirer
-        if (equippedStuff.ContainsKey(item.Type))
+        if (m_equippedStuff.ContainsKey(item.Type))
         {
-            var previousItem = equippedStuff[item.Type];
+            var previousItem = m_equippedStuff[item.Type];
             // Optionnel : remettre dans l'inventaire si ce n'est pas déjà dedans
-            if (!ownedStuff.Contains(previousItem))
+            if (!m_ownedStuff.Contains(previousItem))
             {
-                ownedStuff.Add(previousItem);
+                m_ownedStuff.Add(previousItem);
             }
         }
 
-        equippedStuff[item.Type] = item;
-        ownedStuff.Remove(item); // Retire de l'inventaire non équipé
+        m_equippedStuff[item.Type] = item;
+        m_ownedStuff.Remove(item); // Retire de l'inventaire non équipé
         OnStuffEquipped?.Invoke(item.Type, item);
         Debug.Log($"Equipped {item.Type} (Level {item.Level})");
     }
 
     public void UnequipStuff(StuffType type)
     {
-        if (equippedStuff.TryGetValue(type, out StuffItem item))
+        if (m_equippedStuff.TryGetValue(type, out StuffItem item))
         {
-            equippedStuff.Remove(type);
-            ownedStuff.Add(item); // Remet dans l'inventaire
+            m_equippedStuff.Remove(type);
+            m_ownedStuff.Add(item); // Remet dans l'inventaire
             OnStuffEquipped?.Invoke(type, null);
             Debug.Log($"Unequipped {type}");
         }
@@ -154,17 +164,17 @@ public class InventoryManager : MonoBehaviour
 
     public StuffItem GetEquippedStuff(StuffType type)
     {
-        return equippedStuff.ContainsKey(type) ? equippedStuff[type] : null;
+        return m_equippedStuff.ContainsKey(type) ? m_equippedStuff[type] : null;
     }
 
     public bool HasEquippedStuff(StuffType type)
     {
-        return equippedStuff.ContainsKey(type);
+        return m_equippedStuff.ContainsKey(type);
     }
 
     public Dictionary<StuffType, StuffItem> GetAllEquippedStuff()
     {
-        return new Dictionary<StuffType, StuffItem>(equippedStuff); // Retourne une copie
+        return new Dictionary<StuffType, StuffItem>(m_equippedStuff); // Retourne une copie
     }
 
     // ========== TOWER FRAGMENTS ==========
@@ -172,27 +182,27 @@ public class InventoryManager : MonoBehaviour
     {
         if (amount < 0) return;
 
-        if (!towerFragments.ContainsKey(type))
+        if (!m_towerFragments.ContainsKey(type))
         {
-            towerFragments[type] = 0;
+            m_towerFragments[type] = 0;
         }
-        towerFragments[type] += amount;
-        Debug.Log($"Added {amount} {type} fragments. Total: {towerFragments[type]}");
+        m_towerFragments[type] += amount;
+        Debug.Log($"Added {amount} {type} fragments. Total: {m_towerFragments[type]}");
     }
 
     public int GetTowerFragments(TowerType type)
     {
-        return towerFragments.TryGetValue(type, out int count) ? count : 0;
+        return m_towerFragments.TryGetValue(type, out int count) ? count : 0;
     }
 
     public bool SpendTowerFragments(TowerType type, int amount)
     {
         if (amount < 0) return false;
 
-        if (towerFragments.TryGetValue(type, out int current) && current >= amount)
+        if (m_towerFragments.TryGetValue(type, out int current) && current >= amount)
         {
-            towerFragments[type] -= amount;
-            Debug.Log($"Spent {amount} {type} fragments. Remaining: {towerFragments[type]}");
+            m_towerFragments[type] -= amount;
+            Debug.Log($"Spent {amount} {type} fragments. Remaining: {m_towerFragments[type]}");
             return true;
         }
 
@@ -210,27 +220,27 @@ public class InventoryManager : MonoBehaviour
     {
         if (amount < 0) return;
 
-        if (!stuffBlueprints.ContainsKey(type))
+        if (!m_stuffBlueprints.ContainsKey(type))
         {
-            stuffBlueprints[type] = 0;
+            m_stuffBlueprints[type] = 0;
         }
-        stuffBlueprints[type] += amount;
-        Debug.Log($"Added {amount} {type} blueprints. Total: {stuffBlueprints[type]}");
+        m_stuffBlueprints[type] += amount;
+        Debug.Log($"Added {amount} {type} blueprints. Total: {m_stuffBlueprints[type]}");
     }
 
     public int GetStuffBlueprints(StuffType type)
     {
-        return stuffBlueprints.TryGetValue(type, out int count) ? count : 0;
+        return m_stuffBlueprints.TryGetValue(type, out int count) ? count : 0;
     }
 
     public bool SpendStuffBlueprints(StuffType type, int amount)
     {
         if (amount < 0) return false;
 
-        if (stuffBlueprints.TryGetValue(type, out int current) && current >= amount)
+        if (m_stuffBlueprints.TryGetValue(type, out int current) && current >= amount)
         {
-            stuffBlueprints[type] -= amount;
-            Debug.Log($"Spent {amount} {type} blueprints. Remaining: {stuffBlueprints[type]}");
+            m_stuffBlueprints[type] -= amount;
+            Debug.Log($"Spent {amount} {type} blueprints. Remaining: {m_stuffBlueprints[type]}");
             return true;
         }
 
@@ -246,12 +256,12 @@ public class InventoryManager : MonoBehaviour
     // ========== UTILITY ==========
     public void ResetInventory()
     {
-        gold = 0;
-        diamond = 0;
-        ownedStuff.Clear();
-        equippedStuff.Clear();
-        towerFragments.Clear();
-        stuffBlueprints.Clear();
+        m_gold = 0;
+        m_diamond = 0;
+        m_ownedStuff.Clear();
+        m_equippedStuff.Clear();
+        m_towerFragments.Clear();
+        m_stuffBlueprints.Clear();
         Debug.Log("Inventory reset");
     }
 
@@ -259,11 +269,11 @@ public class InventoryManager : MonoBehaviour
     public void LogInventory()
     {
         Debug.Log("===== INVENTORY =====");
-        Debug.Log($"Gold: {gold}");
-        Debug.Log($"Diamond: {diamond}");
-        Debug.Log($"Owned Stuff: {ownedStuff.Count}");
-        Debug.Log($"Equipped Stuff: {equippedStuff.Count}");
-        Debug.Log($"Tower Fragments Types: {towerFragments.Count}");
-        Debug.Log($"Stuff Blueprints Types: {stuffBlueprints.Count}");
+        Debug.Log($"Gold: {m_gold}");
+        Debug.Log($"Diamond: {m_diamond}");
+        Debug.Log($"Owned Stuff: {m_ownedStuff.Count}");
+        Debug.Log($"Equipped Stuff: {m_equippedStuff.Count}");
+        Debug.Log($"Tower Fragments Types: {m_towerFragments.Count}");
+        Debug.Log($"Stuff Blueprints Types: {m_stuffBlueprints.Count}");
     }
 }

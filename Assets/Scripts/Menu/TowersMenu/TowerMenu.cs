@@ -44,25 +44,37 @@ public class TowerMenu : MonoBehaviour
     {
         TowerType selectedType = m_informationPanel.GetComponent<TowerInformationPanel>().type;
         TowerStats stats = DataManager.Instance.unlockedTowers.Find(t => t.type == selectedType);
-        TowerData data = GameRegistry.Instance.GetTowerByType(selectedType);
+        if (InventoryManager.Instance.Gold >= stats.goldCost &&
+            InventoryManager.Instance.GetTowerFragments(selectedType)>= stats.fragmentsCost)
+        {
+            TowerData data = GameRegistry.Instance.GetTowerByType(selectedType);
 
-        //Upgrade Stats
-        stats.level++;
-        stats.damage *= data.damageUpgrades;
-        stats.cooldown -= data.GetUpgradeStatForLevel(StatType.Cooldown, stats.level);
-        stats.range += data.GetUpgradeStatForLevel(StatType.Range, stats.level);
-        stats.explosionDamage += data.GetUpgradeStatForLevel(StatType.ExplosionDamage, stats.level);
-        stats.damageRange += data.GetUpgradeStatForLevel(StatType.DamageRange, stats.level);
-        stats.duration += data.GetUpgradeStatForLevel(StatType.Duration, stats.level);
-        stats.damageInterval += data.GetUpgradeStatForLevel(StatType.DamageInterval, stats.level);
-        stats.nbAttack += (int)data.GetUpgradeStatForLevel(StatType.NbAttack, stats.level);
-        stats.penetration += (int)data.GetUpgradeStatForLevel(StatType.Penetration, stats.level);
+            //Upgrade Stats
+            stats.level++;
+            stats.damage *= data.damageUpgrades;
+            stats.cooldown -= data.GetUpgradeStatForLevel(StatType.Cooldown, stats.level);
+            stats.range += data.GetUpgradeStatForLevel(StatType.Range, stats.level);
+            stats.explosionDamage += data.GetUpgradeStatForLevel(StatType.ExplosionDamage, stats.level);
+            stats.damageRange += data.GetUpgradeStatForLevel(StatType.DamageRange, stats.level);
+            stats.duration += data.GetUpgradeStatForLevel(StatType.Duration, stats.level);
+            stats.damageInterval += data.GetUpgradeStatForLevel(StatType.DamageInterval, stats.level);
+            stats.nbAttack += (int)data.GetUpgradeStatForLevel(StatType.NbAttack, stats.level);
+            stats.penetration += (int)data.GetUpgradeStatForLevel(StatType.Penetration, stats.level);
 
-        //Update Panels
-        TowerPanel panel = panels.Find(t => t.type == selectedType);
-        panel.UpdatePanel();
-        m_informationPanel.GetComponent<TowerInformationPanel>().Setup(selectedType);
+            //Upgrade Cost
+            InventoryManager.Instance.SpendGold(stats.goldCost);
+            stats.goldCost += data.goldCostIncrease;
 
-        Debug.Log("fake upgrade " + selectedType);
+            InventoryManager.Instance.SpendTowerFragments(selectedType,stats.fragmentsCost);
+            stats.fragmentsCost += data.fragmentsCostIncrease;
+
+            //Update Panels
+            TowerPanel panel = panels.Find(t => t.type == selectedType);
+            panel.UpdatePanel();
+            m_informationPanel.GetComponent<TowerInformationPanel>().Setup(selectedType);
+
+            Debug.Log("fake upgrade " + selectedType);
+
+        }
     }
 }

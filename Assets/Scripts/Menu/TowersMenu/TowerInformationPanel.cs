@@ -9,6 +9,8 @@ public class TowerInformationPanel : MonoBehaviour
     [SerializeField] Image m_icon;
     [SerializeField] TextMeshProUGUI m_description;
     [SerializeField] GridLayoutGroup m_group;
+    [SerializeField] TextMeshProUGUI m_goldCost;
+    [SerializeField] TextMeshProUGUI m_fragmentsCost;
 
     [SerializeField] GameObject m_statPanelPrefab;
 
@@ -31,6 +33,8 @@ public class TowerInformationPanel : MonoBehaviour
         }
         m_statsPanels.Clear();
 
+
+        //Stats
         GameObject typePanel = Instantiate(m_statPanelPrefab, m_group.transform);
         typePanel.GetComponent<TowerStatPanel>().Setup("Type", data.damageType.ToString());
         m_statsPanels.Add(typePanel);
@@ -83,5 +87,9 @@ public class TowerInformationPanel : MonoBehaviour
         GameObject rangePanel = Instantiate(m_statPanelPrefab, m_group.transform);
         rangePanel.GetComponent<TowerStatPanel>().Setup("Range", stats.range.ToString());
         m_statsPanels.Add(rangePanel);
+
+        //Price
+        m_goldCost.text = InventoryManager.Instance.Gold + "/" + stats.goldCost + " golds";
+        m_fragmentsCost.text = InventoryManager.Instance.GetTowerFragments(stats.type) + "/" + stats.fragmentsCost + " fragments";
     }
 }

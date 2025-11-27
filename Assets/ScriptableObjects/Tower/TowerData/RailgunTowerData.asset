@@ -17,6 +17,10 @@ MonoBehaviour:
   prefab: {fileID: 3680209922806064918, guid: 8f202ce18a06b5c439a0bcdab597f255, type: 3}
   sprite: {fileID: 6241454495075796874, guid: 089f67ccabc135941bd8c278c1cc24d0, type: 3}
   unlockLevel: 2
+  goldCost: 250
+  goldCostIncrease: 250
+  fragmentsCost: 100
+  fragmentsCostIncrease: 100
   damageType: 0
   baseDamage: 20
   baseCooldown: 1
