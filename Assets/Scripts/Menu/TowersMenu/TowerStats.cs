@@ -37,7 +37,6 @@ public class TowerStats
         damageInterval = data.baseDamageInterval;
         nbAttack = data.baseNbAttack;
 
-        Debug.Log(data.type.ToString() + " p = " + data.basePenetration);
         penetration = data.basePenetration;
     }
 }

@@ -55,8 +55,6 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -78,7 +76,6 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -142,7 +139,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RailgunProjectile
   m_speed: 15
-  m_damageBase: 1
   m_explosionRadius: 1
   m_explosionForce: 500
 --- !u!96 &8752648364734304087
@@ -166,8 +162,6 @@ TrailRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -189,11 +183,10 @@ TrailRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.15
+  m_Time: 0.3
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
@@ -203,15 +196,15 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.1
-        inSlope: 0
-        outSlope: 0
+        value: 0.5
+        inSlope: -0.043313988
+        outSlope: -0.043313988
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.33333334
+        outWeight: 0.20278335
       - serializedVersion: 3
-        time: 0.73635864
+        time: 1
         value: 0
         inSlope: 0
         outSlope: 0

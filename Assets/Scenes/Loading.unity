@@ -334,6 +334,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   playerManager: {fileID: 1594778560}
+  inventoryManager: {fileID: 0}
   unlockManager: {fileID: 1594778559}
   selectedLevel: {fileID: 0}
   gameSpeed: 2
@@ -369,6 +370,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b15bc557f00672648b9f9bd4c724ffa6, type: 2}
   - {fileID: 11400000, guid: 08f05e74ce634e240bd67f42edfc54c0, type: 2}
   - {fileID: 11400000, guid: 9f7e9328a8ea64e42adfe696fb14f4cf, type: 2}
+  - {fileID: 11400000, guid: aab8df69a0c2460488581e0cd9af1a81, type: 2}
   upgrades:
   - {fileID: 11400000, guid: ec1d59a3eace73e449f0f63a118a5b4e, type: 2}
   - {fileID: 11400000, guid: 5de4ca9c42daafb42bee5d4ecbabf094, type: 2}
@@ -415,9 +417,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32c3646429a39904ca536262c6f21f7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gold: 0
-  diamond: 0
-  ownedStuff: []
+  m_ownedStuff: []
 --- !u!1 &1596493320
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class LaserTower : Tower
+public class LaserBeamTower : Tower
 {
     [Header("Laser Base Stats")]
     [SerializeField] int m_baseNbTarget;

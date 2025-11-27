@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 26cced4fbb61228479b1ce32d06c080d, type: 3}
-  m_Name: LaserTowerData
+  m_Name: DroneTowerData
   m_EditorClassIdentifier: 
-  type: 2
+  type: 3
   towerName:
     m_TableReference:
       m_TableCollectionName: GUID:802f86d19a4dc864e9c6ad8d82d4c508
     m_TableEntryReference:
-      m_KeyId: 817934213120
+      m_KeyId: 35216146931712
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
@@ -26,39 +26,34 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:802f86d19a4dc864e9c6ad8d82d4c508
     m_TableEntryReference:
-      m_KeyId: 1162005553152
+      m_KeyId: 35219728867328
       m_Key: 
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  prefab: {fileID: 3680209922806064918, guid: 70a04de30fb41b4499041c270047c365, type: 3}
-  sprite: {fileID: 9082429109045791810, guid: 337412b43ff458147a40c8e2c6f6ba99, type: 3}
-  unlockLevel: 3
+  prefab: {fileID: 5565473218187319975, guid: b0bc9021113669a49bb9a8d70da05307, type: 3}
+  sprite: {fileID: -3247204555341255398, guid: 7947886323a8f354c836ae99771bc835, type: 3}
+  unlockLevel: 1
   goldCost: 250
   goldCostIncrease: 250
   fragmentsCost: 100
   fragmentsCostIncrease: 100
-  damageType: 2
+  damageType: 0
   baseDamage: 20
-  baseCooldown: 2
+  baseCooldown: 10
   baseRange: 7
   baseExplosionDamage: 0
   baseDamageRange: 0
-  baseDuration: 4
-  baseDamageInterval: 0.2
-  baseNbAttack: 0
+  baseDuration: 0
+  baseDamageInterval: 1
+  baseNbAttack: 8
   basePenetration: 0
   baseUpgrades:
-  - {fileID: 11400000, guid: 73b265fce6113e0429326cf8f00eeb3c, type: 2}
-  - {fileID: 11400000, guid: 5ffc5a2c51542b94ea5c6e1b74ab8b52, type: 2}
-  - {fileID: 11400000, guid: 7e44c5bf1cbe1f14c9aa2a62c7cd9009, type: 2}
-  - {fileID: 11400000, guid: 863e724c30c327f4e9f021f095dbb920, type: 2}
+  - {fileID: 11400000, guid: 1a0eb61a6ceddf648aa82bba9a0f2626, type: 2}
+  - {fileID: 11400000, guid: c4f1ef235192e7742bd0f899f29cc4b4, type: 2}
   lockedUpgrades: []
   damageUpgrades: 1.1
-  statsUpgrades:
-  - level: 10
-    type: 5
-    value: 0.5
+  statsUpgrades: []
   references:
     version: 2
     RefIds: []

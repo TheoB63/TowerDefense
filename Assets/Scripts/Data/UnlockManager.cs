@@ -62,7 +62,6 @@ public class UnlockManager : MonoBehaviour
         stats.Create();
         stats.type = _type;
         DataManager.Instance.unlockedTowers.Add(stats);
-        Debug.Log("Add tower " + _type);
 
         //Add Upgrade
         TowerData data = GameRegistry.Instance.GetTowerByType(_type);

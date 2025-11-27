@@ -31,8 +31,32 @@ MonoBehaviour:
     m_Key: Towers/Basic/Name
     m_Metadata:
       m_Items: []
+  - m_Id: 31169700536320
+    m_Key: Towers/Railgun/Name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31266953863168
+    m_Key: Towers/LaserBeam/Name
+    m_Metadata:
+      m_Items: []
   - m_Id: 1162005553152
     m_Key: Towers/Basic/Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31324734595072
+    m_Key: Towers/Railgun/Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31327616081920
+    m_Key: Towers/LaserBeam/Description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35216146931712
+    m_Key: Towers/Drone/Name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35219728867328
+    m_Key: Towers/Drone/Description
     m_Metadata:
       m_Items: []
   m_Metadata:

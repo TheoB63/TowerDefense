@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5549805235416116858}
   - component: {fileID: 6687128292073214631}
   m_Layer: 0
-  m_Name: LaserTower
+  m_Name: LaserBeamTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50,27 +50,8 @@ MonoBehaviour:
   m_launcher: {fileID: 4807092253613395151}
   m_armRotationSpeed: 10
   m_type: 2
-  m_towerName: Laser Tower
-  m_baseDamage: 50
-  m_baseRange: 15
-  m_baseCritRate: 0
-  m_baseCritMultiplier: 0
-  m_towerUpgrades:
-  - {fileID: 11400000, guid: 5ffc5a2c51542b94ea5c6e1b74ab8b52, type: 2}
-  - {fileID: 11400000, guid: 7e44c5bf1cbe1f14c9aa2a62c7cd9009, type: 2}
-  - {fileID: 11400000, guid: 863e724c30c327f4e9f021f095dbb920, type: 2}
-  m_damageMultiplier: 1.1
-  m_rangeIncrease: 1
-  m_critRateIncrease: 0
-  m_CritMultiplierIncrease: 0
-  m_baseReloadTime: 2
-  m_baseDuration: 4
-  m_baseTickRate: 0.5
+  m_towerName: Laser Beam Tower
   m_baseNbTarget: 1
-  m_reloadTimeDecrease: 0
-  m_durationIncrease: 0
-  m_tickRateIncrease: 0
-  m_nbTargetIncrease: 1
   m_laserWidth: 0.1
   m_laserStartColor: {r: 0, g: 1, b: 1, a: 1}
   m_laserEndColor: {r: 0.7294118, g: 0.8862745, b: 0.50980395, a: 1}
@@ -229,8 +210,6 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -252,7 +231,6 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -320,8 +298,6 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -343,7 +319,6 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0

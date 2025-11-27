@@ -6,7 +6,7 @@ public enum TowerType
 {
     Basic,
     Railgun,
-    Laser,
+    LaserBeam,
     Drone,
     SlowArea,
 }

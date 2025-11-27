@@ -16,7 +16,8 @@ MonoBehaviour:
     m_Code: en
   m_SharedData: {fileID: 11400000, guid: 802f86d19a4dc864e9c6ad8d82d4c508, type: 2}
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - rid: 4414305613288833097
   m_TableData:
   - m_Id: 95654092800
     m_Localized: Play
@@ -25,15 +26,52 @@ MonoBehaviour:
   - m_Id: 163555680256
     m_Localized: '{0}/{1} {0:plural:gold|golds}'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 4414305613288833097
   - m_Id: 817934213120
     m_Localized: Basic
     m_Metadata:
       m_Items: []
   - m_Id: 1162005553152
-    m_Localized: A simple tower who shoot projectiles.
+    m_Localized: A simple tower that fires projectiles.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31324734595072
+    m_Localized: A magnetic tower that fires small projectiles at very high speed.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31169700536320
+    m_Localized: Railgun
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31266953863168
+    m_Localized: Laser Beam
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31327616081920
+    m_Localized: An energy tower that fires a laser beam that tracks its target.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 715224096768
+    m_Localized: '{0}/{1} {0:plural:diamond|diamonds}'
+    m_Metadata:
+      m_Items:
+      - rid: 4414305613288833097
+  - m_Id: 35216146931712
+    m_Localized: Drones
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35219728867328
+    m_Localized: A tower that spawn littles drones
     m_Metadata:
       m_Items: []
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 4414305613288833097
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 163555680256
+        - id: 715224096768

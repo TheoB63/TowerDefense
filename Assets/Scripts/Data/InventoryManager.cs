@@ -111,7 +111,6 @@ public class InventoryManager : MonoBehaviour
     {
         if (item == null) return;
         m_ownedStuff.Add(item);
-        Debug.Log($"Added {item.Type} (Level {item.Level}) to inventory");
     }
 
     public void RemoveStuff(StuffItem item)
@@ -148,7 +147,6 @@ public class InventoryManager : MonoBehaviour
         m_equippedStuff[item.Type] = item;
         m_ownedStuff.Remove(item); // Retire de l'inventaire non équipé
         OnStuffEquipped?.Invoke(item.Type, item);
-        Debug.Log($"Equipped {item.Type} (Level {item.Level})");
     }
 
     public void UnequipStuff(StuffType type)
@@ -158,7 +156,6 @@ public class InventoryManager : MonoBehaviour
             m_equippedStuff.Remove(type);
             m_ownedStuff.Add(item); // Remet dans l'inventaire
             OnStuffEquipped?.Invoke(type, null);
-            Debug.Log($"Unequipped {type}");
         }
     }
 
@@ -187,7 +184,6 @@ public class InventoryManager : MonoBehaviour
             m_towerFragments[type] = 0;
         }
         m_towerFragments[type] += amount;
-        Debug.Log($"Added {amount} {type} fragments. Total: {m_towerFragments[type]}");
     }
 
     public int GetTowerFragments(TowerType type)
@@ -202,11 +198,9 @@ public class InventoryManager : MonoBehaviour
         if (m_towerFragments.TryGetValue(type, out int current) && current >= amount)
         {
             m_towerFragments[type] -= amount;
-            Debug.Log($"Spent {amount} {type} fragments. Remaining: {m_towerFragments[type]}");
             return true;
         }
 
-        Debug.LogWarning($"Not enough {type} fragments. Need {amount}, have {current}");
         return false;
     }
 
@@ -225,7 +219,6 @@ public class InventoryManager : MonoBehaviour
             m_stuffBlueprints[type] = 0;
         }
         m_stuffBlueprints[type] += amount;
-        Debug.Log($"Added {amount} {type} blueprints. Total: {m_stuffBlueprints[type]}");
     }
 
     public int GetStuffBlueprints(StuffType type)
@@ -240,11 +233,9 @@ public class InventoryManager : MonoBehaviour
         if (m_stuffBlueprints.TryGetValue(type, out int current) && current >= amount)
         {
             m_stuffBlueprints[type] -= amount;
-            Debug.Log($"Spent {amount} {type} blueprints. Remaining: {m_stuffBlueprints[type]}");
             return true;
         }
 
-        Debug.LogWarning($"Not enough {type} blueprints. Need {amount}, have {current}");
         return false;
     }
 

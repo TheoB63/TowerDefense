@@ -6,12 +6,9 @@ public class DroneTower : Tower
 {
     [Header("Spawner Settings")]
     [SerializeField] int m_baseMaxDrone;
-    [SerializeField] float m_baseReloadCooldown;
 
     //Privates Current values in run time
     int m_maxDrone;
-    float m_reloadCooldown;
-
     int m_nbDroneSpawn; //nb spawn before reload
 
     //Timer
@@ -27,7 +24,8 @@ public class DroneTower : Tower
     {
         base.InitializeTower();
         m_maxDrone = m_baseMaxDrone;
-        m_reloadCooldown = m_baseReloadCooldown;
+
+        Debug.Log("inter = " + m_damageInterval);
     }
 
     private void Update()
@@ -44,15 +42,15 @@ public class DroneTower : Tower
                 m_nbDroneSpawn++;
                 if (m_nbDroneSpawn >= m_maxDrone)
                 {
-                    m_timerReload = m_reloadCooldown;
+                    m_timerReload = m_cooldown;
                 }
+                m_timerSpawn = m_damageInterval;
             }
         }
         else
         {
             m_timerReload -= Time.deltaTime;
         }
-
     }
 
     protected override void MoveLauncher()
@@ -64,7 +62,7 @@ public class DroneTower : Tower
     {
         GameObject go = Instantiate(m_projectilesPrefab, m_barrel.position, Quaternion.identity);
         go.GetComponent<Drone>().SetStats(m_damage, m_nbAttack);
-        Debug.Log("spawn drone");
+        Debug.Log("spawn drone : " + Time.deltaTime);
     }
 
     public override void ApplyUpgrade(string upgradeName)
