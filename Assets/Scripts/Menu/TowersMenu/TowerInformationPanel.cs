@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Localization.Settings;
 
 public class TowerInformationPanel : MonoBehaviour
 {
@@ -24,8 +25,9 @@ public class TowerInformationPanel : MonoBehaviour
         TowerData data = GameRegistry.Instance.GetTowerByType(type);
         TowerStats stats = DataManager.Instance.unlockedTowers.Find(t => t.type == type);
 
-        m_towerName.text = data.towerName + " Niv." + stats.level;
+        m_towerName.text = data.towerName.GetLocalizedString() + " Niv." + stats.level;
         m_icon.sprite = data.sprite;
+        m_description.text = data.towerDescription.GetLocalizedString();
 
         foreach (GameObject panel in m_statsPanels)
         {
@@ -89,7 +91,14 @@ public class TowerInformationPanel : MonoBehaviour
         m_statsPanels.Add(rangePanel);
 
         //Price
-        m_goldCost.text = InventoryManager.Instance.Gold + "/" + stats.goldCost + " golds";
+        string txt = LocalizationSettings.StringDatabase.GetLocalizedString(
+            "GameTexts",
+            "Upgrade/GoldCost",
+            new object[] { InventoryManager.Instance.Gold, stats.goldCost }
+        );
+
+        m_goldCost.text = txt;
+
         m_fragmentsCost.text = InventoryManager.Instance.GetTowerFragments(stats.type) + "/" + stats.fragmentsCost + " fragments";
     }
 }

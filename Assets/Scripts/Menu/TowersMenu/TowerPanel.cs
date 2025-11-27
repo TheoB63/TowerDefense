@@ -21,7 +21,7 @@ public class TowerPanel : MonoBehaviour
     private void Start()
     {
         TowerData data = GameRegistry.Instance.GetTowerByType(type);
-        m_nameText.text = data.towerName;
+        m_nameText.text = data.towerName.GetLocalizedString();
         m_icon.sprite = data.sprite;
         UpdatePanel();
 

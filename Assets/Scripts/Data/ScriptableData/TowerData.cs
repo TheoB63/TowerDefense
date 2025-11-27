@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Localization;
 
 public enum TowerType
 {
@@ -52,7 +53,8 @@ public class TowerData : ScriptableObject
 {
     [Header("TowerType")]
     public TowerType type;
-    public string towerName;
+    public LocalizedString towerName;
+    public LocalizedString towerDescription;
     public GameObject prefab;
     public Sprite sprite;
     public int unlockLevel;
