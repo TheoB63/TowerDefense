@@ -1,18 +1,27 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LoadingScreen : MonoBehaviour
 {
+    AsyncOperation async;
+
     void Start()
     {
-        
+        StartCoroutine(LoadGame());
     }
 
-    void Update()
+    IEnumerator LoadGame()
     {
-        if (true)//here loading end
+        async = SceneManager.LoadSceneAsync("Menu");
+        async.allowSceneActivation = false;
+
+        //need to load more here
+
+        while (async.progress < 0.9f)
         {
-            SceneManager.LoadScene("Menu");
+            yield return null;
         }
+        async.allowSceneActivation = true;
     }
 }

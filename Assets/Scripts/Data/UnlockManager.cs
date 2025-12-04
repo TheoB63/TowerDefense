@@ -7,7 +7,7 @@ public class UnlockManager : MonoBehaviour
     public static UnlockManager Instance;
 
     //player
-    PlayerManager playerManager;
+    PlayerManager m_playerManager;
 
     void Awake()
     {
@@ -15,7 +15,7 @@ public class UnlockManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            playerManager = GetComponent<PlayerManager>();
+            m_playerManager = GetComponent<PlayerManager>();
         }
         else
         {
@@ -40,18 +40,20 @@ public class UnlockManager : MonoBehaviour
         GetComponent<PlayerManager>().OnPlayerLevelUp += HandleLevelUp;
     }
 
-    void HandleLevelUp(int level)
+    void HandleLevelUp(int _level)
     {
-        if (GameRegistry.Instance.towers.Any(t => t.unlockLevel == level))
+        foreach (TowerData tower in GameRegistry.Instance.towers)
         {
-            TowerType type = GameRegistry.Instance.towers.Find(t => t.unlockLevel == level).type;
-            UnlockTower(type);
+            if (tower.unlockLevel == _level)
+            {
+                UnlockTower(tower.type);
+            }
         }
     }
 
     void OnDisable()
     {
-        playerManager.OnPlayerLevelUp -= HandleLevelUp;
+        m_playerManager.OnPlayerLevelUp -= HandleLevelUp;
     }
 
     void UnlockTower(TowerType _type)
