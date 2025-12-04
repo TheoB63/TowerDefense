@@ -137,6 +137,13 @@ public class EnemySpawnData
     }
 }
 
+[System.Serializable]
+public class StuffReward
+{
+    public int stuffLevel;
+    public Rarity rarity;
+    public float chance;
+}
 
 //LevelConfig
 [CreateAssetMenu(fileName = "Level", menuName = "TowerDefense/Level Config")]
@@ -148,6 +155,17 @@ public class LevelConfig : ScriptableObject
     public int damageMultiplier = 1;
     public int hpMultiplier = 1;
 
+    [Header("Xp")]
+    public float baseXP = 0;
+
+    [Header("Rewards")]
+    public int xp = 15;
+    public int gold = 150;
+    public List<StuffReward> stuffRewards = new List<StuffReward>();
+    public int nbStuffBlueprints;
+    public int nbTowerFragments;
+
+
     [Header("Enemy Prefabs")]
     public List<GameObject> mobPrefabs = new List<GameObject>();
     public List<GameObject> bossPrefabs = new List<GameObject>();
@@ -155,8 +173,7 @@ public class LevelConfig : ScriptableObject
     [Header("Enemies Timeline")]
     public List<EnemySpawnData> enemies = new List<EnemySpawnData>();
 
-    [Header("Xp")]
-    public float baseXP = 0;
+    
 
     public int GetTotalEnemies()
     {

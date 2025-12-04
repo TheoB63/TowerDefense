@@ -5,6 +5,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    //Level
+    LevelConfig currentLevel;
+
     //Time
     bool m_isPause;
     float m_levelTimer;
@@ -28,6 +31,10 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        //level
+        currentLevel = DataManager.Instance.selectedLevel;
+
+        //game speed
         SetGameSpeed(DataManager.Instance.gameSpeed);
     }
 
@@ -71,5 +78,11 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene("Menu");
         }
         DataManager.Instance.playerManager.AddXp(15);
+        AddRandomStuff();
+    }
+
+    void AddRandomStuff()
+    {
+        
     }
 }

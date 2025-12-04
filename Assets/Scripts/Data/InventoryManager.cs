@@ -12,19 +12,21 @@ public enum StuffType
     Canon
 }
 
+public enum Rarity
+{
+    Common,
+    Rare,
+    Epic,
+    Legendary
+}
+
 [System.Serializable]
 public class StuffItem
 {
     public StuffType Type;
+    public Rarity Rarity;
     public int Level;
     public int Attack;
-    public int Defense;
-
-    public StuffItem(StuffType type, int level = 1)
-    {
-        Type = type;
-        Level = level;
-    }
 }
 
 public class InventoryManager : MonoBehaviour
@@ -256,7 +258,7 @@ public class InventoryManager : MonoBehaviour
         Debug.Log("Inventory reset");
     }
 
-    // Debug : afficher tout l'inventaire
+    //Draw Debug
     public void LogInventory()
     {
         Debug.Log("===== INVENTORY =====");
