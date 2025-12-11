@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: PlayerPenetration
   m_EditorClassIdentifier: Assembly-CSharp::PlayerUpgrade
   upgradeName: Penetration +
-  icon: {fileID: 0}
+  icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   description: Penetration +1
   upgradeMethodName: IncreasePenetration

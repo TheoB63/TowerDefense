@@ -14,8 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelConfig
   levelNumber: 2
   levelName: Normal 2
-  damageMultiplier: 1
-  hpMultiplier: 1
+  damageMultiplier: 2
+  hpMultiplier: 2
+  baseXP: 0
+  xp: 15
+  gold: 150
+  nbMinStuff: 4
+  nbMaxStuff: 6
+  stuffRewards: []
+  nbStuffBlueprints: 0
+  nbTowerFragments: 0
   mobPrefabs:
   - {fileID: 1475444714698727141, guid: a8f06fb7d1c4aae4daed507ca831e465, type: 3}
   - {fileID: 1475444714698727141, guid: cbcdd974137806641b2fe5dd1c9738c5, type: 3}
@@ -2901,4 +2909,3 @@ MonoBehaviour:
   - type: 0
     index: 0
     spawnTime: 300
-  baseXP: 0

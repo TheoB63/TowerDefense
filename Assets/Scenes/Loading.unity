@@ -470,7 +470,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   playerManager: {fileID: 1594778560}
-  inventoryManager: {fileID: 0}
+  inventoryManager: {fileID: 1594778561}
   unlockManager: {fileID: 1594778559}
   selectedLevel: {fileID: 0}
   gameSpeed: 2

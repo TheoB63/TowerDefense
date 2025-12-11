@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: PlayerDamage
   m_EditorClassIdentifier: Assembly-CSharp::PlayerUpgrade
   upgradeName: Player Damage +
-  icon: {fileID: 0}
+  icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   description: "Player +10% d\xE9g\xE2ts"
   upgradeMethodName: IncreaseDamage

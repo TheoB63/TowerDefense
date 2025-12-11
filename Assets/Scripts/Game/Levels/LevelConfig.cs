@@ -161,6 +161,8 @@ public class LevelConfig : ScriptableObject
     [Header("Rewards")]
     public int xp = 15;
     public int gold = 150;
+    public int nbMinStuff = 4;
+    public int nbMaxStuff = 6;
     public List<StuffReward> stuffRewards = new List<StuffReward>();
     public int nbStuffBlueprints;
     public int nbTowerFragments;

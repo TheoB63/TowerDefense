@@ -34,16 +34,16 @@ public class InventoryManager : MonoBehaviour
     public static InventoryManager Instance;
 
     //Basic
-    private int m_gold;
-    private int m_diamond;
+    public int m_gold;
+    public int m_diamond;
 
     //Stuff
-    [SerializeField] private List<StuffItem> m_ownedStuff = new List<StuffItem>();
-    private Dictionary<StuffType, StuffItem> m_equippedStuff = new Dictionary<StuffType, StuffItem>();
+    public List<StuffItem> m_ownedStuff = new List<StuffItem>();
+    public Dictionary<StuffType, StuffItem> m_equippedStuff = new Dictionary<StuffType, StuffItem>();
 
     //Fragments upgrade
-    private Dictionary<TowerType, int> m_towerFragments = new Dictionary<TowerType, int>();
-    private Dictionary<StuffType, int> m_stuffBlueprints = new Dictionary<StuffType, int>();
+    public Dictionary<TowerType, int> m_towerFragments = new Dictionary<TowerType, int>();
+    public Dictionary<StuffType, int> m_stuffBlueprints = new Dictionary<StuffType, int>();
 
     //Upgrades
 

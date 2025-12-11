@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     //Level
-    LevelConfig currentLevel;
+    LevelConfig m_currentLevel;
 
     //Time
     bool m_isPause;
@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         //level
-        currentLevel = DataManager.Instance.selectedLevel;
+        m_currentLevel = DataManager.Instance.selectedLevel;
 
         //game speed
         SetGameSpeed(DataManager.Instance.gameSpeed);
@@ -77,12 +77,61 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadScene("Menu");
         }
-        DataManager.Instance.playerManager.AddXp(15);
+
         AddRandomStuff();
     }
 
     void AddRandomStuff()
     {
-        
+        DataManager.Instance.playerManager.AddXp(m_currentLevel.xp);
+        DataManager.Instance.inventoryManager.AddGold(m_currentLevel.gold);
+
+        //Stuff
+        int nbStuff = Random.Range(m_currentLevel.nbMinStuff, m_currentLevel.nbMaxStuff + 1);
+
+        for (int i = 0; i < nbStuff; i++)
+        {
+            StuffReward selectReward = new StuffReward();
+            float totalWeight = 0f;
+
+            foreach (var stuff in m_currentLevel.stuffRewards)
+            {
+                totalWeight += stuff.chance;
+            }
+
+            float random = Random.Range(0f, totalWeight);
+
+            foreach (var stuff in m_currentLevel.stuffRewards)
+            {
+                if (random < stuff.chance)
+                {
+                    selectReward = stuff;
+                }
+
+                random -= stuff.chance;
+            }
+
+            StuffType type = (StuffType)Random.Range(0, System.Enum.GetValues(typeof(StuffType)).Length);
+
+            StuffItem newStuff = new StuffItem();
+            newStuff.Rarity = selectReward.rarity;
+            newStuff.Level = selectReward.stuffLevel;
+
+            DataManager.Instance.inventoryManager.AddStuff(newStuff);
+        }
+
+        //Blueprints
+        for (int i = 0; i < m_currentLevel.nbStuffBlueprints; i++)
+        {
+            StuffType type = (StuffType)Random.Range(0, System.Enum.GetValues(typeof(StuffType)).Length);
+            DataManager.Instance.inventoryManager.AddStuffBlueprints(type, 1);
+        }
+
+        //Tower fragments
+        for (int i = 0; i < m_currentLevel.nbTowerFragments; i++)
+        {
+            TowerType type = (TowerType)Random.Range(0, System.Enum.GetValues(typeof(TowerType)).Length);
+            DataManager.Instance.inventoryManager.AddTowerFragments(type, 1);
+        }
     }
 }
