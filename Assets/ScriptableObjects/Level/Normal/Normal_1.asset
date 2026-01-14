@@ -19,10 +19,12 @@ MonoBehaviour:
   baseXP: 0
   xp: 15
   gold: 150
+  nbMinStuff: 0
+  nbMaxStuff: 1
   stuffRewards:
   - stuffLevel: 1
     rarity: 0
-    chance: 50
+    chance: 100
   nbStuffBlueprints: 20
   nbTowerFragments: 20
   mobPrefabs:

@@ -99,13 +99,14 @@ public class GameManager : MonoBehaviour
                 totalWeight += stuff.chance;
             }
 
-            float random = Random.Range(0f, totalWeight);
+            float random = Random.Range(0, totalWeight);
 
             foreach (var stuff in m_currentLevel.stuffRewards)
             {
                 if (random < stuff.chance)
                 {
                     selectReward = stuff;
+                    break;
                 }
 
                 random -= stuff.chance;
@@ -114,6 +115,7 @@ public class GameManager : MonoBehaviour
             StuffType type = (StuffType)Random.Range(0, System.Enum.GetValues(typeof(StuffType)).Length);
 
             StuffItem newStuff = new StuffItem();
+            newStuff.Type = type;
             newStuff.Rarity = selectReward.rarity;
             newStuff.Level = selectReward.stuffLevel;
 
