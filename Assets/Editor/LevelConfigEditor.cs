@@ -44,7 +44,7 @@ public class LevelConfigEditor : Editor
         }
         else if (endLevel - startLevel > 2)
         {
-            EditorGUILayout.HelpBox($"✨ Player gains {endLevel - startLevel} levels! Might be too much.", MessageType.Info);
+            EditorGUILayout.HelpBox($"✨ Player gains {endLevel - startLevel} levels", MessageType.Info);
         }
         else
         {

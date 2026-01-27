@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelConfig
   levelNumber: 3
   levelName: Normal 3
-  damageMultiplier: 3
-  hpMultiplier: 3
+  damageMultiplier: 4
+  hpMultiplier: 4
   baseXP: 0
   xp: 15
   gold: 150

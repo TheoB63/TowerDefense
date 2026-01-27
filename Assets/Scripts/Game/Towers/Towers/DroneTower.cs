@@ -43,6 +43,7 @@ public class DroneTower : Tower
                 if (m_nbDroneSpawn >= m_maxDrone)
                 {
                     m_timerReload = m_cooldown;
+                    m_nbDroneSpawn = 0;
                 }
                 m_timerSpawn = m_damageInterval;
             }

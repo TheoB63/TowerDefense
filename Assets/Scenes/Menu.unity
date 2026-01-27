@@ -16372,8 +16372,9 @@ GameObject:
   - component: {fileID: 1580516138}
   - component: {fileID: 1580516137}
   - component: {fileID: 1580516136}
+  - component: {fileID: 1580516139}
   m_Layer: 5
-  m_Name: Page Up
+  m_Name: Page Upgrade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16449,6 +16450,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1580516134}
   m_CullTransparentMesh: 1
+--- !u!114 &1580516139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1580516134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26d687eefd87df347b3a74b5a29197a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1594604595
 GameObject:
   m_ObjectHideFlags: 0
@@ -18356,8 +18369,9 @@ GameObject:
   - component: {fileID: 1712136631}
   - component: {fileID: 1712136630}
   - component: {fileID: 1712136629}
+  - component: {fileID: 1712136632}
   m_Layer: 5
-  m_Name: Page Equi
+  m_Name: Page Equipment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18435,6 +18449,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1712136627}
   m_CullTransparentMesh: 1
+--- !u!114 &1712136632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1712136627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5e608caf61d36447943b7823704934b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_grid: {fileID: 0}
+  m_equipmentPrefab: {fileID: 0}
 --- !u!1 &1714264722
 GameObject:
   m_ObjectHideFlags: 0
