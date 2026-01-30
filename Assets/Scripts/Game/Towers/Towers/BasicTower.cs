@@ -64,8 +64,8 @@ public class BasicTower : Tower
                     direction.Normalize();
 
                     GameObject go = Instantiate(m_projectilesPrefab, m_barrel.position, Quaternion.identity);
-                    go.GetComponent<PlayerProjectiles>().Direction = direction;
-                    go.GetComponent<PlayerProjectiles>().SetStats(m_damage, m_penetration);
+                    go.GetComponent<RailgunProjectile>().Direction = direction;
+                    go.GetComponent<RailgunProjectile>().SetStats(m_damage, m_penetration);
                 }
                 return true;
             }

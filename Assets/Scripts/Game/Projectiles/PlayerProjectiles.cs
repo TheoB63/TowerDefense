@@ -2,13 +2,19 @@ using UnityEngine;
 
 public class PlayerProjectiles : Projectiles
 {
+    public PlayerStats playerRef;
+
     //runtime values
-    float m_damage;
     int m_penetration;
     Vector2 m_direction;
 
     [Header("public values")]
     public Vector2 Direction { get => m_direction; set => m_direction = value; }
+
+    private void Start()
+    {
+        m_penetration = playerRef.GetPenetration;
+    }
 
     void Update()
     {
@@ -25,17 +31,11 @@ public class PlayerProjectiles : Projectiles
         }
     }
 
-    public void SetStats(float _damage, int _penetration)
-    {
-        m_damage = _damage;
-        m_penetration = _penetration;
-    }
-
     private void OnTriggerEnter2D(Collider2D _collision)
     {
         if (_collision.GetComponent<Enemy>())
         {
-            _collision.GetComponent<Enemy>().TakeDamage(m_damage);
+            _collision.GetComponent<Enemy>().TakeDamage(playerRef.GetDamage);
 
             m_penetration--;
 

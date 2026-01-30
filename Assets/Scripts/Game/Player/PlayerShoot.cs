@@ -3,10 +3,13 @@ using UnityEngine;
 
 public class PlayerShoot : MonoBehaviour
 {
-    [Header("Values")]
-    [SerializeField] GameObject m_projectilesPrefab;
+    [Header("Refenrences")]
+    [SerializeField] GameObject m_bulletPrefab;
+    [SerializeField] GameObject m_subBulletPrefab;
     [SerializeField] List<Transform> m_arms;
     [SerializeField] List<Transform> m_fireCanons;
+
+    [Header("Values")]
     [SerializeField] float m_armRotationSpeed;
     
     PlayerStats m_playerStats;
@@ -26,7 +29,7 @@ public class PlayerShoot : MonoBehaviour
 
         m_timerShoot += Time.deltaTime;
 
-        if (m_timerShoot > (1 / m_playerStats.AttackSpeed))
+        if (m_timerShoot > (1 / m_playerStats.GetFireRate))
         {
             if (Shoot())
             {
@@ -45,27 +48,47 @@ public class PlayerShoot : MonoBehaviour
 
             float dist = Vector2.Distance(transform.position, target.transform.position);
 
-            if (dist <= GetComponent<PlayerStats>().Range)
+            if (dist <= GetComponent<PlayerStats>().GetRange)
             {
+                //Bullets
                 Vector2 direction;
                 Vector2 targetPos = target.transform.position;
-                float spacing = 0.5f;
-                int nb = m_playerStats.NbProjectiles;
 
-                float startOffset = -((nb - 1) * spacing) / 2f;
+                float spacingBullets = 0.5f;
+                int nb = m_playerStats.GetNbBullets;
+                float startOffset = -((nb - 1) * spacingBullets) / 2f;
 
                 for (int i = 0; i < nb; i++)
                 {
-                    float targetDist = startOffset + (i * spacing);
+                    float targetDist = startOffset + (i * spacingBullets);
 
                     Vector3 posTarget = new Vector3(targetPos.x + targetDist, targetPos.y);
                     direction = (Vector2)posTarget - (Vector2)transform.position;
                     direction.Normalize();
 
-                    GameObject go = Instantiate(m_projectilesPrefab, fireCanon.position, Quaternion.identity);
+                    GameObject go = Instantiate(m_bulletPrefab, fireCanon.position, Quaternion.identity);
                     go.GetComponent<PlayerProjectiles>().Direction = direction;
-                    go.GetComponent<PlayerProjectiles>().SetStats(m_playerStats.Damage, m_playerStats.Penetration);
+                    go.GetComponent<PlayerProjectiles>().playerRef = m_playerStats;
                 }
+
+                //SubBullets
+                spacingBullets = 5f;
+                nb = m_playerStats.GetNbSubBullets;
+                startOffset = -((nb - 1) * spacingBullets) / 2f;
+
+                for (int i = 0; i < nb; i++)
+                {
+                    float targetDist = startOffset + (i * spacingBullets);
+
+                    Vector3 posTarget = new Vector3(targetPos.x + targetDist, targetPos.y);
+                    direction = (Vector2)posTarget - (Vector2)transform.position;
+                    direction.Normalize();
+
+                    GameObject go = Instantiate(m_subBulletPrefab, fireCanon.position, Quaternion.identity);
+                    go.GetComponent<PlayerProjectiles>().Direction = direction;
+                    go.GetComponent<PlayerProjectiles>().playerRef = m_playerStats;
+                }
+
                 return true;
             }
         }

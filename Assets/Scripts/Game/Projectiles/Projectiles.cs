@@ -11,7 +11,7 @@ public class Projectiles : MonoBehaviour
     {
         if (m_needDelete)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 

@@ -103,9 +103,9 @@ public class UpgradeChoiceManager : MonoBehaviour
                 if (!playerUpgrade.CanApply(null, m_playerStats))
                     canAdd = false;
 
-                else if (m_playerStats.Level < playerUpgrade.minLevel)
+                else if (m_playerStats.GetLevel < playerUpgrade.minLevel)
                     canAdd = false;
-                else if (m_playerStats.Level > maxUpgradeLevel)
+                else if (m_playerStats.GetLevel > maxUpgradeLevel)
                     canAdd = false;
 
                 if (canAdd)

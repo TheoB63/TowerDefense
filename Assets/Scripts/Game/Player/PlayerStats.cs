@@ -4,55 +4,69 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour
 {
     [Header("Base Stats")]
-    [SerializeField] int m_baseDamage;
     [SerializeField] float m_baseRange;
-    [SerializeField] float m_baseAttackSpeed;
-    [SerializeField] int m_baseNbProjectiles;
-
-    [SerializeField] int m_basePenetration;
     [SerializeField] float m_baseCritRate;
     [SerializeField] float m_baseCritMultiplier;
 
-    [Header("Upgrades")]
-    [SerializeField] float m_damageMultiplier;
-    [SerializeField] int m_rangeIncrease;
-    [SerializeField] float m_attackSpeedMultiplier;
-    [SerializeField] int m_nbProjectilesIncrease;
+    [SerializeField] int m_baseDamage;
+    [SerializeField] float m_baseFireRate;
+    [SerializeField] int m_baseNbBullets;
+    [SerializeField] int m_basePenetration;
 
-    [SerializeField] int m_penetrationIncrease;
-    [SerializeField] float m_critRateIncrease;
-    [SerializeField] float m_CritMultiplierIncrease;
+    [SerializeField] float m_baseExlosionRange;
+    [SerializeField] int m_baseExlosionDamage;
 
-    //Privates Current values in run time
-    int m_currentDamage;
-    float m_currentRange;
-    float m_currentAttackSpeed;
-    int m_currentNbProjectiles;
-    int m_currentPenetration;
-    float m_currentCritRate;
-    float m_currentCritMultiplier;
+    //Run Values
+    int m_damage;
+    float m_fireRate;
+    int m_nbBullets;
+    int m_nbSubBullets;
+    int m_penetration;
+    bool m_splitOnHit;
+
+    float m_explosionChance;
+    float m_explosionRange;
+    float m_explosionDamage;
+
+    bool m_ToggleFireDamage;
+    bool m_ToggleLightningDamage;
+
+    float m_bouncingChance;
+
+    float m_knockback;
+
     int m_level;
 
+
     [Header("Public Values (Get Only)")]
-    public int Damage { get => m_currentDamage; set => m_currentDamage = value; }
-    public float Range { get => m_currentRange; set => m_currentRange = value; }
-    public float AttackSpeed { get => m_currentAttackSpeed; set => m_currentAttackSpeed = value; }
-    public int NbProjectiles { get => m_currentNbProjectiles; set => m_currentNbProjectiles = value; }
-    public int Penetration { get => m_currentPenetration; set => m_currentPenetration = value; }
-    public float CritRate { get => m_currentCritRate; set => m_currentCritRate = value; }
-    public float CritMultiplier { get => m_currentCritMultiplier; set => m_currentCritMultiplier = value; }
-    public int Level { get => m_level; set => m_level = value; }
+    public float GetRange { get => m_baseRange; set => m_baseRange = value; }
+    public float GetCritRate { get => m_baseCritRate; set => m_baseCritRate = value; }
+    public float GetCritMultiplier { get => m_baseCritMultiplier; set => m_baseCritMultiplier = value; }
+    public int GetDamage { get => m_damage; }
+    public float GetFireRate { get => m_fireRate; }
+    public int GetNbBullets { get => m_nbBullets; }
+    public int GetNbSubBullets { get => m_nbSubBullets; }
+    public int GetPenetration { get => m_penetration; }
+    public bool GetSplitOnHit { get => m_splitOnHit; }
+    public float GetExplosionChance { get => m_explosionChance; }
+    public float GetExplosionRange { get => m_explosionRange; }
+    public float GetExplosionDamage { get => m_explosionDamage; }
+    public bool GetToggleFireDamage { get => m_ToggleFireDamage; }
+    public bool GetToggleLightningDamage { get => m_ToggleLightningDamage; }
+    public float GetBouncingChance { get => m_bouncingChance; }
+    public float GetKnockback { get => m_knockback; }
+    public int GetLevel { get => m_level; }
+    
 
     private void Start()
     {
-        m_currentDamage = m_baseDamage;
-        m_currentRange = m_baseRange;
-        m_currentAttackSpeed = m_baseAttackSpeed;
-        m_currentNbProjectiles = m_baseNbProjectiles;
+        m_damage = m_baseDamage;
+        m_fireRate = m_baseFireRate;
+        m_nbBullets = m_baseNbBullets;
+        m_penetration = m_basePenetration;
 
-        m_currentPenetration = m_basePenetration;
-        m_currentCritRate = m_baseCritRate;
-        m_currentCritMultiplier = m_baseCritMultiplier;
+        m_explosionRange = m_baseExlosionRange;
+        m_explosionDamage = m_baseExlosionDamage;
 
         m_level = 1;
     }
@@ -85,8 +99,40 @@ public class PlayerStats : MonoBehaviour
                 MadFire();
                 break;
 
-            case "SplittingBullet":
+            case "SplittingBullets":
                 SplittingBullet();
+                break;
+
+            case "ExplosionExpansion":
+                ExplosionExpansion();
+                break;
+
+            case "ExplosionDamage":
+                ExplosionDamage();
+                break;
+
+            case "FlameBullets":
+                FlameBullets();
+                break;
+
+            case "ElectricBullets":
+                ElectricBullets();
+                break;
+
+            case "BouncingBullets":
+                BouncingBullets();
+                break;
+
+            case "ExplosionBoost":
+                ExplosionBoost();
+                break;
+
+            case "Knockback":
+                Knockback();
+                break;
+
+            case "ImpactBullets":
+                ImpactBullets();
                 break;
         }
     }
@@ -94,34 +140,79 @@ public class PlayerStats : MonoBehaviour
     //Upgrades Methods
     private void BonusDamage()
     {
-        m_currentDamage = (int)(m_currentDamage * m_damageMultiplier);
+        m_damage = (int)(m_damage * 1.5);
     }
     private void MoreBullets()
     {
-        m_currentNbProjectiles += m_nbProjectilesIncrease;
+        m_nbBullets += 1;
     }
     private void Piercing()
     {
-        m_currentPenetration += m_penetrationIncrease;
+        m_penetration += 1;
     }
 
     private void BulletExplosion()
     {
-        
+        m_explosionChance += 0.1f;
     }
 
     private void RapidFire()
     {
-        m_currentAttackSpeed *= m_attackSpeedMultiplier;
+        m_fireRate *= 1.25f;
     }
 
     private void MadFire()
     {
+        m_nbSubBullets += 2;
         m_level++;
     }
 
     private void SplittingBullet()
     {
+        m_splitOnHit = true;
+        m_level++;
+    }
+
+    private void ExplosionExpansion()
+    {
+        m_explosionRange *= 1.5f;
+    }
+
+    private void ExplosionDamage()
+    {
+        m_explosionDamage += 0.5f;
+    }
+
+    private void FlameBullets()
+    {
+        m_ToggleFireDamage = true;
+    }
+
+    private void ElectricBullets()
+    {
+        m_ToggleLightningDamage = true;
+    }
+
+    private void BouncingBullets()
+    {
+        m_bouncingChance += 0.2f;
+        m_level++;
+    }
+
+    private void ExplosionBoost()
+    {
+        m_explosionChance += 0.2f;
+        m_explosionDamage += 0.5f;
+    }
+    private void Knockback()
+    {
+        m_knockback += 1f;
+    }
+
+    private void ImpactBullets()
+    {
+        m_damage = (int)(m_damage * 1.5);
+        m_knockback += 1f;
         m_level++;
     }
 }
