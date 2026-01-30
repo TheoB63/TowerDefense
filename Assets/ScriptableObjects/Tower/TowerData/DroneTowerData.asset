@@ -33,14 +33,14 @@ MonoBehaviour:
     m_LocalVariables: []
   prefab: {fileID: 5565473218187319975, guid: b0bc9021113669a49bb9a8d70da05307, type: 3}
   sprite: {fileID: -3247204555341255398, guid: 7947886323a8f354c836ae99771bc835, type: 3}
-  unlockLevel: 1
+  unlockLevel: 4
   goldCost: 250
   goldCostIncrease: 250
   fragmentsCost: 100
   fragmentsCostIncrease: 100
   damageType: 0
   baseDamage: 20
-  baseCooldown: 10
+  baseCooldown: 5
   baseRange: 7
   baseExplosionDamage: 0
   baseDamageRange: 0

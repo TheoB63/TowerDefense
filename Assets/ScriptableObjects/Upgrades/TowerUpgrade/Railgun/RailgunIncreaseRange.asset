@@ -13,8 +13,12 @@ MonoBehaviour:
   m_Name: RailgunIncreaseRange
   m_EditorClassIdentifier: Assembly-CSharp::TowerSpecificUpgrade
   upgradeName: Railgun Range +
-  icon: {fileID: 6241454495075796874, guid: 089f67ccabc135941bd8c278c1cc24d0, type: 3}
   description: "Augmente la port\xE9e"
+  minLevel: 1
+  maxUtilisation: 1
+  link: {fileID: 0}
+  type: 1
+  icon: {fileID: 6241454495075796874, guid: 089f67ccabc135941bd8c278c1cc24d0, type: 3}
   targetTowerType: 1
   upgradeMethodName: IncreaseRange
   specificSlot: {fileID: 0}

@@ -13,8 +13,12 @@ MonoBehaviour:
   m_Name: ProjectilesIncreaseDamage
   m_EditorClassIdentifier: Assembly-CSharp::TowerSpecificUpgrade
   upgradeName: Basic Damage +
-  icon: {fileID: -2330701393990720033, guid: 1adf53602ef5dcf4b8196ccf730cc033, type: 3}
   description: "Augmente les d\xE9g\xE2ts des projectiles de 50%"
+  minLevel: 1
+  maxUtilisation: 3
+  link: {fileID: 0}
+  type: 0
+  icon: {fileID: -2330701393990720033, guid: 1adf53602ef5dcf4b8196ccf730cc033, type: 3}
   targetTowerType: 0
   upgradeMethodName: IncreaseDamage
   specificSlot: {fileID: 0}

@@ -31,6 +31,7 @@ public class PlayerStats : MonoBehaviour
     int m_currentPenetration;
     float m_currentCritRate;
     float m_currentCritMultiplier;
+    int m_level;
 
     [Header("Public Values (Get Only)")]
     public int Damage { get => m_currentDamage; set => m_currentDamage = value; }
@@ -40,6 +41,7 @@ public class PlayerStats : MonoBehaviour
     public int Penetration { get => m_currentPenetration; set => m_currentPenetration = value; }
     public float CritRate { get => m_currentCritRate; set => m_currentCritRate = value; }
     public float CritMultiplier { get => m_currentCritMultiplier; set => m_currentCritMultiplier = value; }
+    public int Level { get => m_level; set => m_level = value; }
 
     private void Start()
     {
@@ -51,55 +53,75 @@ public class PlayerStats : MonoBehaviour
         m_currentPenetration = m_basePenetration;
         m_currentCritRate = m_baseCritRate;
         m_currentCritMultiplier = m_baseCritMultiplier;
+
+        m_level = 1;
     }
 
     public void ApplyUpgrade(string _upgradeName)
     {
         switch (_upgradeName)
         {
-            case "IncreaseDamage":
-                IncreaseDamage();
+            case "BonusDamage":
+                BonusDamage();
                 break;
 
-            case "IncreaseRange":
-                IncreaseRange();
+            case "MoreBullets":
+                MoreBullets();
                 break;
 
-            case "IncreaseAttackSpeed":
-                IncreaseAttackSpeed();
+            case "Piercing":
+                Piercing();
                 break;
 
-            case "IncreasePenetration":
-                IncreasePenetration();
+            case "BulletExplosion":
+                BulletExplosion();
                 break;
 
-            case "IncreaseNbProjectiles":
-                IncreaseNbProjectiles();
+            case "RapidFire":
+                RapidFire();
+                break;
+
+            case "MadFire":
+                MadFire();
+                break;
+
+            case "SplittingBullet":
+                SplittingBullet();
                 break;
         }
     }
 
     //Upgrades Methods
-    private void IncreaseDamage()
+    private void BonusDamage()
     {
         m_currentDamage = (int)(m_currentDamage * m_damageMultiplier);
     }
-    private void IncreaseRange()
+    private void MoreBullets()
     {
-        m_currentRange += m_rangeIncrease;
+        m_currentNbProjectiles += m_nbProjectilesIncrease;
     }
-    private void IncreaseAttackSpeed()
-    {
-        m_currentAttackSpeed *= m_attackSpeedMultiplier;
-    }
-
-    private void IncreasePenetration()
+    private void Piercing()
     {
         m_currentPenetration += m_penetrationIncrease;
     }
 
-    private void IncreaseNbProjectiles()
+    private void BulletExplosion()
     {
-        m_currentNbProjectiles += m_nbProjectilesIncrease;
+        
+    }
+
+    private void RapidFire()
+    {
+        m_currentAttackSpeed *= m_attackSpeedMultiplier;
+    }
+
+    private void MadFire()
+    {
+        m_level++;
+    }
+
+    private void SplittingBullet()
+    {
+        m_level++;
     }
 }

@@ -50,51 +50,22 @@ public class BasicTower : Tower
             {
                 Vector2 direction;
                 Vector2 targetPos = target.transform.position;
-                if (m_nbProjectiles % 2 == 0)
+                float spacing = 0.5f;
+                int nb = m_nbProjectiles;
+
+                float startOffset = -((nb - 1) * spacing) / 2f;
+
+                for (int i = 0; i < nb; i++)
                 {
-                    for (int i = 0; i < m_nbProjectiles; i++)
-                    {
-                        float targetDist;
-                        if (i < m_nbProjectiles / 2)
-                        {
-                            targetDist = (-1f) * 0.5f * i;
-                        }
-                        else
-                        {
-                            targetDist = 0.5f * (i - m_nbProjectiles / 2);
-                        }
+                    float targetDist = startOffset + (i * spacing);
 
-                        Vector3 posTarget = new Vector3(targetPos.x + targetDist, targetPos.y);
-                        direction = posTarget - m_barrel.position;
-                        direction.Normalize();
+                    Vector3 posTarget = new Vector3(targetPos.x + targetDist, targetPos.y);
+                    direction = (Vector2)posTarget - (Vector2)transform.position;
+                    direction.Normalize();
 
-                        GameObject go = Instantiate(m_projectilesPrefab, m_barrel.position, Quaternion.identity);
-                        go.GetComponent<PlayerProjectiles>().Direction = direction;
-                        go.GetComponent<PlayerProjectiles>().SetStats(m_damage, m_penetration);
-                    }
-                }
-                else
-                {
-                    for (int i = 0; i < m_nbProjectiles; i++)
-                    {
-                        float targetDist = 0;
-                        if (i < m_nbProjectiles / 2)
-                        {
-                            targetDist = (-1f) * 0.5f * i;
-                        }
-                        else if (i > m_nbProjectiles / 2)
-                        {
-                            targetDist = 0.5f * (i - m_nbProjectiles / 2);
-                        }
-
-                        Vector3 posTarget = new Vector3(targetPos.x + targetDist, targetPos.y);
-                        direction = posTarget - m_barrel.position;
-                        direction.Normalize();
-
-                        GameObject go = Instantiate(m_projectilesPrefab, m_barrel.position, Quaternion.identity);
-                        go.GetComponent<PlayerProjectiles>().Direction = direction;
-                        go.GetComponent<PlayerProjectiles>().SetStats(m_damage, m_penetration);
-                    }
+                    GameObject go = Instantiate(m_projectilesPrefab, m_barrel.position, Quaternion.identity);
+                    go.GetComponent<PlayerProjectiles>().Direction = direction;
+                    go.GetComponent<PlayerProjectiles>().SetStats(m_damage, m_penetration);
                 }
                 return true;
             }

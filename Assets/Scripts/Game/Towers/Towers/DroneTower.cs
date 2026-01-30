@@ -24,8 +24,6 @@ public class DroneTower : Tower
     {
         base.InitializeTower();
         m_maxDrone = m_baseMaxDrone;
-
-        Debug.Log("inter = " + m_damageInterval);
     }
 
     private void Update()
@@ -63,7 +61,6 @@ public class DroneTower : Tower
     {
         GameObject go = Instantiate(m_projectilesPrefab, m_barrel.position, Quaternion.identity);
         go.GetComponent<Drone>().SetStats(m_damage, m_nbAttack);
-        Debug.Log("spawn drone : " + Time.deltaTime);
     }
 
     public override void ApplyUpgrade(string upgradeName)

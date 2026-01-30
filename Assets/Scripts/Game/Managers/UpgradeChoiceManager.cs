@@ -5,6 +5,9 @@ public class UpgradeChoiceManager : MonoBehaviour
 {
     [Header("Upgrades")]
     [SerializeField] List<UpgradeBase> m_allUpgrades = new List<UpgradeBase>();
+    [SerializeField] List<UpgradeBase> m_selectedUpgrades = new List<UpgradeBase>();
+    [SerializeField] int upgradeToLevelUp = 4;
+    [SerializeField] int maxUpgradeLevel = 4;
 
     [Header("References")]
     [SerializeField] PlayerStats m_playerStats;
@@ -29,6 +32,9 @@ public class UpgradeChoiceManager : MonoBehaviour
 
     public void OnLevelUp()
     {
+        if (m_upgradePanel != null) m_upgradePanel.SetActive(true);
+        GameManager.Instance.PauseGame();
+
         List<UpgradeBase> availableUpgrades = GetAvailableUpgrades();
 
         if (availableUpgrades.Count <= 0)
@@ -93,11 +99,40 @@ public class UpgradeChoiceManager : MonoBehaviour
             //PlayerUpgrade
             else if (upgrade is PlayerUpgrade playerUpgrade)
             {
-                //Need to rework when upgrade level and maxUgrade was created
-                if (playerUpgrade.CanApply(null, m_playerStats))
-                {
-                    //verif if can upgrade with upgrade level and tiers
+                bool canAdd = true;
+                if (!playerUpgrade.CanApply(null, m_playerStats))
+                    canAdd = false;
 
+                else if (m_playerStats.Level < playerUpgrade.minLevel)
+                    canAdd = false;
+                else if (m_playerStats.Level > maxUpgradeLevel)
+                    canAdd = false;
+
+                if (canAdd)
+                {
+
+                    List<UpgradeBase> selectedPlayerUpgrade = m_selectedUpgrades.FindAll(up => up is PlayerUpgrade);
+
+                    //verify if is normal or level up
+                    if (selectedPlayerUpgrade.Count % upgradeToLevelUp == upgradeToLevelUp - 1)
+                    {
+                        if (upgrade.type != UpgradeType.LevelUp)
+                            canAdd = false;
+                    }
+                    else
+                    {
+                        if (upgrade.type == UpgradeType.LevelUp)
+                            canAdd = false;
+                    }
+
+                    //verify max utilisation
+                    List<UpgradeBase> sameSelectedUpgrade = selectedPlayerUpgrade.FindAll(up => up == upgrade);
+                    if (sameSelectedUpgrade.Count >= upgrade.maxUtilisation)
+                        canAdd = false;
+                }
+
+                if (canAdd)
+                {
                     bool isInList = false;
                     foreach (UpgradeBase up in available)
                     {
@@ -122,24 +157,34 @@ public class UpgradeChoiceManager : MonoBehaviour
                 {
                     if (slot.HasTower() && slot.Type == towerUpgrade.targetTowerType)
                     {
-                        ITower tower = slot.GetTower();
+                        Tower tower = (Tower)slot.GetTower();
                         if (tower != null)
                         {
-                            bool isInList = false;
-                            foreach (UpgradeBase up in available)
+                            bool canAdd = true;
+
+                            if (tower.Level < towerUpgrade.minLevel)
+                                canAdd = false;
+                            else if (tower.Level > maxUpgradeLevel)
+                                canAdd = false;
+
+                            if (canAdd)
                             {
-                                if (towerUpgrade.upgradeName == up.upgradeName)
+                                bool isInList = false;
+                                foreach (UpgradeBase up in available)
                                 {
-                                    isInList = true;
-                                    break;
+                                    if (towerUpgrade.upgradeName == up.upgradeName)
+                                    {
+                                        isInList = true;
+                                        break;
+                                    }
                                 }
+                                if (!isInList)
+                                {
+                                    UpgradeBase copy = Instantiate(towerUpgrade);
+                                    available.Add(copy);
+                                }
+                                break;
                             }
-                            if (!isInList)
-                            {
-                                UpgradeBase copy = Instantiate(towerUpgrade);
-                                available.Add(copy);
-                            }
-                            break;
                         }
                         break;
                     }
@@ -150,7 +195,9 @@ public class UpgradeChoiceManager : MonoBehaviour
         if (available.Count == 0)
         {
             //This warning is normally impossible to attempt
-            Debug.LogWarning("No upgrade Available ! Add Player Upgrade to debug this !");
+            Debug.LogWarning("No upgrade Available ! Add Upgrades to debug this !");
+            CloseUpgradeUI();
+
             foreach (UpgradeBase upgrade in m_allUpgrades)
             {
                 if (upgrade is PlayerUpgrade playerUpgrade)
@@ -183,48 +230,40 @@ public class UpgradeChoiceManager : MonoBehaviour
 
     void ShowUpgradeUI(List<UpgradeBase> _choices)
     {
-        if (m_upgradePanel != null) m_upgradePanel.SetActive(true);
-
-        GameManager.Instance.PauseGame();
-
         //Setup Buttons
         for (int i = 0; i < m_upgradeButtons.Count; i++)
         {
-            if (i < _choices.Count)
+            if (i >= _choices.Count)
             {
-                m_upgradeButtons[i].gameObject.SetActive(true);
+                _choices.Add(_choices[0]);
+            }
 
-                //Find slot for this upgrade
-                TowerSlot targetSlot = null;
-                if (_choices[i] is TowerConstructionUpgrade constructionUpgrade)
+            //Find slot for this upgrade
+            TowerSlot targetSlot = null;
+            if (_choices[i] is TowerConstructionUpgrade constructionUpgrade)
+            {
+                foreach (TowerSlot slot in m_towerSlots)
                 {
-                    foreach (TowerSlot slot in m_towerSlots)
+                    if (!slot.HasTower())
                     {
-                        if (!slot.HasTower())
-                        {
-                            targetSlot = slot;
-                            break;
-                        }
+                        targetSlot = slot;
+                        break;
                     }
                 }
-                else if (_choices[i] is TowerUpgrade towerUpgrade)
+            }
+            else if (_choices[i] is TowerUpgrade towerUpgrade)
+            {
+                foreach (TowerSlot slot in m_towerSlots)
                 {
-                    foreach (TowerSlot slot in m_towerSlots)
+                    if (slot.Type == towerUpgrade.targetTowerType)
                     {
-                        if (slot.Type == towerUpgrade.targetTowerType)
-                        {
-                            targetSlot = slot;
-                            break;
-                        }
+                        targetSlot = slot;
+                        break;
                     }
                 }
+            }
 
-                m_upgradeButtons[i].Setup(_choices[i], targetSlot, this);
-            }
-            else
-            {
-                m_upgradeButtons[i].gameObject.SetActive(false);
-            }
+            m_upgradeButtons[i].Setup(_choices[i], targetSlot, this);
         }
     }
 
@@ -233,6 +272,7 @@ public class UpgradeChoiceManager : MonoBehaviour
         if (_upgrade.CanApply(_targetSlot, m_playerStats))
         {
             _upgrade.Apply(_targetSlot, m_playerStats);
+            m_selectedUpgrades.Add(_upgrade);
             CloseUpgradeUI();
         }
         else

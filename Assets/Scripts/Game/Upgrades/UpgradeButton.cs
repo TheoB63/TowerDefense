@@ -5,10 +5,15 @@ using UnityEngine.UI;
 public class UpgradeButton : MonoBehaviour
 {
     [Header("UI References")]
+    [SerializeField] Image m_background;
     [SerializeField] Image m_iconImage;
     [SerializeField] TextMeshProUGUI m_nameText;
     [SerializeField] TextMeshProUGUI m_descriptionText;
     [SerializeField] Button m_button;
+
+    [Header("TempColor")]
+    [SerializeField] Color tempNormalColor;
+    [SerializeField] Color tempLevelUpColor;
 
     UpgradeBase m_upgrade;
     TowerSlot m_targetSlot;
@@ -35,6 +40,15 @@ public class UpgradeButton : MonoBehaviour
 
         if (m_descriptionText != null)
             m_descriptionText.text = _upgrade.description;
+
+        if (_upgrade.type == UpgradeType.Normal)
+        {
+            m_background.color = tempNormalColor;
+        }
+        else if (_upgrade.type == UpgradeType.LevelUp)
+        {
+            m_background.color = tempLevelUpColor;
+        }
 
         //Add listener
         if (m_button != null)

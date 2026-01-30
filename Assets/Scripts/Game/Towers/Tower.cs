@@ -13,6 +13,7 @@ public class Tower : MonoBehaviour, ITower
     [SerializeField] protected TowerType m_type;
     [SerializeField] protected string m_towerName;
     protected TowerStats m_stats;
+    private int level;
 
     //RuntimeValues
     protected float m_damage;
@@ -28,6 +29,8 @@ public class Tower : MonoBehaviour, ITower
 
     protected float m_currentCritRate;
     protected float m_currentCritMultiplier;
+
+    public int Level { get => level; set => level = value; }
 
     void Start()
     {
@@ -47,6 +50,8 @@ public class Tower : MonoBehaviour, ITower
         m_damageInterval = m_stats.damageInterval;
         m_nbAttack = m_stats.nbAttack;
         m_penetration = m_stats.penetration;
+
+        Level = 1;
     }
 
     protected virtual void MoveLauncher()

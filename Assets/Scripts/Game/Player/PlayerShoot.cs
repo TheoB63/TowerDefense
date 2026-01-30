@@ -49,51 +49,22 @@ public class PlayerShoot : MonoBehaviour
             {
                 Vector2 direction;
                 Vector2 targetPos = target.transform.position;
-                if (m_playerStats.NbProjectiles % 2 == 0)
+                float spacing = 0.5f;
+                int nb = m_playerStats.NbProjectiles;
+
+                float startOffset = -((nb - 1) * spacing) / 2f;
+
+                for (int i = 0; i < nb; i++)
                 {
-                    for (int i = 0; i < m_playerStats.NbProjectiles; i++)
-                    {
-                        float targetDist;
-                        if (i < m_playerStats.NbProjectiles / 2)
-                        {
-                            targetDist = (-1f) * 0.5f * i;
-                        }
-                        else
-                        {
-                            targetDist = 0.5f * (i - m_playerStats.NbProjectiles / 2);
-                        }
+                    float targetDist = startOffset + (i * spacing);
 
-                        Vector3 posTarget = new Vector3(targetPos.x + targetDist, targetPos.y);
-                        direction = posTarget - transform.position;
-                        direction.Normalize();
+                    Vector3 posTarget = new Vector3(targetPos.x + targetDist, targetPos.y);
+                    direction = (Vector2)posTarget - (Vector2)transform.position;
+                    direction.Normalize();
 
-                        GameObject go = Instantiate(m_projectilesPrefab, fireCanon.position, Quaternion.identity);
-                        go.GetComponent<PlayerProjectiles>().Direction = direction;
-                        go.GetComponent<PlayerProjectiles>().SetStats(m_playerStats.Damage, m_playerStats.Penetration);
-                    }
-                }
-                else
-                {
-                    for (int i = 0; i < m_playerStats.NbProjectiles; i++)
-                    {
-                        float targetDist = 0;
-                        if (i < m_playerStats.NbProjectiles / 2)
-                        {
-                            targetDist = (-1f) * 0.5f * i;
-                        }
-                        else if (i > m_playerStats.NbProjectiles / 2)
-                        {
-                            targetDist = 0.5f * (i - m_playerStats.NbProjectiles / 2);
-                        }
-
-                        Vector3 posTarget = new Vector3(targetPos.x + targetDist, targetPos.y);
-                        direction = posTarget - transform.position;
-                        direction.Normalize();
-
-                        GameObject go = Instantiate(m_projectilesPrefab, fireCanon.position, Quaternion.identity);
-                        go.GetComponent<PlayerProjectiles>().Direction = direction;
-                        go.GetComponent<PlayerProjectiles>().SetStats(m_playerStats.Damage, m_playerStats.Penetration);
-                    }
+                    GameObject go = Instantiate(m_projectilesPrefab, fireCanon.position, Quaternion.identity);
+                    go.GetComponent<PlayerProjectiles>().Direction = direction;
+                    go.GetComponent<PlayerProjectiles>().SetStats(m_playerStats.Damage, m_playerStats.Penetration);
                 }
                 return true;
             }

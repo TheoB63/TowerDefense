@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7da8ae015b7d4141b46ef30f9a7f134, type: 3}
+  m_Name: Bonus Damage
+  m_EditorClassIdentifier: 
+  upgradeName: Bonus Damage
+  description: +50% Damage
+  minLevel: 1
+  maxUtilisation: 3
+  link: {fileID: 0}
+  type: 0
+  icon: {fileID: 211437716326276102, guid: 5a66050b4caacb048b1d54fb791b89e4, type: 3}
+  upgradeMethodName: BonusDamage

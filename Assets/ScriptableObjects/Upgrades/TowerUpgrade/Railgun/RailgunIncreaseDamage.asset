@@ -13,8 +13,12 @@ MonoBehaviour:
   m_Name: RailgunIncreaseDamage
   m_EditorClassIdentifier: Assembly-CSharp::TowerSpecificUpgrade
   upgradeName: Railgun Damage +
-  icon: {fileID: 6241454495075796874, guid: 089f67ccabc135941bd8c278c1cc24d0, type: 3}
   description: "Augmente les d\xE9g\xE2ts des projectiles"
+  minLevel: 1
+  maxUtilisation: 3
+  link: {fileID: 0}
+  type: 0
+  icon: {fileID: 6241454495075796874, guid: 089f67ccabc135941bd8c278c1cc24d0, type: 3}
   targetTowerType: 1
   upgradeMethodName: IncreaseDamage
   specificSlot: {fileID: 0}

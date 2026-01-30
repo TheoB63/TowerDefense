@@ -72,11 +72,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9f7e9328a8ea64e42adfe696fb14f4cf, type: 2}
   - {fileID: 11400000, guid: aab8df69a0c2460488581e0cd9af1a81, type: 2}
   upgrades:
-  - {fileID: 11400000, guid: ec1d59a3eace73e449f0f63a118a5b4e, type: 2}
-  - {fileID: 11400000, guid: 5de4ca9c42daafb42bee5d4ecbabf094, type: 2}
-  - {fileID: 11400000, guid: 978a4cac558dafc44b52fe9264368272, type: 2}
-  - {fileID: 11400000, guid: 2eed3e06d11666446ada712b31f7deae, type: 2}
-  - {fileID: 11400000, guid: 38a262011c490dd458d550f29bd6ee16, type: 2}
+  - {fileID: 11400000, guid: 53012f1312e9a1c468b676b65590a028, type: 2}
+  - {fileID: 11400000, guid: 14ac4c561091e734ab9cfbfbadf0ef9f, type: 2}
+  - {fileID: 11400000, guid: 273a789ac2536db4ea8e71f38a8764c9, type: 2}
+  - {fileID: 11400000, guid: 21f9dc83d59c2514c8ce5a85c86eec33, type: 2}
+  - {fileID: 11400000, guid: 15f464f5112b827438e2db087585e4bb, type: 2}
+  - {fileID: 11400000, guid: 5308b576029fbeb4f9ec6807de614113, type: 2}
+  - {fileID: 11400000, guid: f1b0d4b3f32217c4d88ef17ccb442d5d, type: 2}
 --- !u!114 &6656989407978927631
 MonoBehaviour:
   m_ObjectHideFlags: 0

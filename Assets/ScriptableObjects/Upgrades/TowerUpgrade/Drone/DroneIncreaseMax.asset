@@ -13,8 +13,12 @@ MonoBehaviour:
   m_Name: DroneIncreaseMax
   m_EditorClassIdentifier: Assembly-CSharp::TowerSpecificUpgrade
   upgradeName: More Drones
-  icon: {fileID: -3247204555341255398, guid: 7947886323a8f354c836ae99771bc835, type: 3}
   description: Augmente le nombre max de drones
+  minLevel: 1
+  maxUtilisation: 9
+  link: {fileID: 0}
+  type: 0
+  icon: {fileID: -3247204555341255398, guid: 7947886323a8f354c836ae99771bc835, type: 3}
   targetTowerType: 3
   upgradeMethodName: IncreaseMaxDrones
   specificSlot: {fileID: 0}

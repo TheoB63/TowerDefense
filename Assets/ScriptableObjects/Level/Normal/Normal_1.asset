@@ -19,8 +19,8 @@ MonoBehaviour:
   baseXP: 0
   xp: 15
   gold: 150
-  nbMinStuff: 0
-  nbMaxStuff: 1
+  nbMinStuff: 1
+  nbMaxStuff: 2
   stuffRewards:
   - stuffLevel: 1
     rarity: 0

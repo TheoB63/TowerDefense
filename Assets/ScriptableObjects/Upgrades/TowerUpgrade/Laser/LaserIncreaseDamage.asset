@@ -13,8 +13,12 @@ MonoBehaviour:
   m_Name: LaserIncreaseDamage
   m_EditorClassIdentifier: Assembly-CSharp::TowerSpecificUpgrade
   upgradeName: Laser Damage +
-  icon: {fileID: 9082429109045791810, guid: 337412b43ff458147a40c8e2c6f6ba99, type: 3}
   description: "Augmente les d\xE9g\xE2ts du laser de 50%"
+  minLevel: 1
+  maxUtilisation: 3
+  link: {fileID: 0}
+  type: 0
+  icon: {fileID: 9082429109045791810, guid: 337412b43ff458147a40c8e2c6f6ba99, type: 3}
   targetTowerType: 2
   upgradeMethodName: IncreaseDamage
   specificSlot: {fileID: 0}

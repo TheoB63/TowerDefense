@@ -10,9 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f7da8ae015b7d4141b46ef30f9a7f134, type: 3}
-  m_Name: PlayerDamage
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerUpgrade
-  upgradeName: Player Damage +
-  icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
-  description: "Player +10% d\xE9g\xE2ts"
-  upgradeMethodName: IncreaseDamage
+  m_Name: Rapid Fire
+  m_EditorClassIdentifier: 
+  upgradeName: Rapid Fire
+  description: +25% fire rate
+  minLevel: 1
+  maxUtilisation: 2
+  link: {fileID: 0}
+  type: 0
+  icon: {fileID: 211437716326276102, guid: 5a66050b4caacb048b1d54fb791b89e4, type: 3}
+  upgradeMethodName: RapidFire
