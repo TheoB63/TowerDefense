@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,11 +10,10 @@ public class EquipmentInventory : MonoBehaviour
 
     void Start()
     {
-
-    }
-
-    void Update()
-    {
-
+        foreach (StuffItem stuff in InventoryManager.Instance.m_ownedStuff)
+        {
+            GameObject go = Instantiate(m_equipmentPrefab, m_grid.transform);
+            go.GetComponent<EquipmentUI>().stuff = stuff;
+        }
     }
 }
