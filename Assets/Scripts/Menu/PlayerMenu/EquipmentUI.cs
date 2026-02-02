@@ -16,7 +16,7 @@ public class EquipmentUI : MonoBehaviour
     [SerializeField] Color m_tempColorEpic;
     [SerializeField] Color m_tempColorLegendary;
 
-    public StuffItem stuff;
+    public EquipmentItem stuff;
 
     private void Start()
     {
@@ -42,22 +42,22 @@ public class EquipmentUI : MonoBehaviour
 
         switch (stuff.Type)
         {
-            case StuffType.Helmet:
+            case EquipmentType.Helmet:
                 m_tempIconText.text = "H";
                 break;
-            case StuffType.Plate:
+            case EquipmentType.Plate:
                 m_tempIconText.text = "P";
                 break;
-            case StuffType.Legs:
+            case EquipmentType.Legs:
                 m_tempIconText.text = "L";
                 break;
-            case StuffType.Boots:
+            case EquipmentType.Boots:
                 m_tempIconText.text = "B";
                 break;
-            case StuffType.Shield:
+            case EquipmentType.Shield:
                 m_tempIconText.text = "S";
                 break;
-            case StuffType.Canon:
+            case EquipmentType.Canon:
                 m_tempIconText.text = "C";
                 break;
             default:

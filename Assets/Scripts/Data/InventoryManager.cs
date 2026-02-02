@@ -2,7 +2,16 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum StuffType
+public enum Rarity
+{
+    Common,
+    Rare,
+    Epic,
+    Legendary
+}
+
+#region Equipment
+public enum EquipmentType
 {
     Helmet,
     Plate,
@@ -12,22 +21,16 @@ public enum StuffType
     Canon
 }
 
-public enum Rarity
-{
-    Common,
-    Rare,
-    Epic,
-    Legendary
-}
-
 [System.Serializable]
-public class StuffItem
+public class EquipmentItem
 {
-    public StuffType Type;
+    public EquipmentType Type;
     public Rarity Rarity;
     public int Level;
     public int Attack;
 }
+#endregion
+
 
 public class InventoryManager : MonoBehaviour
 {
@@ -38,12 +41,12 @@ public class InventoryManager : MonoBehaviour
     public int m_diamond;
 
     //Stuff
-    public List<StuffItem> m_ownedStuff = new List<StuffItem>();
-    public Dictionary<StuffType, StuffItem> m_equippedStuff = new Dictionary<StuffType, StuffItem>();
+    public List<EquipmentItem> m_ownedEquipment = new List<EquipmentItem>();
+    public Dictionary<EquipmentType, EquipmentItem> m_equippedEquipment = new Dictionary<EquipmentType, EquipmentItem>();
 
     //Fragments upgrade
     public Dictionary<TowerType, int> m_towerFragments = new Dictionary<TowerType, int>();
-    public Dictionary<StuffType, int> m_stuffBlueprints = new Dictionary<StuffType, int>();
+    public Dictionary<EquipmentType, int> m_equipmentBlueprints = new Dictionary<EquipmentType, int>();
 
     //Upgrades
 
@@ -51,7 +54,7 @@ public class InventoryManager : MonoBehaviour
     //Events
     public event Action<int> OnGoldChanged;
     public event Action<int> OnDiamondChanged;
-    public event Action<StuffType, StuffItem> OnStuffEquipped;
+    public event Action<EquipmentType, EquipmentItem> OnEquipmentEquipped;
 
     //Public
     public int Gold { get => m_gold; }
@@ -109,71 +112,71 @@ public class InventoryManager : MonoBehaviour
     }
 
     // ========== STUFF ==========
-    public void AddStuff(StuffItem item)
+    public void AddStuff(EquipmentItem item)
     {
         if (item == null) return;
-        m_ownedStuff.Add(item);
+        m_ownedEquipment.Add(item);
     }
 
-    public void RemoveStuff(StuffItem item)
+    public void RemoveStuff(EquipmentItem item)
     {
-        m_ownedStuff.Remove(item);
+        m_ownedEquipment.Remove(item);
     }
 
-    public List<StuffItem> GetOwnedStuff()
+    public List<EquipmentItem> GetOwnedStuff()
     {
-        return new List<StuffItem>(m_ownedStuff); // Retourne une copie
+        return new List<EquipmentItem>(m_ownedEquipment); // Retourne une copie
     }
 
-    public List<StuffItem> GetStuffByType(StuffType type)
+    public List<EquipmentItem> GetStuffByType(EquipmentType type)
     {
-        return m_ownedStuff.FindAll(s => s.Type == type);
+        return m_ownedEquipment.FindAll(s => s.Type == type);
     }
 
     // ========== EQUIPPED STUFF ==========
-    public void EquipStuff(StuffItem item)
+    public void EquipStuff(EquipmentItem item)
     {
         if (item == null) return;
 
         // Si un item est déjà équipé, le retirer
-        if (m_equippedStuff.ContainsKey(item.Type))
+        if (m_equippedEquipment.ContainsKey(item.Type))
         {
-            var previousItem = m_equippedStuff[item.Type];
+            var previousItem = m_equippedEquipment[item.Type];
             // Optionnel : remettre dans l'inventaire si ce n'est pas déjà dedans
-            if (!m_ownedStuff.Contains(previousItem))
+            if (!m_ownedEquipment.Contains(previousItem))
             {
-                m_ownedStuff.Add(previousItem);
+                m_ownedEquipment.Add(previousItem);
             }
         }
 
-        m_equippedStuff[item.Type] = item;
-        m_ownedStuff.Remove(item); // Retire de l'inventaire non équipé
-        OnStuffEquipped?.Invoke(item.Type, item);
+        m_equippedEquipment[item.Type] = item;
+        m_ownedEquipment.Remove(item); // Retire de l'inventaire non équipé
+        OnEquipmentEquipped?.Invoke(item.Type, item);
     }
 
-    public void UnequipStuff(StuffType type)
+    public void UnequipStuff(EquipmentType type)
     {
-        if (m_equippedStuff.TryGetValue(type, out StuffItem item))
+        if (m_equippedEquipment.TryGetValue(type, out EquipmentItem item))
         {
-            m_equippedStuff.Remove(type);
-            m_ownedStuff.Add(item); // Remet dans l'inventaire
-            OnStuffEquipped?.Invoke(type, null);
+            m_equippedEquipment.Remove(type);
+            m_ownedEquipment.Add(item); // Remet dans l'inventaire
+            OnEquipmentEquipped?.Invoke(type, null);
         }
     }
 
-    public StuffItem GetEquippedStuff(StuffType type)
+    public EquipmentItem GetEquippedStuff(EquipmentType type)
     {
-        return m_equippedStuff.ContainsKey(type) ? m_equippedStuff[type] : null;
+        return m_equippedEquipment.ContainsKey(type) ? m_equippedEquipment[type] : null;
     }
 
-    public bool HasEquippedStuff(StuffType type)
+    public bool HasEquippedStuff(EquipmentType type)
     {
-        return m_equippedStuff.ContainsKey(type);
+        return m_equippedEquipment.ContainsKey(type);
     }
 
-    public Dictionary<StuffType, StuffItem> GetAllEquippedStuff()
+    public Dictionary<EquipmentType, EquipmentItem> GetAllEquippedStuff()
     {
-        return new Dictionary<StuffType, StuffItem>(m_equippedStuff); // Retourne une copie
+        return new Dictionary<EquipmentType, EquipmentItem>(m_equippedEquipment); // Retourne une copie
     }
 
     // ========== TOWER FRAGMENTS ==========
@@ -212,36 +215,36 @@ public class InventoryManager : MonoBehaviour
     }
 
     // ========== STUFF BLUEPRINTS ==========
-    public void AddStuffBlueprints(StuffType type, int amount)
+    public void AddStuffBlueprints(EquipmentType type, int amount)
     {
         if (amount < 0) return;
 
-        if (!m_stuffBlueprints.ContainsKey(type))
+        if (!m_equipmentBlueprints.ContainsKey(type))
         {
-            m_stuffBlueprints[type] = 0;
+            m_equipmentBlueprints[type] = 0;
         }
-        m_stuffBlueprints[type] += amount;
+        m_equipmentBlueprints[type] += amount;
     }
 
-    public int GetStuffBlueprints(StuffType type)
+    public int GetStuffBlueprints(EquipmentType type)
     {
-        return m_stuffBlueprints.TryGetValue(type, out int count) ? count : 0;
+        return m_equipmentBlueprints.TryGetValue(type, out int count) ? count : 0;
     }
 
-    public bool SpendStuffBlueprints(StuffType type, int amount)
+    public bool SpendStuffBlueprints(EquipmentType type, int amount)
     {
         if (amount < 0) return false;
 
-        if (m_stuffBlueprints.TryGetValue(type, out int current) && current >= amount)
+        if (m_equipmentBlueprints.TryGetValue(type, out int current) && current >= amount)
         {
-            m_stuffBlueprints[type] -= amount;
+            m_equipmentBlueprints[type] -= amount;
             return true;
         }
 
         return false;
     }
 
-    public bool CanUpgradeStuff(StuffType type, int blueprintsRequired)
+    public bool CanUpgradeStuff(EquipmentType type, int blueprintsRequired)
     {
         return GetStuffBlueprints(type) >= blueprintsRequired;
     }
@@ -251,10 +254,10 @@ public class InventoryManager : MonoBehaviour
     {
         m_gold = 0;
         m_diamond = 0;
-        m_ownedStuff.Clear();
-        m_equippedStuff.Clear();
+        m_ownedEquipment.Clear();
+        m_equippedEquipment.Clear();
         m_towerFragments.Clear();
-        m_stuffBlueprints.Clear();
+        m_equipmentBlueprints.Clear();
         Debug.Log("Inventory reset");
     }
 
@@ -264,9 +267,9 @@ public class InventoryManager : MonoBehaviour
         Debug.Log("===== INVENTORY =====");
         Debug.Log($"Gold: {m_gold}");
         Debug.Log($"Diamond: {m_diamond}");
-        Debug.Log($"Owned Stuff: {m_ownedStuff.Count}");
-        Debug.Log($"Equipped Stuff: {m_equippedStuff.Count}");
+        Debug.Log($"Owned Stuff: {m_ownedEquipment.Count}");
+        Debug.Log($"Equipped Stuff: {m_equippedEquipment.Count}");
         Debug.Log($"Tower Fragments Types: {m_towerFragments.Count}");
-        Debug.Log($"Stuff Blueprints Types: {m_stuffBlueprints.Count}");
+        Debug.Log($"Stuff Blueprints Types: {m_equipmentBlueprints.Count}");
     }
 }

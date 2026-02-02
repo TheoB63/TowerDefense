@@ -112,9 +112,9 @@ public class GameManager : MonoBehaviour
                 random -= stuff.chance;
             }
 
-            StuffType type = (StuffType)Random.Range(0, System.Enum.GetValues(typeof(StuffType)).Length);
+            EquipmentType type = (EquipmentType)Random.Range(0, System.Enum.GetValues(typeof(EquipmentType)).Length);
 
-            StuffItem newStuff = new StuffItem();
+            EquipmentItem newStuff = new EquipmentItem();
             newStuff.Type = type;
             newStuff.Rarity = selectReward.rarity;
             newStuff.Level = selectReward.stuffLevel;
@@ -125,7 +125,7 @@ public class GameManager : MonoBehaviour
         //Blueprints
         for (int i = 0; i < m_currentLevel.nbStuffBlueprints; i++)
         {
-            StuffType type = (StuffType)Random.Range(0, System.Enum.GetValues(typeof(StuffType)).Length);
+            EquipmentType type = (EquipmentType)Random.Range(0, System.Enum.GetValues(typeof(EquipmentType)).Length);
             DataManager.Instance.inventoryManager.AddStuffBlueprints(type, 1);
         }
 
